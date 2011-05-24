@@ -1,0 +1,5 @@
+EXTENSION=Top 20 queries lists the most used SQL queries
+MENUNAME=Top 20 Queries
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=top20queries.php

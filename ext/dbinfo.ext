@@ -1,0 +1,5 @@
+EXTENSION=Database Informations
+MENUNAME=DB Info
+VERSION=2.01
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=dbinfo.php

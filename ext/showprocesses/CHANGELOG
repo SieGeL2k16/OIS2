@@ -1,0 +1,16 @@
+APPLICATION=Processes Extension
+
+V2.01:
+
+13-Jul-2010 - Changed layout of Process overview page to use jQuery UI tabs.
+
+            - Added 2 new views inside the process overview called Top 20 CPU
+              and Top 20 Wait, which shows the top 20 processes consuming most
+              of the CPU time and the Top 20 waiting processes. Both queries
+              are taken from Uwe Hesse, an Oracle OCM. See this URL:
+              from http://uhesse.wordpress.com/2010/07/08/performance-monitoring-active-session-history-at-work/
+
+V2.00:
+
+30-May-2009 - Initial version of plugin completed.
+-----------------------------------------------------------------------------

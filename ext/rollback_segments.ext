@@ -1,0 +1,5 @@
+EXTENSION=Rollback Segments
+MENUNAME=Rollback Seg.
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=rollback_segments.php

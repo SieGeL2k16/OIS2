@@ -1,0 +1,161 @@
+APPLICATION=Oracle Information Site 2
+
+V2.01:
+
+24-May-2011 - Updated OCI8 class to 1.01
+
+12-May-2011 - Updated jQueryUI to 1.8.11
+
+            - Updated plugin DBInfo and added RESULT_CACHE informations when
+              connected to an Oracle DB 11g or higher.
+
+V2.00:
+
+24-Dec-2010 - Added check for JSON* functionality in PHP on main index page.
+              If json_encode() is not defined, the index page aborts with an error.
+
+20-Dec-2010 - Updated jQueryUI and smoothness theme to 1.8.7 .
+
+            - Changed global function InformUser() to use the jQueryUI theme
+              to render the box, this hopefully works flawelessly with different
+              themes.
+
+            - Rewritten code to fully utilize the themes from jQueryUI.
+
+27-Nov-2010 - Added possibility to auto-refresh all pages/tabs. Just choose the
+              refresh rate below the navigation, then the refresh will be taken
+              on either the currently selected page or tab, depends on what you
+              are currently viewing. Requested by Marton Szabo.
+
+07-Nov-2010 - Added CHANGELOG file to all plugins, this makes changelog tracking
+              a lot easier.
+
+            - Updated jQuery to 1.4.4, jQueryUI to 1.8.6 + new theme smoothness.
+
+            - Changed OIS2EXT method "PrintExtHeader()" to always include
+              the jQueryUI code + the CSS files. You can install additional
+              themes for the jQueryUI parts by copying the theme files to
+              css/[themename] and change the define UI_THEME to [themename]
+              in the file inc/defines.inc.php.
+
+15-Aug-2010 - Added list of all roles and profiles defined in the current
+              database to the "showusers" plugin.
+
+            - Added views "DBA_SYS_PRIVS","DBA_TAB_PRIVS","DBA_TS_QUOTAS"
+              to user detail window.
+
+            - Added new method "RenderQuery()" to OIS2EXT class, this
+              method allows to easily dump out the result of a query
+              in a configurable HTML table output. See the plugin
+              "showusers" for details how to use this method.
+              (see file ext/showusers/show_user_details.php).
+
+03-Aug-2010 - Added Control file overview to DBInfo plugin.
+
+20-Jul-2010 - Added detail view popup window to the Show Users plugin
+              and also added tabs to show also all profiles and roles.
+
+18-Jul-2010 - Added new plugin "Flashback" which shows details about the
+              new 10g+ feature Flashback and recycle bin informations.
+
+            - Init Parameter display now shows the Description field from
+              the V$PARAMETER view as Tooltip
+
+            - Added BLOCK_SIZE to tablespace overview (only for Oracle >= 9i)
+
+            - Updated OCI8 class to 1.00, the new PHP5-only variant.
+
+            - Rewritten all scripts to utilise my own class "sgl_functions"
+              which contains several helper functions.
+
+20-Apr-2010 - Added possibility to login as SYSOPER / SYSDBA.
+
+            - Updated OCI8 class, jQuery (1.4.2) and jQueryUI (1.8.4)
+
+12-Sep-2009 - Added new plugin "Top 20 Queries" which lists the most used
+              queries together with a list of most invalidations per SQL.
+
+            - Added Cookie "OIS2_LOGIN". This will be set after an
+              user successfully logged in. It will be used then when
+              re-login to prefill the username and the choosen DB.
+              Cookie will remain only for the runtime of the browser.
+
+07-Sep-2009 - Made the jQuery ready function globally accessable by
+              plugins. Plugin authors have to call the new method
+
+              Add_JS_Ready_Call()
+
+              with the ready-2-use javascript function. This will
+              be added to the head of the document inside the jQuery
+              "document.ready()" function.
+              This method can be called multiple times to include
+              several commands.
+
+            - Added new plugin "DBJobs" which displays the list of
+              registered DBMS_JOBs and if Oracle 10g+ is used also
+              the list of registered DBMS_SCHEDULER_JOBS.
+
+            - Added tablespace objects list to tablespaces plugin.
+
+06-Sep-2009 - Added new plugins:
+
+              * Tablespaces -> Displays tablespace overview
+
+05-Sep-2009 - OIS2 now fully utilises jQuery and jQuery UI. DB Info plugin
+              uses the tabs from jQuery UI as an example.
+
+            - Added code to support JPGraph (see config.inc.php)
+
+            - Added new plugins:
+
+              * DBInfo -> Displays various database informations (SGA etc.)
+              * Redo Logs -> Displays Redo Log informations
+              * Rollback Segments -> Displays rollback segment usage
+
+            - Added new methods to OIS2Extension class:
+
+              * ErrorExit()
+              * Get_JPGraph_Path()
+              * Get_Oracle_Version()
+
+31-Aug-2009 - Added style sheet for printing
+
+            - Added better detection for access to V$* and DBA_ views.
+
+            - Added new methods to OIS2Extension class:
+
+              * Get_OIS2_Image_URL()
+              * Get_DBA_Flag()
+              * Get_V_Flag()
+
+            - Added new plugin "show Users", which displays currently only
+              a list of registered database users.
+
+30-May-2009 - Plugin code rewritten, all plugins have to be stored now
+              in own subdirectories below the 'ext/' dir. This allows to bundle
+              several files for the plugins without disturbing the main
+              installation.
+
+            - Added a lot of helper functions for the plugins as own class.
+              All of these methods are available via the global object $OIS2EXT.
+              All necessary code is encapsulated in these methods to have
+              a consistent design across all plugins and the main code
+              and to make updates easier.
+
+25-Apr-2009 - Added basic information overview to main index page.
+
+16-Apr-2009 - Session code completed.
+
+            - First version of plugin code added.
+
+19-Mar-2009 - Started from Scratch with new OIS2. It will have the following
+              planed featuers:
+
+              - Session based direct login to database
+              - SYSOPER/SYSDBA support if PHP is >= 5.1.2
+              - SQL Editor
+              - More statistics and integration of JPGraph
+              - ...
+
+-----------------------------------------------------------------------------
+$Id: CHANGELOG,v 1.21 2011/05/24 07:52:11 siegel Exp $

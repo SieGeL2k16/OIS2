@@ -1,0 +1,5 @@
+EXTENSION=Redo Log Informations
+MENUNAME=Redo Logs
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=redo_logs.php

@@ -1,0 +1,6 @@
+EXTENSION=Show Processes
+MENUNAME=Processes
+VERSION=2.01
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=show_processes.php
+

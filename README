@@ -1,0 +1,250 @@
+    Oracle Information Site 2.00 - Readme (Last updated on 26-Dec-2010)
+-----------------------------------------------------------------------------
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This document provides installation instructions and a short overview of the
+integrated features.
+
+1. INTRODUCTION
+~~~~~~~~~~~~~~~
+OIS 2.xx is the successor of my OIS 1.x application. The old OIS was assembled
+in the early days of 2001 with table layouts, hard-coded styles and limited
+functionality to extend OIS with additional plugins.
+
+So in 2009 I've decided to rewrite the whole application from scratch using
+Web 2.0 functionality (i hate this term) and a flexible plugin structure
+which allows other developers to enhance OIS2 with new functions.
+In fact, all functionality provided by OIS 1.x has been integrated in OIS 2.xx
+as plugins.
+
+The major change to OIS 1.xx is the way you are connecting to Oracle. The
+previous version required a hard-coded setup for username, password and TNS
+name to connect to the databases. This is a major security problem as the
+passwords of the users have to be entered in plain text, which makes it easy
+for others to get the credentials.
+
+OIS 2.xx no longer stores any usernames and passwords. Instead you are entering
+these informations on the login page and OIS 2.xx authenticates your
+crendentials against the choosen database. This way the passwords are no
+longer stored in the configuration and your database privileges decides what
+you can view from the various V$ and DBA_ views Oracle offers. Even a connect
+with the well-known user "SCOTT" is now possible, however during the limited
+privileges of that user you won't be able to see much database
+informations at all.
+
+
+2. REQUIREMENTS
+~~~~~~~~~~~~~~~
+OIS 2.xx requires the following software components to work:
+
+- At least one Oracle instance, supported releases are 8i up to 11gR2
+
+- A decent browser capable of Javascript and CSS 2.1. I've tested with
+  Firefox 3.6.x, IE8, Opera 9/10, Safari 5, Chrome and iCab.
+
+- PHP 5.x (earlier versions might work, this is not tested)
+
+- PHP components: OCI8, SESSION, JSON
+
+- Optional the JPGraph classes (see http://www.aditus.nu/jpgraph/index.php)
+
+- To connect as SYSDBA/SYSOPER you have to set the PHP init variable
+  "oci8.privileged_connect" to "on" (only for PHP 5.2+)
+
+- jQuery + jQuery UI is already contained in the release archive
+
+
+3. INSTALLATION
+~~~~~~~~~~~~~~~
+Installation of OIS2 is rather simple. Extract the archive you've downloaded
+to a location where your Webserver document root is located. The archive
+extracts to an own directory called OIS2.
+Next you have to setup the file "inc/config.inc.php" and modify the contents
+to fit your system setup. Here's a brief description of the available config
+options:
+
+$OIS_DATABASES (ARRAY) - MANDATORY
+
+Enter here all TNS names of the Oracle instances you want to use together
+with OIS2. At least ONE entry is required here, but you can add of course
+as much TNS names as you have Oracle instances. These names are shown on
+the login mask.
+
+
+OIS_INSTALL_PATH (STRING) - MANDATORY
+
+This define specifies the real filesystem path where OIS2 is installed. Do
+not mix this up with the URL to reach OIS2 via your Web-Browser!
+
+
+OIS_INSTALL_URL (STRING) - MANDATORY
+
+This define specifies the URL to reach OIS2 via your Web-Browser. If possible
+specify a full URL, not a relative one, as OIS2 uses this value to construct
+pathes to fetch the CSS files and other stuff.
+
+
+UI_THEME (STRING) - MANDATORY
+
+Enter here the path to a jQueryUI theme file. All Themes have to be located
+under the "css" directory. To make it easier for users to upgrade or exchange
+a given theme, simply download a new one from the jQueryUI page and extract
+the contents under the css directory. Normally every theme will extract to
+it's own subdirectory. You have to enter here the name of the root CSS file
+the theme offers, so for the supplied default theme, the contents would look
+like this:
+
+smoothness/jquery-ui-1.8.7.custom.css
+
+This would use the "smoothness" theme and uses the latest 1.8.7 css file the
+theme provides.
+
+
+JPGRAPH_PATH (STRING) - OPTIONAL
+
+OIS2 supports dynamic creation of graphs with the help of the superb JPGraph
+package, which you can download under http://jpgraph.net/.
+If you want to use these classes, specify here the full path to your
+extracted JPGraph package. The path must point to the directory where the
+base class "jpgraph.php" is located.
+
+That's it! Nothing else needs to be configured. So after you have made the
+changes to the config.inc.php file, you are now ready to use OIS2.
+
+
+4. USAGE
+~~~~~~~~
+Point your browser to the URL where OIS2 is reachable on your server. You
+will see a login mask with a selection of all TNS names you've configured.
+
+If PHP 5.2 or newer is used and you have also set the PHP ini option
+"oci8.privileged_connect" to "on", you can choose the connection
+type, which is one of "NORMAL", "SYSOPER" or "SYSDBA.
+
+Simply enter your Oracle Username, the Oracle Password and choose the TNS
+name to connect, then click on Login. OIS2 then tries to authenticate your
+given credentials against the Oracle instance, and if all is okay, you will
+be redirected to the main screen, where some database informations are shown
+together with the list of installed plugins.
+
+
+5. PLUGINS
+~~~~~~~~~~
+OIS2 implements all functionality via plugins and some plugins are already
+included in the release archive. The following plugins are provided:
+
+--------------------------------------------------------------------------
+* Home
+--------------------------------------------------------------------------
+Home displays some database informations and a list of installed plugins.
+
+--------------------------------------------------------------------------
+* DB Info
+--------------------------------------------------------------------------
+DB Info displays global database informations:
+
+ - General Informations
+ - Initialisation parameter
+ - SGA/PGA usage (depends on used Oracle Release)
+ - Instance statistics
+ - Control file overview
+
+--------------------------------------------------------------------------
+* DB Jobs
+--------------------------------------------------------------------------
+Overview of all Oracle Scheduler jobs from both DBMS_JOB and DBMS_SCHEDULER.
+Note that DBMS_SCHEDULER is available only for Oracle 10g or newer, while
+DBMS_JOB is available since Oracle 8i and still exists in 11gR2.
+The OIS2 code should auto-detect the used Oracle version and display always
+data which is valid for the given Oracle version.
+
+--------------------------------------------------------------------------
+* Flashback
+--------------------------------------------------------------------------
+Overview of Flashback and Recycle Bin functionality. Flashback and the
+recycle bin are new features introduced by Oracle 10g and newer, so for
+older releases (8i/9i) you will get an error message if you start this plugin.
+
+--------------------------------------------------------------------------
+* Processes
+--------------------------------------------------------------------------
+This plugin displays a complete overview of all currently connected sessions.
+Also it provides two views to show the "Top 20 CPU" and "Top 20 Wait"
+processes. "Top 20 CPU" shows the Top 20 processes consuming most of the
+available CPU time while "Top 20 Wait" lists the top 20 processes which have
+the highest times "waiting" on something like latches etc.
+
+--------------------------------------------------------------------------
+* Redo Logs
+--------------------------------------------------------------------------
+Displays a list of redo logs used by the current Oracle instance together
+with some statistics about the usage of the redo logs.
+
+--------------------------------------------------------------------------
+* Rollback Seg.
+--------------------------------------------------------------------------
+Lists rollback segments from the current Oraclce instance. In Oracle 9i
+and newer releases the UNDO tablespace informations are shown, too.
+
+--------------------------------------------------------------------------
+* Schema Viewer
+--------------------------------------------------------------------------
+Allows to view a list of objects available for a given schema. You can
+also view the DDL of these objects if running Oracle 9i or newer. The
+DDL is shown via the help of the DBMS_METADATA package which Oracle
+introduced with Oracle 9i. Note that the DBMS_METADATA output is not
+necessarly the same call you've made to actually create the object, Oracle
+will transform the DDL call and add various options, even if they are
+all at their default values.
+
+--------------------------------------------------------------------------
+* Tablespaces
+--------------------------------------------------------------------------
+Displays an overview of all tablespaces defined in the current instance.
+Also a "disc activity" table is shown which lists the various datafiles
+together with their usage statistics, sorted by disc activity.
+If you click on a name of a tablespace you will see the list of datafiles
+the given tablespace defines.
+Clicking on the Mag displays a list of all objects currently stored in
+the tablespace.
+
+--------------------------------------------------------------------------
+* Top 20 Queries
+--------------------------------------------------------------------------
+Displays the Top 20 queries sorted by disc reads per execution. Also the
+SQL statements with the most invalidations are shown here. You can click
+on these SQL statements to view the details about the query performance.
+
+--------------------------------------------------------------------------
+* Users
+--------------------------------------------------------------------------
+Lists all registered users for the current instance. Click on an username
+to view more details like assigned Roles etc.
+In addition to the userlist you can view here also all defined roles and
+profiles for the current instance.
+
+--------------------------------------------------------------------------
+* Logout
+--------------------------------------------------------------------------
+Logs you off from OIS2 and your database.
+
+
+
+6. CONTACT
+~~~~~~~~~~
+If you have any suggestions, bug-reports or improvements for OIS2, feel free
+to contact me on one of the methods listed below:
+
+E-MAIL: php@saschapfalz.de
+   WWW: http://www.saschapfalz.de
+   ICQ: 9691810
+
+Normally I answer to emails in less than 8 hours, if this is not the case I'm
+either very busy or your mail was killed by a spam filter, in this case resend
+your email please.
+
+-----------------------------------------------------------------------------
+$Id: README,v 1.4 2010/12/26 10:38:01 siegel Exp $

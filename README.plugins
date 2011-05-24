@@ -1,0 +1,54 @@
+          Details for OIS2 plugins - Last updated on 25-Dec-2010.
+-------------------------------------------------------------------------------
+OIS2 is designed to provide all functionality via plugins. This way it is
+easy to create new functionality and also allows other authors to write their
+own plugins without changing the core functionality of OIS2 itself.
+
+All navigation entries except "Home" and "Logout" are in fact plugins.
+
+To make it easier for other authors to write own plugins a set of functions
+was developed which cover all plugin-related functionality. To avoid name
+clashes all of these functions are stored in a separate class which all
+plugins must include and use.
+
+To add an plugin to OIS2 you have to create first a subdirectory in the
+"ext/" directory of the OIS2 root directory. Inside this subdirectory you can
+place all your required files to implement your plguin.
+
+In addition you have to create a special textfile in the "ext/" directory
+itself. This file must be named EXACTLY (!) the same as your subdirectory name
+with the extension ".ext".
+
+An example for the plugin "sample_ext" would look like this:
+
+/OIS2/ext/sample_ext/     -> Directory for your plugin.
+/OIS2/ext/sample_ext.ext  -> Meta description for your plugin.
+
+The meta description file must contain the following parameters:
+
+EXTENSION     => Short description of your plugin.
+MENUNAME      => Name to use in the navigation area.
+VERSION       => Versionnumber in format MAJOR.MINOR .
+AUTHOR        => Your name.
+SCRIPTNAME    => Name of PHP script to call when clicking on navigation link.
+
+So for the "sample_ext" plugin above, the file contents may look like this:
+
+---[SNIP]---
+
+EXTENSION=Sample plugin shows foo out of bar
+MENUNAME=Sample plugin
+VERSION=1.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=sample_ext.php
+
+---[SNAP]---
+
+For more examples please take a look to the plugins provided with the release
+archive. You should find examples for everything you need to create your own
+plugins.
+
+If you have still questions about the implementation of OIS2 plugins, feel
+free to contact me. You'll find my contact data on bottom of the README file.
+-------------------------------------------------------------------------------
+$Id: README.plugins,v 1.2 2010/12/26 10:38:01 siegel Exp $

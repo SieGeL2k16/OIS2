@@ -1,0 +1,108 @@
+/*
+ * Styles used for printing.
+ * $Id: styles_print.css,v 1.1 2010/11/07 09:20:39 siegel Exp $
+ */
+body {
+  background-color    : #FFFFFF;
+  color               : #000000;
+  font-family         : Arial, Sans-Serif;
+  font-size           : 11px;
+}
+
+/* We disable here the navigation for printing, as it is useless on paper */
+
+#page_navigation {
+  display             : none;
+  visibility          : hidden;
+}
+
+/* Clears all floats and other block formats */
+
+div.clear {
+	clear               : both;
+	height              : 0px;
+	border              : 0px;
+	font-size           : 0px;
+	line-height         : 0px;
+}
+
+/* General style for links */
+
+a {
+  color               : #000000;
+  text-decoration     : none;
+}
+
+#page_header {
+  border-bottom       : 1px solid #000000;
+}
+
+#page_header h1 {
+  padding             : 1px;
+  margin              : 1px;
+}
+
+/* Style for the footer  */
+
+#page_footer {
+  width               : 100%;
+  border-top          : 1px solid #000000;
+  margin-top          : 20px;
+  margin-bottom       : 10px;
+  font-size           : 10px;
+  z-index             : 1;
+}
+
+/* Style for the content */
+
+#page_content {
+  margin-top          : 20px;
+}
+
+/* Styles for table cells */
+
+.td_odd td, .td_even td {
+  border-bottom       : 1px solid #000000;
+  padding-top         : 2px;
+  padding-bottom      : 2px;
+}
+
+.datatable_border {
+  font-size           : 12px;
+  margin-bottom       : 20px;
+  border              : 1px solid #cccccc;
+}
+
+.datatable_border caption {
+  text-align          : left;
+  font-style          : italic;
+  padding-left        : 1px;
+}
+
+.datatable, .datatable_border {
+  margin-bottom       : 20px;
+}
+
+.datatable th, .datatable_border th {
+  vertical-align      : bottom;
+  border-bottom       : 1px solid #000000;
+}
+
+/* Button look for normal <a href> tags */
+
+a.fakebtn {
+  border-top          : 1px solid #FFFFFF;
+  border-left         : 1px solid #FFFFFF;
+  border-right        : 1px solid #222222;
+  border-bottom       : 1px solid #222222;
+  background-color    : #cbcbcb;
+  color               : #000000;
+  text-decoration     : none;
+  padding-left        : 2px;
+  padding-right       : 2px;
+  padding-top         : 1px;
+  padding-bottom      : 1px;
+  margin-left         : 1px;
+  margin-right        : 1px;
+  font-size           : 11px;
+}

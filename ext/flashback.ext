@@ -1,0 +1,5 @@
+EXTENSION=Flashback / Recycle Bin Informations
+MENUNAME=Flashback
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=flashback.php

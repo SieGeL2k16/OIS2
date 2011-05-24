@@ -1,0 +1,5 @@
+EXTENSION=Schema Viewer displays all objects for a given schema.
+MENUNAME=Schema Viewer
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=viewer.php

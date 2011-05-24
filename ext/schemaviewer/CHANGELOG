@@ -1,0 +1,10 @@
+APPLICATION=Rollback Segments Extension
+
+V2.00:
+
+26-Dec-2010 - Schema viewer is now functional. Works completly via AJAX
+              and allows to view the DDL of any object if the PL/SQL package
+              DBMS_METADATA is available (should be the case since 9i)
+
+20-Dec-2010 - Initial version of plugin.
+-----------------------------------------------------------------------------

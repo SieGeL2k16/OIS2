@@ -1,0 +1,5 @@
+EXTENSION=Tablespace Informations
+MENUNAME=Tablespaces
+VERSION=2.00
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=tablespaces.php

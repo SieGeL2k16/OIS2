@@ -1,0 +1,13 @@
+APPLICATION=DB-Info Extension
+
+V2.01:
+
+12-May-2011 - Added new tab in dbinfo plugin called "Result Cache", which shows
+              the setup of the result cache functionality. Note that this is only
+              valid for 11g or newer!
+
+
+V2.00:
+
+30-May-2009 - Initial version of plugin completed.
+-----------------------------------------------------------------------------
