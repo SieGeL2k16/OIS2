@@ -4,7 +4,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (21-Mar-2009)
- * $Id: index.php,v 1.10 2010/12/26 10:38:01 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

@@ -6,7 +6,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (12-Sep-2009)
- * $Id: top20queries_details.php,v 1.3 2010/12/26 10:38:07 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

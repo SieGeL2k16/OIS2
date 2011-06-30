@@ -4,7 +4,7 @@
  * NOTE: This class works ONLY (!) with PHP 5+ !!
  * @package sgl_functions
  * @version 0.1 (09-Mar-2010)
- * $Id: sgl_functions.class.php,v 1.1 2010/07/13 21:53:33 siegel Exp $
+ * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
  */

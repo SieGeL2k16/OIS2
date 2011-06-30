@@ -7,7 +7,7 @@
  * @version 2.00 (05-Nov-2010)
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * $Id: show_users.php,v 1.7 2010/12/20 23:27:11 siegel Exp $
+ * $Id$
  */
 /**
  */

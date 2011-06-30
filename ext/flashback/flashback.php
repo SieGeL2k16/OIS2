@@ -6,7 +6,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (18-Jul-2010)
- * $Id: flashback.php,v 1.2 2010/11/07 10:35:21 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

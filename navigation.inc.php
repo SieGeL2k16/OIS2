@@ -4,7 +4,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (30-May-2009)
- * $Id: navigation.inc.php,v 1.5 2010/11/27 11:20:28 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

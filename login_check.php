@@ -6,7 +6,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (28-Mar-2009)
- * $Id: login_check.php,v 1.9 2010/07/18 22:24:40 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

@@ -15,7 +15,7 @@
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (21-Mar-2009)
- * $Id: functions.inc.php,v 1.8 2010/12/20 23:27:16 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

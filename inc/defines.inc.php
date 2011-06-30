@@ -5,7 +5,7 @@
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (30-May-2009)
- * $Id: defines.inc.php,v 1.6 2011/05/12 16:11:31 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

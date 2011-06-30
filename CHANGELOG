@@ -2,7 +2,7 @@ APPLICATION=Oracle Information Site 2
 
 V2.01:
 
-24-May-2011 - Updated OCI8 class to 1.01
+30-Jun-2011 - Updated OCI8 class to 1.01
 
 12-May-2011 - Updated jQueryUI to 1.8.11
 
@@ -158,4 +158,4 @@ V2.00:
               - ...
 
 -----------------------------------------------------------------------------
-$Id: CHANGELOG,v 1.21 2011/05/24 07:52:11 siegel Exp $
+$Id$

@@ -6,7 +6,7 @@
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @package OIS2
  * @version 0.1 (21-Mar-2009)
- * $Id: dbdefs.inc.php,v 1.4 2010/07/18 22:24:58 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

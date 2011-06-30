@@ -5,7 +5,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (03-Sep-2009)
- * $Id: dbinfo.php,v 1.7 2011/05/12 15:59:46 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

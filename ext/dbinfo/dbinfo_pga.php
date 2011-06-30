@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (05-Sep-2009)
- * $Id: dbinfo_pga.php,v 1.3 2010/12/20 23:27:06 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @see dbinfo.php

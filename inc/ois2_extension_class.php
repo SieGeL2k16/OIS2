@@ -6,7 +6,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (31-Aug-2009)
- * $Id: ois2_extension_class.php,v 1.8 2010/12/20 23:27:16 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

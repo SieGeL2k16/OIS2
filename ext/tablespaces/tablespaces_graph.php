@@ -6,7 +6,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (06-Sep-2009)
- * $Id: tablespaces_graph.php,v 1.1 2009/09/06 22:06:42 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

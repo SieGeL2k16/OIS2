@@ -4,7 +4,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (24-Apr-2009)
- * $Id: logout.php,v 1.4 2010/12/20 23:26:51 siegel Exp $
+ * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
