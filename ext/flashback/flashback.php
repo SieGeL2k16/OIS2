@@ -5,7 +5,7 @@
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (18-Jul-2010)
+ * @version 2.01 (19-Jul-2011)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -16,12 +16,12 @@ define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 // Retrieve the meta data for our extension:
 $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
-$OIS_URL = OIS_INSTALL_URL;
+$addHeader = "<link type=\"text/css\" href=\"flashback.css\" rel=\"stylesheet\" />";
 
 // Before calling PrintExtHeader() we first include a jQuery ready() call to our header to get the tabs activated.
 
 $OIS2EXT->Add_JS_Ready_Call('$("#tabs").tabs();');
-$OIS2EXT->PrintExtHeader($extdata['EXTENSION']);
+$OIS2EXT->PrintExtHeader($extdata['EXTENSION'],$addHeader);
 ?>
 <div id="page_content">
 <?php
@@ -36,8 +36,8 @@ if($OIS2EXT->Get_Oracle_Version() < 10)
 ?>
 <div id="tabs">
 <ul>
-  <li><a href="flashback_overview.php"><span>Flashback overview</span></a></li>
-  <li><a href="flashback_recyclebin.php"><span>Recycle Bin</span></a></li>
+  <li><a href="flashback_overview.php" title="Flashback overview"><span>Flashback overview</span></a></li>
+  <li><a href="flashback_recyclebin.php" title="Recycle Bin"><span>Recycle Bin</span></a></li>
 </ul>
 </div>
 

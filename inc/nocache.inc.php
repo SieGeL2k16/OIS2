@@ -29,6 +29,7 @@ if(!defined('NO_CONTENT_TYPE') || NO_CONTENT_TYPE != 1)
   }
 require_once('defines.inc.php');
 require_once('sgl_functions.class.php');
+$oldloc = setLocale(LC_ALL,'en_US');
 $SGLFUNC = new sgl_functions();
 require_once('functions.inc.php');
 require_once('db_oci8.class.php');

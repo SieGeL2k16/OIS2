@@ -2,6 +2,14 @@ APPLICATION=Oracle Information Site 2
 
 V2.01:
 
+19-Jul-2011 - Added new Tab "Feature usage" to DBInfo plugin, this plugin
+              displays the view DBA_FEATURE_USAGE_STATISTICS (Only for
+              Oracle 10g or higher)
+
+            - Updated sgl_functions class to 0.16
+
+06-Jul-2011 - Updated sgl_functions class to 0.15
+
 30-Jun-2011 - Updated OCI8 class to 1.01
 
 12-May-2011 - Updated jQueryUI to 1.8.11
@@ -12,7 +20,8 @@ V2.01:
 V2.00:
 
 24-Dec-2010 - Added check for JSON* functionality in PHP on main index page.
-              If json_encode() is not defined, the index page aborts with an error.
+              If json_encode() is not defined, the index page aborts with
+              an error.
 
 20-Dec-2010 - Updated jQueryUI and smoothness theme to 1.8.7 .
 

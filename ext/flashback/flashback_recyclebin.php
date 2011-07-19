@@ -4,7 +4,7 @@
  * Displays informations about the recycle bin, a feature available since Oracle 10g+.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (18-Jul-2010)
+ * @version 2.01 (19-Jul-2011)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -14,7 +14,7 @@
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 ?>
-<div id="flashback_recyclebin">
+<div id="Recycle_Bin">
 <?php
 $rbinstate  = $db->Query("SELECT VALUE FROM V\$PARAMETER WHERE NAME = 'recyclebin'");
 $rbininfo   = $db->Query("SELECT COUNT(*) AS ANZ, TO_CHAR(MIN(TO_DATE(CREATETIME,'YYYY-MM-DD:HH24:MI:SS')),'DD-Mon-YYYY HH24:MI:SS') AS MINCD,TO_CHAR(MAX(TO_DATE(CREATETIME,'YYYY-MM-DD:HH24:MI:SS')),'DD-Mon-YYYY HH24:MI:SS') AS MAXCD FROM DBA_RECYCLEBIN");
@@ -81,8 +81,8 @@ $db->QueryResult($query);
 $lv = 0;
 // Get the images base dir from OIS2:
 $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
-$yesno = array( '<img src="'.$OIS_IMG.'cross.png" alt="No" border="0" title="%s">',
-                '<img src="'.$OIS_IMG.'tick.png" alt="Yes" border="0" title="%s">'
+$yesno = array( '<img src="'.$OIS_IMG.'cross.png" alt="No" border="0">',
+                '<img src="'.$OIS_IMG.'tick.png" alt="Yes" border="0">'
               );
 while($d = $db->FetchResult())
   {

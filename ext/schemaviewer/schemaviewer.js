@@ -114,4 +114,13 @@ $(document).ready(function() {
       var mywin   = window.open(myurl,'OBJDETAILS','width=850,height=600,scrollbars=yes');
       }
   });
+  $("#btn_schemasize").click(function() {
+    var sch = $("#schema").val();
+    if(sch == '')
+      {
+      alert("Please select first a schema !");
+      $("#schema").focus();
+      return;
+      }
+  });
 });

@@ -5,25 +5,12 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-body {
-  background-color    : #FFFFFF;
-  color               : #000000;
-  font-family         : Arial, Sans-Serif;
-  font-size           : 12px;
-  padding             : 2px;
-  margin              : 2px;
-}
+body { background-color: #FFFFFF; color: #000000; font-family: Arial, Sans-Serif; font-size: 12px; padding: 2px; margin: 2px;}
 
 /* General style for links */
 
-a {
-  color               : #000000;
-}
-
-a:hover {
-  color               : #bb2b0d;
-  text-decoration     : none;
-}
+a { color: #000000;}
+a:hover { color: #bb2b0d; text-decoration: none;}
 
 /* Clears all floats and other block formats */
 
@@ -231,61 +218,24 @@ a.btn, .btn {
 
 /* Standard color definitions for odd/even table rows */
 
-.td_even {
-  background-color    : #dddddd;
-}
+.td_even { background-color: #dddddd;}
+.td_odd { background-color: #EEEEEE;}
+.td_even_bold {background-color: #DDDDDD; font-weight: bold;}
+.td_odd_bold {background-color: #E0DACD;font-weight: bold;}
+.td_even:hover, .td_odd:hover {background-color: #FFFFFF;}
 
-.td_odd {
-  background-color    : #EEEEEE;
-}
+.td_number {text-align: right;}
 
-.td_even_bold {
-  background-color    : #DDDDDD;
-  font-weight         : bold;
-}
+.td_label {text-align: left; }
+.td_label_r { text-align: right;}
 
-.td_odd_bold {
-  background-color    : #E0DACD;
-  font-weight         : bold;
-}
+.td_txt_l { text-align: left;}
+.td_txt_c { text-align: center;}
+.td_txt_r { text-align: right;}
 
-.td_even:hover, .td_odd:hover {
-  background-color    : #FFFFFF;
-}
-
-.td_number {
-  text-align          : right;
-}
-
-.td_label {
-  text-align          : left;
-}
-
-.td_label_r {
-  text-align          : right;
-}
-
-tfoot td {
-  border-top: 1px solid black;
-  font-weight: bold;
-}
+tfoot td { border-top: 1px solid black; font-weight: bold; }
 
 /* Definition for extension errors (from method ErrorExit()) */
 
-#EXT_ERROR {
-  margin-top          : 40px;
-  margin-bottom       : 40px;
-  border              : 1px dotted #bb0d2d;
-  padding             : 5px;
-  font-size           : 18px;
-  color               : #bb0d2d;
-}
+#EXT_ERROR { margin-top: 40px; margin-bottom: 40px; border: 1px dotted #bb0d2d; padding: 5px; font-size: 18px; color: #bb0d2d;}
 
-#flashback_usage {
-  float: left;
-  padding-right: 30px;
-}
-
-#flashback_log {
-  float: left;
-}

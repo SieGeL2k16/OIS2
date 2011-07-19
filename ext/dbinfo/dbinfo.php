@@ -15,100 +15,7 @@ define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 // Retrieve the meta data for our extension:
 $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
-$OIS_URL = OIS_INSTALL_URL;
-$addHeader = <<<EOM
-<style type="text/css">
-#General_informations, #Initialisation_parameter {
-  padding-top   : 20px;
-}
-
-.datatable {
-  border        : 1px solid #cccccc;
-}
-
-table caption {
-  font-style    : italic;
-  padding-left  : 1px;
-}
-
-/* The tables for the general database informations tab */
-
-#db_info,#ctl_info,#reset_info,#core_info,#instance_info,#installed_options {
-  float         : left;
-  margin-right  : 30px;
-  margin-bottom : 30px;
-  min-width     : 150px;
-  max-width     : 340px;
-}
-
-/* Tables for init parameter display */
-
-#init_default, #init_nondefault {
-  float         : left;
-  width         : 440px;
-  margin-right  : 40px;
-}
-
-/* Tables for memory usage */
-
-#sga_mem, #sga_free_mem {
-  margin-right  : 40px;
-  float         : left;
-}
-
-/* The divs for the memory display */
-
-#div_sga, #div_free_sga {
-  float         : left;
-}
-
-/* If jpgraph pictures are rendered this style is used for them: */
-
-.graph_sga {
-  margin-top    : 16px;
-  margin-right  : 10px;
-  margin-bottom : 30px;
-  float         : left;
-}
-
-/* Dynamic SGA components table */
-
-#sga_dynamic, #sga_lib_sum {
-  margin-right  : 30px;
-  width         : 520px;
-  float         : left;
-  margin-bottom : 30px;
-}
-#sga_lib_sum {
-  width         : 450px;
-  float         : left;
-}
-
-#sga_shared_pool {
-  float         : left;
-  margin-right  : 30px;
-}
-
-/* Instance statistics */
-
-#Instance_statistics {
-  margin-top    : 20px;
-}
-
-#instance_stats_table {
-  width         : 400px;
-  float         : left;
-  margin-right  : 40px;
-}
-
-#instance_stats_wait, #instance_stats_cursors {
-  width         : 380px;
-  margin-right  : 30px;
-  float         : left;
-  margin-bottom : 30px;
-}
-</style>
-EOM;
+$addHeader = sprintf("<link type=\"text/css\" href=\"%s\" rel=\"stylesheet\" />","dbinfo.css");
 
 // Before calling PrintExtHeader() we first include a jQuery ready() call to our header to get the tabs activated.
 
@@ -138,13 +45,17 @@ if($OIS2EXT->Get_Oracle_Version() >= 9)
 <?php
 if($OIS2EXT->Get_Oracle_Version() >= 11)
   {
-  echo("<li><a href=\"dbinfo_result_cache.php\" title=\"Result Cache overview\"><span>Result Cache</span></a></li>\n");
+  echo("<li><a href=\"dbinfo_result_cache.php?".strip_tags($_SERVER['QUERY_STRING'])."\" title=\"Result Cache overview\"><span>Result Cache</span></a></li>\n");
+  }
+if($OIS2EXT->Get_Oracle_Version() >= 10)
+  {
+  echo("<li><a href=\"dbinfo_used_features.php\" title=\"Used features\"><span>Used Features</span></a></li>\n");
   }
 ?>
 </ul>
 </div>
 </div>
 <?php
-// Call this method to dump out the footer and disconnect from database:
+// Call this method to dump out the footer and disconnect from database
 $OIS2EXT->PrintExtFooter();
 ?>

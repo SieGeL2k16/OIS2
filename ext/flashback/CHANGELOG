@@ -1,5 +1,9 @@
 APPLICATION=Flashback Extension
 
+V2.01:
+
+19-Jul-2011 - Moved CSS from global to local css file "flashback.css".
+
 V2.00:
 
 18-Jul-2010 - Initial version of plugin completed.

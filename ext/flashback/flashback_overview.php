@@ -4,7 +4,7 @@
  * Displays informations about the flashback usage based on the corresponding DBA_* views.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (18-Jul-2010)
+ * @version 2.01 (19-Jul-2011)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -14,7 +14,7 @@
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 ?>
-<div id="flashback_overview">
+<div id="Flashback_overview">
 <?php
 $query=<<<EOM
 SELECT NAME,

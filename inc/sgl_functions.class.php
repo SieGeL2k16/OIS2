@@ -3,7 +3,7 @@
  * This class provides a bunch of useful methods for every-day coding.
  * NOTE: This class works ONLY (!) with PHP 5+ !!
  * @package sgl_functions
- * @version 0.1 (09-Mar-2010)
+ * @version 0.15 (03-Jun-2011)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
@@ -16,18 +16,65 @@
 class sgl_functions
   {
   /**
+   * Class version.
+   * @private
+   * @var string
+   */
+  private $classversion = '0.16';
+
+  /**
    * Windows timestamp correction value.
    * Has to be substracted from the original 64-bit value and divided by 1000000 to get the UNIX timestamp.
-   *
    */
   const win_ts_factor = 116444736000000000;
 
   /**
-   * Class constructor.
+   * Locale settings for formatting numbers etc.
+   * @public
+   * @var array
    */
-  function __construct()
-    {
+  public $arr_localeconv  = array();
 
+  /**#@+
+   * Characters for both decimal points and grouping chars.
+   */
+  public $decimal;
+  public $grouping;
+  /**#@-*/
+
+  /**
+   * Class constructor.
+   * Loads locale data from localeconv() to $arr_localeconv;
+   * @see localeconv()
+   */
+  public function __construct()
+    {
+    $this->arr_localeconv = localeconv();
+    if(!defined('LOC_DECIMAL'))
+      {
+      $this->decimal = $this->arr_localeconv['decimal_point'];
+      }
+    else
+      {
+      $this->decimal = LOC_DECIMAL;
+      }
+    if(!defined('LOC_GROUPING'))
+      {
+      $this->grouping = $this->arr_localeconv['thousands_sep'];
+      }
+    else
+      {
+      $this->grouping = LOC_GROUPING;
+      }
+    }
+
+  /**
+   * Returns class version.
+   * @return string The class version in format VERSION.REVISION.
+   */
+  public function GetClassVersion()
+    {
+    return($this->classversion);
     }
 
   /**
@@ -73,30 +120,15 @@ class sgl_functions
 
   /**
    * Wrapper for number_format which only needs number of digits to show with default = 0.
-   * Requires defines LOC_GROUPING and LOC_DECIMAL, else '.' is used for decimal separator and ',' as grouping character.
+   * Requires defines LOC_GROUPING and LOC_DECIMAL, else "decimal_point" and "thousands_sep" keys from localeconv() are used.
    * @param integer $value Value to convert.
    * @param integer $digits Number of digits to show, defaults to 0.
    * @return string Converted value
+   * @see localeconv()
    */
-  public static function FormatNumber($value,$digits = 0)
+  public function FormatNumber($value,$digits = 0)
     {
-    if(!defined('LOC_DECIMAL'))
-      {
-      $dec = '.';
-      }
-    else
-      {
-      $dec = LOC_DECIMAL;
-      }
-    if(!defined('LOC_GROUPING'))
-      {
-      $grp = ',';
-      }
-    else
-      {
-      $grp = LOC_GROUPING;
-      }
-    return(number_format($value,$digits,$dec,$grp));
+    return(number_format($value,$digits,$this->decimal,$this->grouping));
     }
 
   /**
@@ -117,7 +149,7 @@ class sgl_functions
           }
         if (is_dir($path."/".$file))
           {
-          $retval = array_merge($retval,walk_dir($path."/".$file));
+          $retval = array_merge($retval,$this->walk_dir($path."/".$file));
           }
         else if (is_file($path."/".$file))
           {
@@ -180,7 +212,7 @@ class sgl_functions
    * @param boolean $HTML If TRUE uses &nbsp; as separator, else a normal whitespace.
    * @return string Formatted bytes with best matching unit.
    */
-  public static function FormatSize($bytes,$HTML=TRUE)
+  public function FormatSize($bytes,$HTML=TRUE)
   	{
     $einheit=array("bytes","kB","MB","GB","TB","PB","EB");
     $ecnt = 0;
@@ -192,7 +224,7 @@ class sgl_functions
       }
     if($ecnt)
       {
-      $check = sgl_functions::FormatNumber(round($check,2),2);
+      $check = $this->FormatNumber(round($check,2),2);
       }
     if($HTML == TRUE)
       {
@@ -426,11 +458,19 @@ class sgl_functions
   /**
    * Prints out a dump of a given variable in a pre container.
    * @param mixed $var Variable to dump on screen.
+   * @param boolean $useDump If TRUE var_dump() instead of print_r() is used. Defaults to FALSE.
    */
-  public static function Debug($var)
+  public static function Debug($var,$useDump = FALSE)
     {
     echo("<div style=\"margin-top: 5px;border: 1px dotted black;padding: 5px;\">\n<pre>\n");
-    print_r($var);
+    if($useDump == FALSE)
+      {
+      print_r($var);
+      }
+    else
+      {
+      var_dump($var);
+      }
     echo("</pre>\n</div>\n");
     }
 
@@ -452,6 +492,110 @@ class sgl_functions
   public static function UnixTS2WinTS($unixts)
     {
     return(floatval(($unixts * 10000000) + sgl_functions::win_ts_factor));
+    }
+
+  /**
+   * Creation of thumbnail from picture source.
+   * @param integer $type Type of image, can be one of IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG.
+   * @param string $source Full path to picture to create thumbnail from.
+   * @param string $dest Full path where thumbnail should be written to.
+   * @param integer $twidth Width of thumbnail in pixel.
+   * @param integer $theihgt Height of thumbnail in pixel.
+   * @param integer $quality Quality setting for JPEG in % (0-100).
+   * @return boolean FALSE if there was an error, TRUE if all was okay.
+   */
+  public function CreateDiscThumbNail($type,$source,$dest,$twidth,$theight,$quality)
+    {
+    switch($type)
+      {
+      case  IMAGETYPE_JPEG:
+            $source_image = ImageCreateFromJPEG($source);
+            break;
+      case  IMAGETYPE_GIF:
+            $source_image = ImageCreateFromGIF($source);
+            break;
+      case  IMAGETYPE_PNG:
+            $source_image = ImageCreateFromPNG($source);
+            break;
+      default:
+            $this->last_error = "Unsupported Image format!\n";
+            return(false);
+      }
+    if(!$source_image)
+      {
+      $this->last_error = "Unable to load picture ".$source." !!!\n";
+      return(false);
+      }
+    $thumbnail = ImageCreateTrueColor(intval($twidth),intval($theight));
+    if(!$thumbnail)
+      {
+      ImageDestroy($source_image);
+      $this->last_error = "Unable to create thumbnail picture!!!";
+      return(false);
+      }
+    if(!ImageCopyResized($thumbnail,$source_image,0,0,0,0,intval($twidth),intval($theight),ImageSX($source_image),ImageSY($source_image)))
+      {
+      ImageDestroy($thumbnail);
+      ImageDestroy($source_image);
+      $this->last_error = "Error while scaling picture!\n";
+      return(false);
+      }
+    $rc = FALSE;
+    switch($type)
+      {
+      case  IMAGETYPE_JPEG:
+            $rc = ImageJPEG($thumbnail,$dest,$quality);
+            break;
+      case  IMAGETYPE_GIF:
+            $rc = ImageGIF($thumbnail,$dest);
+            break;
+      case  IMAGETYPE_PNG:
+            $rc = ImagePNG($thumbnail,$dest);
+            break;
+      }
+    ImageDestroy($thumbnail);
+    ImageDestroy($source_image);
+    return($rc);
+    }
+
+  /**
+   * Retrival of string arguments from _REQUEST.
+   * @param string $str_pname The name of parameter you want to get.
+   * @param string $str_default Optionally a default parameter
+   * @return string The parameter fetched or the default value.
+   */
+  public static function GetRequestParam($str_pname,$str_default = '')
+    {
+    return((isset($_REQUEST[$str_pname])==TRUE) ? strip_tags($_REQUEST[$str_pname]) : $str_default);
+    }
+
+  /**
+   * Retrival of integer arguments from _REQUEST.
+   * @param string $str_pname The name of parameter you want to get.
+   * @param integer $int_default Optionally a default parameter
+   * @return integer The parameter fetched or the default value.
+   */
+  public static function GetRequestParamInt($str_pname,$int_default = 0)
+    {
+    return((isset($_REQUEST[$str_pname])==TRUE) ? intval($_REQUEST[$str_pname]) : $int_default);
+    }
+
+  /**
+   * Method merges a directory and a filename together using the separator for the running OS.
+   * @param string $str_dir The directory name.
+   * @param string $str_fname the filename to add.
+   * @return string The merged filename.
+   */
+  public static function MergePath($str_dir,$str_fname)
+    {
+    if(substr($str_dir,strlen($str_dir)-1,1) != DIRECTORY_SEPARATOR)
+      {
+      return($str_dir.DIRECTORY_SEPARATOR.$str_fname);
+      }
+    else
+      {
+      return($str_dir.$str_fname);
+      }
     }
 
   } // End-of-Class

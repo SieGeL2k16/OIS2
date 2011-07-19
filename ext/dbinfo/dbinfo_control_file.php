@@ -97,12 +97,12 @@ while($d = $db->FetchResult())
     }
   echo("<tr class=\"".$myback."\">\n");
   echo("  <td>".$d['TYPE']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['RECORD_SIZE']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['RECORDS_TOTAL']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['RECORDS_USED']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['FIRST_INDEX']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['LAST_INDEX']."</td>\n");
-  echo("  <td class=\"td_number\">".$d['LAST_RECID']."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['RECORD_SIZE'])."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['RECORDS_TOTAL'])."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['RECORDS_USED'])."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['FIRST_INDEX'])."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['LAST_INDEX'])."</td>\n");
+  echo("  <td class=\"td_number\">".$SGLFUNC->FormatNumber($d['LAST_RECID'])."</td>\n");
   echo("</tr>\n");
   $lv++;
   }

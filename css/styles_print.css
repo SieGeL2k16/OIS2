@@ -106,3 +106,7 @@ a.fakebtn {
   margin-right        : 1px;
   font-size           : 11px;
 }
+
+/* Special css for printing only */
+
+.ois2_noprint { display: none; }

@@ -2,6 +2,13 @@ APPLICATION=DB-Info Extension
 
 V2.01:
 
+21-Jul-2011 - Added new tab displaying the Feature Used Statistics from Oracle.
+              This is extremly useful to monitor what features are actually used
+              in your instance.
+
+06-Jul-2011 - Updated Result Cache tab, one can now filter for TYPE,STATUS and
+              NAMESPACE columns of the RESULT CACHE table.
+
 12-May-2011 - Added new tab in dbinfo plugin called "Result Cache", which shows
               the setup of the result cache functionality. Note that this is only
               valid for 11g or newer!
