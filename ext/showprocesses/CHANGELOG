@@ -2,6 +2,9 @@ APPLICATION=Processes Extension
 
 V2.01:
 
+12-Sep-2011 - Process details now display every column in the V$SESSION
+              column, including new fields added in 9i, 10g and 11g.
+
 31-Aug-2011 - Added sorting to process overview table
 
             - Fixed (again) the popup window selector, now SID/SERIAL# combo is
