@@ -40,6 +40,8 @@ SELECT *
   (
   SELECT i.SESSION_ID,
          i.SESSION_SERIAL#,
+         s.SID,
+         s.SERIAL#,
          i.CNT,
          s.USERNAME,
          s.OSUSER,
@@ -68,7 +70,7 @@ SELECT *
 SQL;
 $lv = 0;
 $db->QueryResult($query);
-$link = '<a href="javascript:openPopUp(\'%s\')" title="Click to view details">%s</a>';
+$link = '<a href="javascript:openPopUp(\'%s\',\'%s\')" title="Click to view details">%s</a>';
 while($p = $db->FetchResult())
   {
   if($lv % 2)
@@ -80,21 +82,25 @@ while($p = $db->FetchResult())
     $cl = 'td_even';
     }
   echo("<tr class=\"".$cl."\">\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['PROCESS']),$p['PROCESS'])."</td>\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['PROCESS']),$p['SESSION_ID'])."</td>\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['PROCESS']),$p['SESSION_SERIAL#'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),htmlentities(addslashes($p['USERNAME'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),htmlentities(addslashes($p['OSUSER'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),$p['STATUS'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),htmlentities(addslashes($p['MACHINE'])))."</td>\n");
-  echo("  <td><small>".sprintf($link,URLEncode($p['PROCESS']),htmlentities(addslashes($p['PROGRAM'])))."</small><br>".sprintf($link,URLEncode($p['PROCESS']),htmlentities(addslashes($p['MODULE'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),$p['LTIME'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),$p['RCG'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['PROCESS']),$p['CI'])."</td>\n");
+  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['PROCESS'])."</td>\n");
+  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SESSION_ID'])."</td>\n");
+  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SESSION_SERIAL#'])."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['USERNAME'])))."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['OSUSER'])))."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['STATUS'])."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MACHINE'])))."</td>\n");
+  echo("  <td><small>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['PROGRAM'])))."</small><br>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MODULE'])))."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['LTIME'])."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['RCG'])."</td>\n");
+  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['CI'])."</td>\n");
   echo("</tr>\n");
   $lv++;
   }
 $db->FreeResult();
+if(!$lv)
+  {
+  echo("<tr>\n<td colspan=\"12\"><b>No data to display.</b></td>\n</tr>\n");
+  }
 ?>
 </tbody>
 </table>

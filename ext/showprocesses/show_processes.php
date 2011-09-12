@@ -18,10 +18,10 @@ $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
 $OIS_URL = OIS_INSTALL_URL;
 $addHeader = <<<EOM
 <script language="Javascript" type="text/javascript">
-function openPopUp(pid)
+function openPopUp(sid,serial)
   {
-  var myurl = 'show_processes_details.php?PID='+pid;
-  var wpid  = 'PROC'+pid;
+  var myurl = 'show_processes_details.php?SID='+sid+'&SERIAL='+serial;
+  var wpid  = 'PROC'+sid+'-'+serial;
   var mywin = window.open(myurl,wpid,'width=780, height=580,scrollbars=yes');
   }
 </script>
@@ -39,9 +39,10 @@ if($OIS2EXT->Get_V_Flag() == FALSE)
 ?>
 <div id="tabs">
 <ul>
-  <li><a href="show_processes_overview.php" title="Process Overview"><span>Overview</span></a></li>
-  <li><a href="show_processes_top_cpu.php" title="Top 20 CPU"><span>Top 20 CPU</span></a></li>
-  <li><a href="show_processes_top_wait.php" title="Top 20 Wait"><span>Top 20 Wait</span></a></li>
+  <li><a href="show_processes_overview.php?<?php echo(Str_Replace("&","&amp;",$_SERVER['QUERY_STRING']));?>" title="Process Overview"><span>Overview</span></a></li>
+  <li><a href="show_processes_top_cpu.php?<?php echo(Str_Replace("&","&amp;",$_SERVER['QUERY_STRING']));?>" title="Top 20 CPU"><span>Top 20 CPU</span></a></li>
+  <li><a href="show_processes_top_wait.php?<?php echo(Str_Replace("&","&amp;",$_SERVER['QUERY_STRING']));?>" title="Top 20 Wait"><span>Top 20 Wait</span></a></li>
+  <li><a href="show_processes_longops.php" title="LongOps"><span>Long Ops</span></a></li>
 </ul>
 </div>
 </div>

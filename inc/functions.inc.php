@@ -1,20 +1,18 @@
 <?php
 /**
  * All global functions.
+ * - checkSystemData()    => Returns assoc. array containing system informations
+ * - ReadDirectory()      => Recursive scanning of a given directory with optional pattern matching.
+ * - printHeader()        => Prints out the header div with title tag.
+ * - InformUser()         => Displays informational message to user.
+ * - Error()              => Displays error message to user.
+ * - ReadExtInfo()        => Reads the meta description files for a given extension.
+ * - sort_plugins()       => Sorter function for plugin list.
  *
- * - getClientIp()              => Retrieves user's current IP address.
- * - getmicrotime()             => Returns microtime.
- * - FormatTime()               => Formats given seconds into H:MM:SS.
- * - FormatNumber()             => Wrapper for number_format().
- * - UTF8ToISO()                => Converts UTF-8 string to ISO-8859-1 character set.
- * - ISOToUTF8()                => Converts ISO-8859-1 string to UTF-8 character set.
- * - FormatSize()               => Returns the passed bytes formatted with unit info.
- * - sgl_strftime()             => Wrapper for strftime().
- * - ReadDirectory()            => Recursive scanning of a given directory with optional pattern matching.
  * @package OIS2
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (21-Mar-2009)
+ * @version 2.01 (31-Aug-2011)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -46,6 +44,14 @@ function checkSystemData()
     $rc['RELEASE'] = $data['release'];
     $rc['VERSION'] = $data['version'];
     $rc['MACHINE'] = $data['machine'];
+    }
+  else
+    {
+    $rc['SYSNAME'] = '';
+    $rc['NODENAME']= '';
+    $rc['RELEASE'] = '';
+    $rc['VERSION'] = '';
+    $rc['MACHINE'] = '';
     }
   return($rc);
   }

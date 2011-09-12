@@ -14,12 +14,13 @@
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 
-$pid = (isset($_GET['PID'])) ? strip_tags($_GET['PID']) : '';
+$sid    = (isset($_GET['SID']))     ? strip_tags($_GET['SID']) : '';
+$serial = (isset($_GET['SERIAL']))  ? strip_tags($_GET['SERIAL']) : '';
 
 // Retrieve the meta data for our extension:
 $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS,'show_processes.php');
 $OIS2EXT->Add_JS_Ready_Call('$(".btn").button();');
-$OIS2EXT->PrintExtHeader('Show process details for PID='.$pid,'',TRUE);
+$OIS2EXT->PrintExtHeader('Show process details for SID='.$sid.' AND SERIAL#='.$serial,'',TRUE);
 ?>
 <div id="fullpage_content">
 <?php
@@ -51,11 +52,13 @@ SELECT RAWTOHEX(SADDR) AS SADDR,
        RAWTOHEX(SQL_ADDRESS) AS SQL_ADDRESS,
        SQL_HASH_VALUE,
        RAWTOHEX(PREV_SQL_ADDR) AS PREV_SQL_ADDR,
-       PREV_HASH_VALUE
+       PREV_HASH_VALUE,
+       PROCESS
        FROM V\$SESSION
- WHERE PROCESS=:myproc
+ WHERE SID=:mysid
+   AND SERIAL#=:myserial
 EOM;
-$dbparm['myproc'] = $pid;
+$dbparm = array('mysid' => $sid,'myserial' => $serial);
 $d = $db->QueryHash($myquery,OCI_ASSOC,0,$dbparm);
 $currsql = "";
 if(isset($d['SQL_ADDRESS']) && isset($d['SQL_HASH_VALUE']))
@@ -243,7 +246,7 @@ else
 </tr>
 <tr class="td_even">
   <td class="td_label">ProcessID:</td>
-  <td><?php echo($pid);?></td>
+  <td><?php echo($d['PROCESS']);?></td>
 </tr>
 <tr class="td_odd">
   <td class="td_label">Session Identifier (SID):</td>
@@ -357,11 +360,12 @@ SELECT OPNAME,
   FROM V\$SESSION_LONGOPS
  WHERE SID = :mysid
    AND SERIAL# = :myserial
+   AND TIME_REMAINING > 0
 EOM;
-if(isset($d['ID']) && isset($d['SERIALNR']))
+if(isset($d['SID']) && isset($d['SERIALNR']))
   {
   $sp = array('mysid' => $d['SID'],'myserial' => $d['SERIALNR']);
-  $chk = $db->QueryHash("SELECT COUNT(*) FROM V\$SESSION_LONGOPS WHERE SID = :mysid AND SERIAL# = :myserial",OCI_NUM,0,$sp);
+  $chk = $db->QueryHash("SELECT COUNT(*) FROM V\$SESSION_LONGOPS WHERE SID = :mysid AND SERIAL# = :myserial AND TIME_REMAINING > 0",OCI_NUM,0,$sp);
   if($chk[0])
     {
     $longop = $db->QueryHash($longopsql,OCI_ASSOC,0,$sp);
@@ -374,7 +378,7 @@ if(isset($d['ID']) && isset($d['SERIALNR']))
       }
     $db->FreeResult();
     $progress = round(100 * $longop['SOFAR'] / $longop['TOTALWORK'],2);
-    echo("<table cellspacing=\"1\" cellpadding=\"2\" border=\"0\" class=\"MAINBORDER\" width=\"98%\" summary=\"Long operation\">\n");
+    echo("<table cellspacing=\"1\" cellpadding=\"2\" border=\"0\" class=\"datatable\" width=\"98%\" summary=\"Long operation\">\n");
     echo("<caption>This session has a long operation running:</caption>\n");
     echo("<tr class=\"td_even\">\n");
     echo("  <td>Operation:</td>\n");

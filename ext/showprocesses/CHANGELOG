@@ -2,6 +2,13 @@ APPLICATION=Processes Extension
 
 V2.01:
 
+31-Aug-2011 - Added sorting to process overview table
+
+            - Fixed (again) the popup window selector, now SID/SERIAL# combo is
+              used to select the clicked process. Also the LongOps view is
+              fixed, now we show only entries whose TIME_REMAINING field is
+              not 0.
+
 13-Jul-2010 - Changed layout of Process overview page to use jQuery UI tabs.
 
             - Added 2 new views inside the process overview called Top 20 CPU

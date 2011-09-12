@@ -2,6 +2,9 @@ APPLICATION=DB-Info Extension
 
 V2.01:
 
+31-Aug-2011 - Added new tab called "Registry" displaying the views DBA_REGISTRY
+              and DBA_REGISTRY_HISTORY.
+
 21-Jul-2011 - Added new tab displaying the Feature Used Statistics from Oracle.
               This is extremly useful to monitor what features are actually used
               in your instance.

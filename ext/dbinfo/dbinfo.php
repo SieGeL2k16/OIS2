@@ -52,6 +52,7 @@ if($OIS2EXT->Get_Oracle_Version() >= 10)
   echo("<li><a href=\"dbinfo_used_features.php\" title=\"Used features\"><span>Used Features</span></a></li>\n");
   }
 ?>
+  <li><a href="dbinfo_registry.php" title="Display Registry"><span>Registry</span></a></li>
 </ul>
 </div>
 </div>

@@ -122,5 +122,7 @@ $(document).ready(function() {
       $("#schema").focus();
       return;
       }
+    var myurl = "viewer_overview.php?SCHEMA="+sch;
+    var mywin = window.open(myurl,'OVERVIEW','width=850,height=600,scrollbars=yes');
   });
 });

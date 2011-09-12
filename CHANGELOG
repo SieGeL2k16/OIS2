@@ -2,6 +2,10 @@ APPLICATION=Oracle Information Site 2
 
 V2.01:
 
+08-Sep-2011 - Updated jQuery to 1.6.3 and jQueryUI to 1.8.16
+
+31-Aug-2011 - Updated DBInfo plugin.
+
 19-Jul-2011 - Added new Tab "Feature usage" to DBInfo plugin, this plugin
               displays the view DBA_FEATURE_USAGE_STATISTICS (Only for
               Oracle 10g or higher)
