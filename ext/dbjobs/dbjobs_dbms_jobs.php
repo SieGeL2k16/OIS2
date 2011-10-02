@@ -16,7 +16,7 @@ define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 $dbtime = $db->Query("SELECT TO_CHAR(SYSDATE,'DD-Mon-YYYY HH24:MI:SS') AS D,(SELECT COUNT(*) FROM DBA_JOBS) AS ANZ FROM DUAL");
 ?>
-<div id="div_dbms_jobs">
+<div id="DBMS_JOB">
 <table cellspacing="1" cellpadding="2" border="0" class="datatable" summary="Lists all defined database jobs from DBMS_JOBS">
 <caption><?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> Job(s) defined | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
 <thead><tr>

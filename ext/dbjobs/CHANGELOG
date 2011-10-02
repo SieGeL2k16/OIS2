@@ -1,5 +1,12 @@
 APPLICATION=DB Jobs Extension
 
+V2.01:
+
+02-Oct-2011 - Added additional views for DBMS_SCHEDULER_PROGRAMS and
+              DBMS_SCHEDULER_JOB_RUN_DETAILS.
+
+            - Fixed a typo.
+
 V2.00:
 
 30-May-2009 - Initial version of plugin completed.

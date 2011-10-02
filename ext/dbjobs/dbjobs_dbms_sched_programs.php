@@ -1,11 +1,10 @@
 <?php
 /**
- * Extension: Overview of Job scheduler (DBMS_JOB / DBMS_SCHEDULER).
- * This displays the DBMS_SCHEDULER entries.
+ * Extension: Displays the DBMS_SCHEDULER_PROGRAMS view.
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (07-Sep-2009)
+ * @version 2.01 (02-Oct-2011)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -14,35 +13,36 @@
  */
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
-$dbtime = $db->Query("SELECT TO_CHAR(SYSDATE,'DD-Mon-YYYY HH24:MI:SS') AS D,(SELECT COUNT(*) FROM DBA_SCHEDULER_JOBS) AS ANZ FROM DUAL");
+$dbtime = $db->Query("SELECT TO_CHAR(SYSDATE,'DD-Mon-YYYY HH24:MI:SS') AS D,(SELECT COUNT(*) FROM DBA_SCHEDULER_PROGRAMS) AS ANZ FROM DUAL");
 $jpgraph  = $OIS2EXT->Get_JPGraph_Path();
 // Get the images base dir from OIS2:
 $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
 ?>
-<div id="DBMS_SCHEDULER_JOBS">
+<div id="DBMS_SCHEDULER_PRG">
 <table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of DBMS_SCHEDULER entries">
-<caption>Contents from DBMS_SCHEDULER_JOBS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> Job(s) defined | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
+<caption>Contents from DBMS_SCHEDULER_PROGRAMS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> program(s) defined | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
 <thead><tr>
   <th>Owner</th>
-  <th>Job name</th>
-  <th>Job action</th>
-  <th>Start date</th>
-  <th>Repeat interval</th>
-  <th>Next run date</th>
+  <th>Name</th>
+  <th>Type</th>
+  <th>Action</th>
+  <th># of Args</th>
+  <th>Detached</th>
   <th>Enabled</th>
 </thead></tr>
 <tbody>
 <?php
 $myquery=<<<EOM
 SELECT  OWNER,
-        JOB_NAME,
-        JOB_ACTION,
-        TO_CHAR(START_DATE,'DD-Mon-YYYY HH24:MI:SS') AS SD,
-        REPEAT_INTERVAL,
-        TO_CHAR(NEXT_RUN_DATE,'DD-Mon-YYYY HH24:MI:SS') AS NRD,
-        COMMENTS,
-        ENABLED
-  FROM  DBA_SCHEDULER_JOBS
+        PROGRAM_NAME,
+        PROGRAM_TYPE,
+        PROGRAM_ACTION,
+        NUMBER_OF_ARGUMENTS,
+        ENABLED,
+        DETACHED,
+        COMMENTS
+  FROM  DBA_SCHEDULER_PROGRAMS
+  ORDER BY OWNER,PROGRAM_NAME
 EOM;
 $db->QueryResult($myquery);
 $lv = 0;
@@ -61,11 +61,11 @@ while($d = $db->FetchResult())
     }
   echo("<tr class=\"".$myback."\" valign=\"top\" title=\"".$d['COMMENTS']."\">\n");
   echo("  <td>".$d['OWNER']."</td>\n");
-  echo("  <td>".$d['JOB_NAME']."</td>\n");
-  echo("  <td>".$d['JOB_ACTION']."</td>\n");
-  echo("  <td>".$d['SD']."</td>\n");
-  echo("  <td>".$d['REPEAT_INTERVAL']."</td>\n");
-  echo("  <td>".$d['NRD']."</td>\n");
+  echo("  <td>".$d['PROGRAM_NAME']."</td>\n");
+  echo("  <td>".$d['PROGRAM_TYPE']."</td>\n");
+  echo("  <td>".$d['PROGRAM_ACTION']."</td>\n");
+  echo("  <td align=\"center\">".$d['NUMBER_OF_ARGUMENTS']."</td>\n");
+  echo("  <td align=\"center\">".sprintf($yesno[$d['DETACHED']],$d['DETACHED'])."</td>\n");
   echo("  <td align=\"center\">".sprintf($yesno[$d['ENABLED']],$d['ENABLED'])."</td>\n");
   echo("</tr>\n");
   $lv++;

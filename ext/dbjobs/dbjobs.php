@@ -31,11 +31,13 @@ if($OIS2EXT->Get_V_Flag() == FALSE || $OIS2EXT->Get_DBA_Flag() == FALSE)
 ?>
 <div id="tabs">
 <ul>
-  <li><a href="dbjobs_dbms_jobs.php"><span>DBMS_JOB</span></a></li>
+  <li><a href="dbjobs_dbms_jobs.php" title="DBMS_JOB"><span>DBMS_JOB</span></a></li>
 <?php
 if($OIS2EXT->Get_Oracle_Version() >= 10)
   {
-  echo("<li><a href=\"dbjobs_dbms_sched.php\"><span>DBMS_SCHEDULER</span></a></li>\n");
+  echo("<li><a href=\"dbjobs_dbms_sched.php\" title=\"DBMS_SCHEDULER_JOBS\"><span>SCHEDULER_JOBS</span></a></li>\n");
+  echo("<li><a href=\"dbjobs_dbms_sched_details.php\" title=\"DBMS_SCHEDULER_JOB_DETAILS\"><span>SCHEDULER_JOB_DETAILS</span></a></li>\n");
+  echo("<li><a href=\"dbjobs_dbms_sched_programs.php\" title=\"DBMS_SCHEDULER_PRG\"><span>SCHEDULER_PROGRAMS</span></a></li>\n");
   }
 ?>
 </ul>
