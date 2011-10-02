@@ -1,4 +1,4 @@
-    Oracle Information Site 2.00 - Readme (Last updated on 26-Dec-2010)
+    Oracle Information Site 2.01 - Readme (Last updated on 02-Oct-2011)
 -----------------------------------------------------------------------------
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ OIS 2.xx requires the following software components to work:
 - At least one Oracle instance, supported releases are 8i up to 11gR2
 
 - A decent browser capable of Javascript and CSS 2.1. I've tested with
-  Firefox 3.6.x, IE8, Opera 9/10, Safari 5, Chrome and iCab.
+  Firefox 7.x, IE9, Opera 11, Safari 5.x, Chrome and iCab.
 
 - PHP 5.x (earlier versions might work, this is not tested)
 
@@ -97,9 +97,9 @@ it's own subdirectory. You have to enter here the name of the root CSS file
 the theme offers, so for the supplied default theme, the contents would look
 like this:
 
-smoothness/jquery-ui-1.8.7.custom.css
+smoothness/jquery-ui-1.8.11.custom.css
 
-This would use the "smoothness" theme and uses the latest 1.8.7 css file the
+This would use the "smoothness" theme and uses the latest 1.8.11 css file the
 theme provides.
 
 
@@ -151,6 +151,8 @@ DB Info displays global database informations:
  - SGA/PGA usage (depends on used Oracle Release)
  - Instance statistics
  - Control file overview
+ - Used features
+ - Registry
 
 --------------------------------------------------------------------------
 * DB Jobs
@@ -160,6 +162,8 @@ Note that DBMS_SCHEDULER is available only for Oracle 10g or newer, while
 DBMS_JOB is available since Oracle 8i and still exists in 11gR2.
 The OIS2 code should auto-detect the used Oracle version and display always
 data which is valid for the given Oracle version.
+Since 2.01 also the views DBMS_SCHEDULER_JOB_RUN_DETAILS and
+DBMS_SCHEDULER_PROGRAMS are displayed.
 
 --------------------------------------------------------------------------
 * Flashback
@@ -176,6 +180,9 @@ Also it provides two views to show the "Top 20 CPU" and "Top 20 Wait"
 processes. "Top 20 CPU" shows the Top 20 processes consuming most of the
 available CPU time while "Top 20 Wait" lists the top 20 processes which have
 the highest times "waiting" on something like latches etc.
+Since V2.01 a new tab is added called "Long Ops". This tab will show long
+running operations from V$SESSION_LONGOPS with TIME_REMAINING > 0. This
+view is refreshed on a 3 second interval.
 
 --------------------------------------------------------------------------
 * Redo Logs
