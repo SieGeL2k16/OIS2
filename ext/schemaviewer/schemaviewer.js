@@ -123,6 +123,6 @@ $(document).ready(function() {
       return;
       }
     var myurl = "viewer_overview.php?SCHEMA="+sch;
-    var mywin = window.open(myurl,'OVERVIEW','width=850,height=600,scrollbars=yes');
+    var mywin = window.open(myurl,'OVERVIEW','width=550,height=600,scrollbars=yes');
   });
 });

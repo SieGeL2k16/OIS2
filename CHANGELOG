@@ -1,5 +1,11 @@
 APPLICATION=Oracle Information Site 2
 
+V2.02:
+
+21-Oct-2011 - Updated "Schema Viewer" plugin with "Schema Size". Simply
+              choose a schema and click on this button, a popup window will
+              open and display the total size of the selected schema.
+
 V2.01:
 
 08-Sep-2011 - Updated jQuery to 1.6.3 and jQueryUI to 1.8.16

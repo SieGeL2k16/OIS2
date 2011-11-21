@@ -1,4 +1,11 @@
-APPLICATION=Rollback Segments Extension
+APPLICATION=Schema Viewer
+
+V2.01:
+
+21-Oct-2011 - Added overview of the total size of a selected schema. This is
+              achived by counting both DBA_SEGMENTS and DBA_OBJECT_SIZE views.
+              Note that this shows the allocated space, not the real usage,
+              which is normally less the allocated space.
 
 V2.00:
 
