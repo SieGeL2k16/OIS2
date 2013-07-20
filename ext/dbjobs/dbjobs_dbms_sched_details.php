@@ -19,8 +19,9 @@ $jpgraph  = $OIS2EXT->Get_JPGraph_Path();
 $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
 ?>
 <div id="DBMS_SCHEDULER_JOB_DETAILS">
+<p>Entries in DBA_SCHEDULER_JOB_RUN_DETAILS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> row(s) | Database date &amp; time: <?php echo($dbtime['D']);?></p>
 <table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of DBMS_SCHEDULER entries">
-<caption>Entries in DBA_SCHEDULER_JOB_RUN_DETAILS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> row(s) | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
+<caption>NOTE: Only the last 2000 rows are shown!</caption>
 <thead><tr>
   <th>Logdate</th>
   <th>Owner</th>
@@ -35,6 +36,8 @@ $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
 <tbody>
 <?php
 $myquery=<<<EOM
+SELECT i.*
+  FROM (
 SELECT  LOG_ID,
         TO_CHAR(LOG_DATE,'DD-Mon-YYYY HH24:MI:SS') AS LD,
         OWNER,
@@ -52,6 +55,8 @@ SELECT  LOG_ID,
         ADDITIONAL_INFO
   FROM  DBA_SCHEDULER_JOB_RUN_DETAILS
   ORDER BY LOG_DATE DESC
+ ) i
+WHERE ROWNUM <= 2000
 EOM;
 $db->QueryResult($myquery);
 $lv = 0;

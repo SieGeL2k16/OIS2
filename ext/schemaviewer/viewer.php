@@ -46,7 +46,7 @@ $stats = $db->QueryHash("SELECT COUNT(*) AS CNT FROM ALL_OBJECTS WHERE OBJECT_NA
   <option value="">Schema objects</option>
 
 </select>
-<input type="button" id="btn_schemasize" class="btn" value="Schema size">
+<input type="button" id="btn_schemasize" class="btn" value="Schema Overview">
 </form>
 <div id="object_list">
 

@@ -89,7 +89,7 @@ $(document).ready(function() {
       }
     else
       {
-      isTab = parseInt($("#tabs").tabs('length'));
+      isTab = parseInt($("#tabs li").length);
       }
     if(myrefresh > 0)
       {

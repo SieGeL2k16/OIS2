@@ -20,7 +20,7 @@ $OIS_URL = OIS_INSTALL_URL;
 This tab continously monitors the V$SESSION_LONGOPS View for entries with TIME_REMAINING > 0. Data will updated on a 3 second interval.<br>
 <br>
 <table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of sessions running as long operations." id="t_longops">
-<caption>Long-running operations</caption>
+<caption class="lro_cap">Long-running operations</caption>
 <thead>
 <tr>
   <th>Operation</th>

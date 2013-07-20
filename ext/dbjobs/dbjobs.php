@@ -18,10 +18,19 @@ $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
 $OIS_URL = OIS_INSTALL_URL;
 
 // Before calling PrintExtHeader() we first include a jQuery ready() call to our header to get the tabs activated.
-
-$OIS2EXT->Add_JS_Ready_Call('$("#tabs").tabs();');
 $OIS2EXT->PrintExtHeader($extdata['EXTENSION']);
 ?>
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+  $( "#tabs" ).tabs({
+    beforeLoad: function( event, ui ) {
+      ui.jqXHR.error(function() {
+        ui.panel.html("Couldn't load this tab?");
+      });
+    }
+  });
+});
+</script>
 <div id="page_content">
 <?php
 if($OIS2EXT->Get_V_Flag() == FALSE || $OIS2EXT->Get_DBA_Flag() == FALSE)
@@ -31,13 +40,13 @@ if($OIS2EXT->Get_V_Flag() == FALSE || $OIS2EXT->Get_DBA_Flag() == FALSE)
 ?>
 <div id="tabs">
 <ul>
-  <li><a href="dbjobs_dbms_jobs.php" title="DBMS_JOB"><span>DBMS_JOB</span></a></li>
+  <li><a href="dbjobs_dbms_jobs.php">DBMS_JOB</a></li>
 <?php
 if($OIS2EXT->Get_Oracle_Version() >= 10)
   {
-  echo("<li><a href=\"dbjobs_dbms_sched.php\" title=\"DBMS_SCHEDULER_JOBS\"><span>SCHEDULER_JOBS</span></a></li>\n");
-  echo("<li><a href=\"dbjobs_dbms_sched_details.php\" title=\"DBMS_SCHEDULER_JOB_DETAILS\"><span>SCHEDULER_JOB_DETAILS</span></a></li>\n");
-  echo("<li><a href=\"dbjobs_dbms_sched_programs.php\" title=\"DBMS_SCHEDULER_PRG\"><span>SCHEDULER_PROGRAMS</span></a></li>\n");
+  echo("  <li><a href=\"dbjobs_dbms_sched.php\">SCHEDULER_JOBS</a></li>\n");
+  echo("  <li><a href=\"dbjobs_dbms_sched_details.php\">SCHEDULER_JOB_DETAILS</a></li>\n");
+  echo("  <li><a href=\"dbjobs_dbms_sched_programs.php\">SCHEDULER_PROGRAMS</a></li>\n");
   }
 ?>
 </ul>

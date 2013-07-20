@@ -1,12 +1,20 @@
 APPLICATION=Oracle Information Site 2
 
-V2.02:
-
-21-Oct-2011 - Updated "Schema Viewer" plugin with "Schema Size". Simply
-              choose a schema and click on this button, a popup window will
-              open and display the total size of the selected schema.
-
 V2.01:
+
+30-May-2013 - Updated dbjobs plugin to 2.0.2,  SCHEDULER jobs can be enabled or
+              disabled by clicking on the state symbol.
+
+            - Updated OCI8 class to 1.04
+
+            - Updated sgl_functions class to 0.19
+
+            - Updated jQuery to 1.9.1 and jQueryUI to 1.10.3, added also the
+              jQuery-migrate-1.2.1 codebase for backward compability.
+
+22-May-2013 - Updated "Show Processes" plugin to 2.02
+
+15-Feb-2013 - Updated Schemaviewer Plugin to 2.01
 
 08-Sep-2011 - Updated jQuery to 1.6.3 and jQueryUI to 1.8.16
 

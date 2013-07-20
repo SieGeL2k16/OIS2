@@ -14,6 +14,7 @@
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 ?>
+<script language="javascript" type="text/javascript" src="overview.js"></script>
 <div id="Process_Overview">
 <?php
 $procset = $db->Query("SELECT (SELECT VALUE FROM V\$PARAMETER WHERE UPPER(NAME) = 'PROCESSES') AS MAXPROC, (SELECT COUNT(*) FROM V\$SESSION) AS CURRPROC FROM DUAL");
@@ -80,6 +81,8 @@ Click on an entry to view details | <?php printf("Processes in usage: <b>%s</b> 
   <th><a href="show_processes.php?SORT=PRGNAME&amp;SORTDIR=<?php echo($ndir);?>">PROGRAM / MODULE NAME<?php echo($timg['PRGNAME']);?></a></th>
   <th><a href="show_processes.php?SORT=LDATE&amp;SORTDIR=<?php echo($ndir);?>">LOGIN DATE<?php echo($timg['LDATE']);?></a></th>
   <th><a href="show_processes.php?SORT=PTYPE&amp;SORTDIR=<?php echo($ndir);?>">PROCESS TYPE<?php echo($timg['PTYPE']);?></a></th>
+  <th>&nbsp;</th>
+
 </tr></thead>
 <tbody>
 <?php
@@ -118,16 +121,24 @@ while($p = $db->FetchResult())
     $cl.='_bold';
     }
   echo("<tr class=\"".$cl."\">\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['PROCESS'])."</td>\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SID'])."</td>\n");
-  echo("  <td class=\"td_number\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SERIAL#'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['USERNAME'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['OSUSER'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['STATUS'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MACHINE'])))."</td>\n");
-  echo("  <td><small>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['PROGRAM'])))."</small><br>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MODULE'])))."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['LTIME'])."</td>\n");
-  echo("  <td>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),UCFirst(StrToLower($p['TYPE'])))."</td>\n");
+  echo("  <td class=\"td_number\" title=\"Process ID\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['PROCESS'])."</td>\n");
+  echo("  <td class=\"td_number\" title=\"SID\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SID'])."</td>\n");
+  echo("  <td class=\"td_number\" title=\"Serial#\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['SERIAL#'])."</td>\n");
+  echo("  <td title=\"Oracle User\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['USERNAME'])))."</td>\n");
+  echo("  <td title=\"OS User\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['OSUSER'])))."</td>\n");
+  echo("  <td title=\"Status\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['STATUS'])."</td>\n");
+  echo("  <td title=\"Machine / Hostname\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MACHINE'])))."</td>\n");
+  echo("  <td title=\"Program / Module name\"><small>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['PROGRAM'])))."</small><br>".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),htmlentities(addslashes($p['MODULE'])))."</td>\n");
+  echo("  <td title=\"Login date\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),$p['LTIME'])."</td>\n");
+  echo("  <td title=\"Process type\">".sprintf($link,URLEncode($p['SID']),URLEncode($p['SERIAL#']),UCFirst(StrToLower($p['TYPE'])))."</td>\n");
+  if(StrToUpper(trim($p['TYPE'])) != 'BACKGROUND')
+    {
+    echo("  <td title=\"\"><img src=\"".$OIS_IMG."cross.png\" alt=\"\" title=\"Kill this session\" id=\"SESS_".$p['SID'].'-'.$p['SERIAL#']."\" class=\"killsess\"></td>\n");
+    }
+  else
+    {
+    echo("  <td title=\"\">&nbsp;</td>\n");
+    }
   echo("</tr>\n");
   $lv++;
   }

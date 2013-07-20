@@ -3,7 +3,7 @@
  * This class provides a bunch of useful methods for every-day coding.
  * NOTE: This class works ONLY (!) with PHP 5+ !!
  * @package sgl_functions
- * @version 0.15 (03-Jun-2011)
+ * @version 0.20 (03-Jan-2013)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
@@ -20,7 +20,7 @@ class sgl_functions
    * @private
    * @var string
    */
-  private $classversion = '0.16';
+  private $classversion = '0.19';
 
   /**
    * Windows timestamp correction value.
@@ -35,37 +35,51 @@ class sgl_functions
    */
   public $arr_localeconv  = array();
 
-  /**#@+
-   * Characters for both decimal points and grouping chars.
+  /**
+   * English error texts for GetUploadError().
+   * You can override this array after the constructor is called.
+   * @public
+   * @var array
    */
-  public $decimal;
-  public $grouping;
-  /**#@-*/
+  public $arr_ul_errors = array();
+
+  /**
+   * Path to log file.
+   * Required for WriteToLog() method.
+   * If you call the method "WriteToLog()" and this variable is not set, the log message will be written to PHP's error log.
+   * @var string
+   * @public
+   * @since 0.17
+   */
+  public static $logfile = '';
+
+  /** The SAPI type of php (used to detect CLI sapi)
+   * @private
+   * @var string
+   * @since 0.19
+   */
+  public static $SAPI_type;
 
   /**
    * Class constructor.
    * Loads locale data from localeconv() to $arr_localeconv;
    * @see localeconv()
+   * @since 0.16
    */
   public function __construct()
     {
-    $this->arr_localeconv = localeconv();
-    if(!defined('LOC_DECIMAL'))
-      {
-      $this->decimal = $this->arr_localeconv['decimal_point'];
-      }
-    else
-      {
-      $this->decimal = LOC_DECIMAL;
-      }
-    if(!defined('LOC_GROUPING'))
-      {
-      $this->grouping = $this->arr_localeconv['thousands_sep'];
-      }
-    else
-      {
-      $this->grouping = LOC_GROUPING;
-      }
+    sgl_functions::$SAPI_type = php_sapi_name();
+    $this->arr_localeconv     = localeconv();
+    $this->arr_ul_errors = array(
+      0 => 'No error, the file uploaded with success.',
+      1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+      2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+      3 => 'The uploaded file was only partially uploaded.',
+      4 => 'No file was uploaded.',
+      6 => 'Missing a temporary folder.',
+      7 => 'Failed to write file to disk.',
+      8 => 'A PHP extension stopped the file upload.'
+      );
     }
 
   /**
@@ -115,8 +129,36 @@ class sgl_functions
    */
   public static function FormatTime($seconds)
   	{
-  	return(sprintf("%02.2d:%02.2d.%02.2d",($seconds / 3600),(($seconds / 60) >= 60) ? ($seconds - ((floor($seconds / 3600) * 3600))) / 60 : ($seconds / 60),($seconds % 60)));
-  	}
+    if(($seconds / 86400) > 1)
+      {
+      $lang = StrToLower(substr(setLocale(LC_ALL,"0"),0,2));        // Determine current language
+      if($lang == 'de')
+        {
+        $day  = 'Tag';
+        $days = 'Tage';
+        }
+      else
+        {
+        $day  = 'Day';
+        $days = 'Days';
+        }
+      $mydays = intval($seconds / 86400);
+      $seconds-= $mydays * 86400;
+      if($mydays == 1)
+        {
+        $md = $day;
+        }
+      else
+        {
+        $md = $days;
+        }
+      return(sprintf("%d %s, %02.2dh %02.2dmin %02.2ds",$mydays,$md,($seconds / 3600),(($seconds / 60) >= 60) ? ($seconds - ((floor($seconds / 3600) * 3600))) / 60 : ($seconds / 60),($seconds % 60)));
+      }
+    else
+      {
+      return(sprintf("%02.2dh %02.2dmin %02.2ds",($seconds / 3600),(($seconds / 60) >= 60) ? ($seconds - ((floor($seconds / 3600) * 3600))) / 60 : ($seconds / 60),($seconds % 60)));
+      }
+    }
 
   /**
    * Wrapper for number_format which only needs number of digits to show with default = 0.
@@ -128,7 +170,23 @@ class sgl_functions
    */
   public function FormatNumber($value,$digits = 0)
     {
-    return(number_format($value,$digits,$this->decimal,$this->grouping));
+    if(!defined('LOC_DECIMAL'))
+      {
+      $dec = $this->arr_localeconv['decimal_point'];
+      }
+    else
+      {
+      $dec = LOC_DECIMAL;
+      }
+    if(!defined('LOC_GROUPING'))
+      {
+      $grp = $this->arr_localeconv['thousands_sep'];
+      }
+    else
+      {
+      $grp = LOC_GROUPING;
+      }
+    return(number_format($value,$digits,$dec,$grp));
     }
 
   /**
@@ -462,7 +520,14 @@ class sgl_functions
    */
   public static function Debug($var,$useDump = FALSE)
     {
-    echo("<div style=\"margin-top: 5px;border: 1px dotted black;padding: 5px;\">\n<pre>\n");
+    if(sgl_functions::$SAPI_type != 'cli')
+      {
+      echo("<div style=\"margin-top: 5px;border: 1px dotted black;padding: 5px;\">\n<pre>\n");
+      }
+    else
+      {
+      echo("\n------------------------------------------------------------------------------\n");
+      }
     if($useDump == FALSE)
       {
       print_r($var);
@@ -471,7 +536,14 @@ class sgl_functions
       {
       var_dump($var);
       }
-    echo("</pre>\n</div>\n");
+    if(sgl_functions::$SAPI_type != 'cli')
+      {
+      echo("</pre>\n</div>\n");
+      }
+    else
+      {
+      echo("\n------------------------------------------------------------------------------\n");
+      }
     }
 
   /**
@@ -581,6 +653,17 @@ class sgl_functions
     }
 
   /**
+   * Retrival of string arguments from _REQUEST.
+   * @param string $str_pname The name of parameter you want to get.
+   * @param string $str_default Optionally a default parameter
+   * @return string The parameter fetched or the default value (NOT strip_tagged() !!!)
+   */
+  public static function GetRequestParamRaw($str_pname,$str_default = '')
+    {
+    return((isset($_REQUEST[$str_pname])==TRUE) ? $_REQUEST[$str_pname] : $str_default);
+    }
+
+  /**
    * Method merges a directory and a filename together using the separator for the running OS.
    * @param string $str_dir The directory name.
    * @param string $str_fname the filename to add.
@@ -595,6 +678,41 @@ class sgl_functions
     else
       {
       return($str_dir.$str_fname);
+      }
+    }
+
+  /**
+   * Returns an descriptive error text for the "errors" field when uploading a file to a PHP script.
+   * @param integer $errno The error number from $_FILES[<your_name>]['errors']
+   * @return string An english string describing the error.
+   * @since 0.16
+   */
+  public function GetUploadError($errno)
+    {
+    if(isset($this->arr_ul_errors[$errno]) === FALSE)
+      {
+      return(sprintf("Unknown upload error code %s ?",intval($errno)));
+      }
+    return($this->arr_ul_errors[$errno]);
+    }
+
+  /**
+   * WriteToLog() sends a given logstring to a configurable file (see class variables).
+   * NOTE: If sgl_functions::logfile is not set, the logstring is written to PHP's error_log().
+   * If a logfile is given, the logstring will be prefixed with the current date & time in the same format PHP's standard error_log is written.
+   * @param string $lstr The string to write to the logfile.
+   * @see sgl_functions::logfile
+   */
+  public static function WriteToLog($lstr)
+    {
+    if(sgl_functions::$logfile == '')
+      {
+      error_log($lstr,0);
+      }
+    else
+      {
+      $ldate = sprintf("[%02d-%3s-%04d %s] %s\n",date('d'),date('M'),date('Y'),date('H:i:s'),$lstr);
+      error_log($ldate,3,sgl_functions::$logfile);
       }
     }
 

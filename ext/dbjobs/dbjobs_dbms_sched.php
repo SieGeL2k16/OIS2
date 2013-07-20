@@ -5,9 +5,8 @@
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (07-Sep-2009)
+ * @version 2.02 (30-May-2012)
  * $Id$
- * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 /**
@@ -19,9 +18,10 @@ $jpgraph  = $OIS2EXT->Get_JPGraph_Path();
 // Get the images base dir from OIS2:
 $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
 ?>
+<script language="javascript" type="text/javascript" src="scheduler.js"></script>
 <div id="DBMS_SCHEDULER_JOBS">
 <table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of DBMS_SCHEDULER entries">
-<caption>Contents from DBMS_SCHEDULER_JOBS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> Job(s) defined | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
+<caption>Contents from DBA_SCHEDULER_JOBS: <?php echo($SGLFUNC->FormatNumber($dbtime['ANZ']))?> Job(s) defined | Database date &amp; time: <?php echo($dbtime['D']);?></caption>
 <thead><tr>
   <th>Owner</th>
   <th>Job name</th>
@@ -46,8 +46,8 @@ SELECT  OWNER,
 EOM;
 $db->QueryResult($myquery);
 $lv = 0;
-$yesno = array( 'TRUE'   => '<img src="'.$OIS_IMG.'tick.png" alt="Yes" border="0" title="%s">',
-                'FALSE'  => '<img src="'.$OIS_IMG.'cross.png" alt="No" border="0" title="%s">'
+$yesno = array( 'TRUE'   => '<img src="'.$OIS_IMG.'tick.png" alt="%s.%s" border="0" title="Click to disable" class="JOB_STATE">',
+                'FALSE'  => '<img src="'.$OIS_IMG.'cross.png" alt="%s.%s" border="0" title="Click to enable" class="JOB_STATE">'
               );
 while($d = $db->FetchResult())
   {
@@ -62,11 +62,11 @@ while($d = $db->FetchResult())
   echo("<tr class=\"".$myback."\" valign=\"top\" title=\"".$d['COMMENTS']."\">\n");
   echo("  <td>".$d['OWNER']."</td>\n");
   echo("  <td>".$d['JOB_NAME']."</td>\n");
-  echo("  <td>".$d['JOB_ACTION']."</td>\n");
+  echo("  <td><small>".$d['JOB_ACTION']."</small></td>\n");
   echo("  <td>".$d['SD']."</td>\n");
   echo("  <td>".$d['REPEAT_INTERVAL']."</td>\n");
   echo("  <td>".$d['NRD']."</td>\n");
-  echo("  <td align=\"center\">".sprintf($yesno[$d['ENABLED']],$d['ENABLED'])."</td>\n");
+  echo("  <td align=\"center\">".sprintf($yesno[$d['ENABLED']],$d['OWNER'],$d['JOB_NAME'])."</td>\n");
   echo("</tr>\n");
   $lv++;
   }

@@ -33,16 +33,21 @@ $OIS_IMG = $OIS2EXT->Get_OIS2_Image_URL();
 <tbody>
 <?php
 $myquery=<<<EOM
-SELECT  OWNER,
-        PROGRAM_NAME,
-        PROGRAM_TYPE,
-        PROGRAM_ACTION,
-        NUMBER_OF_ARGUMENTS,
-        ENABLED,
-        DETACHED,
-        COMMENTS
-  FROM  DBA_SCHEDULER_PROGRAMS
-  ORDER BY OWNER,PROGRAM_NAME
+SELECT i.*
+  FROM
+  (
+  SELECT  OWNER,
+          PROGRAM_NAME,
+          PROGRAM_TYPE,
+          PROGRAM_ACTION,
+          NUMBER_OF_ARGUMENTS,
+          ENABLED,
+          DETACHED,
+          COMMENTS
+    FROM  DBA_SCHEDULER_PROGRAMS
+    ORDER BY OWNER,PROGRAM_NAME
+  ) i
+ WHERE ROWNUM <= 2000
 EOM;
 $db->QueryResult($myquery);
 $lv = 0;

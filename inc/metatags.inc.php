@@ -34,4 +34,5 @@
 window.defaultStatus=document.title;
 </script>
 <script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery-ui.custom.min.js"></script>

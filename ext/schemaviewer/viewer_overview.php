@@ -18,58 +18,59 @@ require_once('../../inc/sessionheader.inc.php');
 $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS,'viewer.php');
 $OIS2EXT->Add_JS_Ready_Call('$(".btn").button();');
 $schema = $SGLFUNC->GetRequestParam('SCHEMA');
-$OIS2EXT->PrintExtHeader('Size of schema &quot;'.$schema.'&quot;','',TRUE);
+$OIS2EXT->PrintExtHeader('Show schema overview for &quot;'.$schema.'&quot;','',TRUE);
+$SQL=<<<EOM
+SELECT 	SEGMENT_TYPE,
+		    ROUND( bytes/1024/1024,2 ) MBYTES,
+     	  ROUND( RATIO_TO_REPORT(BYTES) OVER () * 100, 2 ) PCT
+  FROM (
+        SELECT  SUM(BYTES) BYTES,
+                SEGMENT_TYPE
+          FROM  DBA_EXTENTS
+         WHERE  OWNER = :o
+         GROUP BY SEGMENT_TYPE
+       )
+   ORDER BY SEGMENT_TYPE
+EOM;
+$sp = array('o' => $schema);
+$db->QueryResultHash($SQL,$sp);
 ?>
 <div id="fullpage_content">
-<?php
-// Make first a list of all segments summarized from DBA_SEGMENTS view + the informations from all PL/SQL code, to be found in SOURCE_
-$SEGMENTS = array();
-$SQL=<<<EOM
-SELECT SUM(BYTES) AS BYTES,COUNT(*) AS CNT,SEGMENT_TYPE FROM DBA_SEGMENTS WHERE OWNER=:sch GROUP BY SEGMENT_TYPE
-UNION
-SELECT SUM(DECODE(SOURCE_SIZE,0,CODE_SIZE,SOURCE_SIZE)) AS BYTES,COUNT(*) AS CNT,TYPE AS SEGMENT_TYPE FROM DBA_OBJECT_SIZE WHERE OWNER=:sch GROUP BY TYPE
-ORDER BY 1 DESC,3
-EOM;
-$sp   = array('sch' => $schema);
-$db->QueryResultHash($SQL,$sp);
-while($d = $db->FetchResult())
-  {
-  $SEGMENTS[$d['SEGMENT_TYPE']]['COUNT'] = $d['CNT'];
-  $SEGMENTS[$d['SEGMENT_TYPE']]['BYTES'] = $d['BYTES'];
-  }
-$db->FreeResult();
-?>
-<table summary="List of segments for a given Schema" class="datatable" style="margin-left:auto;margin-right:auto;">
+<table class="datatable">
+<caption>Allocated segment size of schema objects</caption>
 <thead><tr>
   <th>Segment type</th>
-  <th>Count</th>
-  <th>Bytes</th>
+  <th>Size in MB</th>
+  <th>Pct</th>
 </tr></thead>
 <tbody>
 <?php
 $lv = 0;
-$totsize = 0;
-foreach($SEGMENTS AS $sname => $sdata)
+$mb = 0.00;
+while($d = $db->FetchResult())
   {
-  if($lv % 2) $cl = 'td_even';
-  else $cl = 'td_odd';
-  printf("<tr class=\"%s\">\n",$cl);
-  printf("  <td>%s</td>\n",$sname);
-  printf("  <td class=\"td_number\">%s</td>\n",$SGLFUNC->FormatNumber($sdata['COUNT']));
-  printf("  <td class=\"td_number\" title=\"%s\">%s</td>\n",$SGLFUNC->FormatSize($sdata['BYTES']),$SGLFUNC->FormatNumber($sdata['BYTES']));
+  if($lv % 2) $mycl = 'td_odd';
+  else $mycl = 'td_even';
+  echo("<tr class=\"".$mycl."\">\n");
+  printf("  <td>%s</td>\n",$d['SEGMENT_TYPE']);
+  printf("  <td align=\"right\">%s MB</td>\n",$SGLFUNC->FormatNumber($d['MBYTES'],2));
+  printf("  <td align=\"right\">%s%%</td>\n",$SGLFUNC->FormatNumber($d['PCT'],2));
   echo("</tr>\n");
   $lv++;
-  $totsize+=$sdata['BYTES'];
+  $mb+=$d['MBYTES'];
   }
+$db->FreeResult();
+if($lv % 2) $mycl = 'td_odd';
+else $mycl = 'td_even';
+echo("<tr class=\"".$mycl."_bold\">\n");
+echo("  <td>Total:</td>\n");
+printf("  <td align=\"right\">%s MB</td>\n",$SGLFUNC->FormatNumber($mb,2));
+echo("  <td>&nbsp;</td>\n");
+echo("</tr>\n");
 ?>
 </tbody>
-<tfoot>
-<tr>
-  <td colspan="2">Total:</td>
-  <td class="td_number" title="<?php echo($SGLFUNC->FormatSize($totsize));?>"><?php echo($SGLFUNC->FormatNumber($totsize));?></td>
-</tr>
-</tfoot>
 </table>
+
 </div>
 <?php
 // Call this method to dump out the footer and disconnect from database:

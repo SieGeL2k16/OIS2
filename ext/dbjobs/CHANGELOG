@@ -1,5 +1,10 @@
 APPLICATION=DB Jobs Extension
 
+V2.02:
+
+30-May-2013 - DBMS_SCHEDULER jobs can now be enabled/disabled by clicking
+              on the status icon
+
 V2.01:
 
 02-Oct-2011 - Added additional views for DBMS_SCHEDULER_PROGRAMS and

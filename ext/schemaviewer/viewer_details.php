@@ -33,6 +33,7 @@ if($user == '' || $object == '' || $type == '')
   exit;
   }
 $query = 'SELECT DBMS_METADATA.GET_DDL(:type,:object,:schema) AS DDL FROM DUAL';
+if($type == 'PACKAGE BODY') $type = 'PACKAGE';
 $sp = array('type' => $type, 'object' => $object, 'schema' => $user);
 $ddl = $db->QueryHash($query,OCI_ASSOC,0,$sp);
 echo("<pre>".$ddl['DDL']."</pre>");

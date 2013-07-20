@@ -6,7 +6,7 @@
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.01 (20-May-2011)
+ * @version 1.02 (08-Dec-2011)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
@@ -23,7 +23,7 @@ class db_oci8
    * @private
    * @var string
    */
-  private $classversion = '1.01';
+  private $classversion = '1.04';
 
   /**
    * Internal connection handle.
@@ -491,7 +491,7 @@ class db_oci8
       @oci_set_module_name($this->sock,$module);
       if($action != "")
         {
-        @oci_set_action($this->sock,$action);
+        $this->SetAction($action);
         }
       return('');
       }
@@ -515,6 +515,38 @@ class db_oci8
         return(" DBMS_APPLICATION_INFO.SET_MODULE('".$this->appname."',".$myaction."); ");
         }
       }
+    }
+
+  /**
+   * Sets a given string as action (max. 32 bytes) to the current Oracle connection.
+   * Note that this works only for PHP 5.3.2+ and OCI8 must be linked against Oracle 10g or newer, else returns TRUE without doing anything.
+   * @param string $action Action info to use (max. 32 characters).
+   * @return boolean TRUE on success, else FALSE.
+   * @since 1.04
+   */
+  public function SetAction($action)
+    {
+    if(function_exists('oci_set_action') === TRUE)
+      {
+      return(@oci_set_action($this->sock,$action));
+      }
+    return(TRUE);
+    }
+
+  /**
+   * Sets a given string as client identifier (max. 64 bytes) to the current Oracle connection.
+   * Note that this works only for PHP 5.3.2+ and OCI8 must be linked against Oracle 10g or newer, else returns TRUE without doing anything.
+   * @param string $cinfo Client info to use (max. 64 bytes).
+   * @return boolean TRUE on success, else FALSE.
+   * @since 1.04
+   */
+  public function SetClientInfo($cinfo)
+    {
+    if(function_exists('oci_set_client_info') === TRUE)
+      {
+      return(@oci_set_client_info($this->sock,$cinfo));
+      }
+    return(TRUE);
     }
 
   /**
@@ -557,8 +589,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('Query(): Parse failed!'));
-      exit;
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('Query(): Parse failed!'));
+        exit;
+        }
       }
     if(!@oci_execute($stmt,OCI_DEFAULT))
       {
@@ -627,8 +669,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('QueryHash(): Parse failed!'));
-      exit;
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('QueryHash(): Parse failed!'));
+        exit;
+        }
       }
     if(is_array($bindvarhash))
       {
@@ -666,11 +718,11 @@ class db_oci8
     $this->querycounter++;
     if(StriStr(substr($querystring,0,6),"SELECT"))
       {
-      $resarr = @oci_fetch_array($stmt,$resflag+OCI_RETURN_NULLS+OCI_RETURN_LOBS);
+      $resarr = oci_fetch_array($stmt,$resflag+OCI_RETURN_NULLS+OCI_RETURN_LOBS);
       }
     else
       {
-      $res = 0;
+      $resarr = 0;
       }
     $this->AffectedRows = @oci_num_rows($stmt);
     @oci_free_statement($stmt);
@@ -717,7 +769,18 @@ class db_oci8
     $stmt = @oci_parse($this->sock,$querystring);
     if(!$stmt)
       {
-      return($this->Print_Error('QueryResult(): Parse failed!'));
+      if($no_exit)
+        {
+        $err = @oci_error($this->sock);
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
+        return($err['code']);
+        }
+      else
+        {
+        return($this->Print_Error('QueryResult(): Parse failed!'));
+        exit;
+        }
       }
     // Check if user wishes to set a default prefetching value:
     if(defined('DB_DEFAULT_PREFETCH'))
@@ -764,7 +827,8 @@ class db_oci8
     $start = $this->getmicrotime();
     if(!($stmt = @oci_parse($this->sock,$query)))
       {
-      return($this->Print_Error("QueryResultHash(): Parse failed!"));
+      return($this->Print_Error('QueryResultHash(): Parse failed!'));
+      exit;
       }
     if(is_array($inhash))
       {
@@ -1531,6 +1595,11 @@ class db_oci8
       }
     $start = $this->getmicrotime();
     $stmt = @oci_parse($this->sock,"SELECT * FROM ".$tablename." WHERE ROWNUM < 1");
+    if(!$stmt)
+      {
+      return($this->Print_Error('DescTable(): Parse failed!'));
+      exit;
+      }
     @oci_execute($stmt);
     $this->querycounter++;
     $ncols = @oci_num_fields($stmt);
@@ -1606,7 +1675,8 @@ class db_oci8
       if($no_exit)
         {
         $err = @oci_error($this->sock);
-        $this->sqlerrmsg = $err['message'];
+        $this->sqlerrmsg  = $err['message'];
+        $this->sqlerr     = $err['code'];
         return($err['code']);
         }
       else
@@ -1742,11 +1812,12 @@ class db_oci8
    * @param string $blob_table Name of Table where the blobfield resides
    * @param string $blob_field Name of BLOB field
    * @param string $where_clause Criteria to get the right row (i.e. WHERE ROWID=ABCDEF12345)
+   * @param array $bind_vars If given can contain bind variable definition used in WHERE clause
    * @return integer If all is okay returns 0 else an oracle error code.
    * @since 0.41
    * @see oci_new_descriptor()
    */
-  public function SaveBLOB($file_to_save, $blob_table, $blob_field, $where_clause)
+  public function SaveBLOB($file_to_save, $blob_table, $blob_field, $where_clause,$bind_vars = null)
     {
     $this->checkSock();
     if($where_clause == '')
@@ -1762,6 +1833,15 @@ class db_oci8
       return($this->Print_Error("SaveBLOB(): Unable to parse query !!!"));
       }
     @oci_bind_by_name($lobstmt, ":oralob", $lobptr, -1, OCI_B_BLOB);
+    if(is_array($bind_vars))
+      {
+      reset($bind_vars);
+      $this->errvars = $bind_vars;
+      while(list($key,$val) = each($bind_vars))
+        {
+        @oci_bind_by_name($lobstmt,$key,$bind_vars[$key],-1);
+        }
+      }
     if(!@oci_execute($lobstmt, OCI_DEFAULT))
       {
       $lobptr->free();

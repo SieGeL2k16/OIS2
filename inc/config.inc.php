@@ -35,7 +35,7 @@ define('OIS_INSTALL_URL' , '/OIS2');
  * Name of the JQuery.UI Theme in use.
  * Remember to copy your themes under the css/ directory of OIS2 base directory!
  */
-define('UI_THEME', 'smoothness/jquery-ui-1.8.11.custom.css');
+define('UI_THEME', 'smoothness/jquery-ui-1.10.3.custom.min.css');
 
 /**
  * If you have the JPGraph classes installed, enter here the full path to the root directory of the JPGraph installation.

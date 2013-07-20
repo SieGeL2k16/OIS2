@@ -26,7 +26,7 @@ function updateLO()
           return(false);
           }
         var cnt = 0;
-
+        $(".lro_cap").html('Long-running operations ('+json.length+')');
         jQuery.each(json, function(json_key,json_val)
           {
           if(cnt % 2) cln = 'td_odd';
