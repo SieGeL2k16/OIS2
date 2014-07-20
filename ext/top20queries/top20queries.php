@@ -5,7 +5,7 @@
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (12-Sep-2009)
+ * @version 2.01 (18-Jul-2014)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -25,6 +25,8 @@ function showDetails(addr)
   }
 </script>
 EOM;
+$addHeader.= "<link type=\"text/css\" href=\"top20queries.css\" rel=\"stylesheet\" />";
+
 $OIS2EXT->PrintExtHeader($extdata['EXTENSION'],$addHeader);
 ?>
 <div id="page_content">
@@ -42,7 +44,7 @@ else
   $addon1 = "        CPU_TIME,\n        ELAPSED_TIME,\n";
   }
 $q=<<<EOM
-SELECT  SQL_TEXT,
+SELECT  SQL_FULLTEXT,
         USERNAME,
         DISK_READS_PER_EXEC,
         BUFFER_GETS,
@@ -60,7 +62,7 @@ $addon1
         ADDR,
         HASH_VALUE
   FROM  (
-        SELECT  SQL_TEXT,
+        SELECT  SQL_FULLTEXT,
                 B.USERNAME,
                 ROUND((A.DISK_READS/DECODE(A.EXECUTIONS,0,1,A.EXECUTIONS)),2) AS DISK_READS_PER_EXEC,
                 A.DISK_READS,
@@ -84,7 +86,7 @@ $addon1
  WHERE ROWNUM < 21
 EOM;
 ?>
-<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Lists the Top 20 queries">
+<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Lists the Top 20 queries" id="top20list">
 <caption>Click on Query to view statistics</caption>
 <thead>
 <tr>
@@ -110,7 +112,7 @@ while($s = $db->FetchResult())
   echo("<tr class=\"".$myback."\" valign=\"top\">\n");
   echo("  <td align=\"center\">".sprintf("%02d.",$lv+1)."</td>\n");
   echo("  <td align=\"center\">".$s['USERNAME']."</td>\n");
-  echo("  <td align=\"left\"><a href=\"javascript:showDetails('".$s['ADDR']."')\">".wordwrap(htmlspecialchars($s['SQL_TEXT']),100,'<br>',true)."</a></td>\n");
+  echo("  <td align=\"left\" class=\"top20sqltext\"><a href=\"javascript:showDetails('".$s['ADDR']."')\"><code>".str_replace("\n","<br>",htmlspecialchars($s['SQL_FULLTEXT']))."</code></a></td>\n");
   echo("</tr>\n");
   $lv++;
   }
@@ -126,18 +128,18 @@ if(!$lv)
 <?php
 flush();
 $sql=<<<EOM
-SELECT SUBSTR(RTRIM(sql_text),1,900) AS "SQL", INVALIDATIONS
+SELECT SQL_FULLTEXT, INVALIDATIONS
   FROM V\$SQLAREA
  WHERE INVALIDATIONS > 10
  ORDER BY INVALIDATIONS DESC
 EOM;
 ?>
-<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Lists SQL queries with most invalidations">
+<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Lists SQL queries with most invalidations" id="top20invalidations">
 <caption>SQL queries with most invalidations</caption>
 <thead>
 <tr>
-  <th>SQL Query</th>
-  <th>Invalidations</th>
+  <th class="top20invcount">Invalidations</th>
+  <th class="top20sqltext">SQL Query</th>
 </tr>
 </thead>
 <tbody>
@@ -155,8 +157,8 @@ while($s = $db->FetchResult())
     $myback = 'td_even';
     }
   echo("<tr class=\"".$myback."\" valign=\"top\">\n");
-  echo("  <td align=\"left\">".wordwrap(htmlspecialchars($s['SQL']),100,'<br> ,',true)."</td>\n");
   echo("  <td align=\"right\">".$SGLFUNC->FormatNumber($s['INVALIDATIONS'])."</td>\n");
+  echo("  <td align=\"left\"><code>".wordwrap(str_replace("\n","<br>",htmlspecialchars($s['SQL_FULLTEXT'])),120,'<br>',TRUE)."</code></td>\n");
   echo("</tr>\n");
   $lv++;
   }

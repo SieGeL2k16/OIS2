@@ -1,8 +1,30 @@
 APPLICATION=Oracle Information Site 2
 
-V2.01:
+V2.02:
 
-30-May-2013 - Updated dbjobs plugin to 2.0.2,  SCHEDULER jobs can be enabled or
+20-Jul-2014 - Updated plugin "Flashback" with new features.
+
+18-Jul-2014 - Moved navigation JS code to separate file
+
+17-Jul-2014 - Added additional search for tnsnames.ora from environment
+              variable "TNS_ADMIN".
+
+            - Updated sgl_functions.class to 0.21
+
+            - Changed UI_THEME define, now this define holds only the name
+              of the subfolder under "css" directory where you have put the
+              theming of jqueryUI. Defaults to "smoothness"
+
+            - Updated jQueryUI to 1.11.0
+
+            - Updated jQuery to 1.11.1
+
+29-Oct-2013 - Added tnsparser.class to allow automatic recognition of all
+              TNS files found on the local database server.
+              NOTE: Searches only on standard path, wich is :
+              $ORACLE_HOME/network/admin/tnsnames.ora
+
+30-May-2013 - Updated dbjobs plugin so that SCHEDULER jobs can be enabled or
               disabled by clicking on the state symbol.
 
             - Updated OCI8 class to 1.04
@@ -14,7 +36,9 @@ V2.01:
 
 22-May-2013 - Updated "Show Processes" plugin to 2.02
 
-15-Feb-2013 - Updated Schemaviewer Plugin to 2.01
+V2.01:
+
+02-Oct-2011 - Public release as 2.01
 
 08-Sep-2011 - Updated jQuery to 1.6.3 and jQueryUI to 1.8.16
 

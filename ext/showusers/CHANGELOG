@@ -1,5 +1,9 @@
 APPLICATION=Show Users Extension
 
+V2.01:
+
+18-Jul-2014 - Added loading indicator for tab switching
+
 V2.00:
 
 30-May-2009 - Initial version of plugin completed.

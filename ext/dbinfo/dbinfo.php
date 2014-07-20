@@ -4,7 +4,7 @@
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (03-Sep-2009)
+ * @version 2.02 (14-Jul-2014)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -18,8 +18,10 @@ $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
 $addHeader = sprintf("<link type=\"text/css\" href=\"%s\" rel=\"stylesheet\" />","dbinfo.css");
 
 // Before calling PrintExtHeader() we first include a jQuery ready() call to our header to get the tabs activated.
-
-$OIS2EXT->Add_JS_Ready_Call('$("#tabs").tabs();');
+$loadtabs=<<<EOM
+\$("#tabs").tabs({beforeLoad: function( event, ui ) { \$(ui.panel).html('Loading...'); }});
+EOM;
+$OIS2EXT->Add_JS_Ready_Call($loadtabs);
 $OIS2EXT->PrintExtHeader($extdata['EXTENSION'],$addHeader);
 ?>
 <div id="page_content">

@@ -14,6 +14,7 @@
 define('IS_EXTENSION' , 1);
 require_once('../../inc/sessionheader.inc.php');
 ?>
+<script type="text/javascript" src="flashback_recyclebin.js"></script>
 <div id="Recycle_Bin">
 <?php
 $rbinstate  = $db->Query("SELECT VALUE FROM V\$PARAMETER WHERE NAME = 'recyclebin'");
@@ -39,7 +40,7 @@ if(!intval($rbininfo['ANZ']))
   }
 ?>
 <br>
-<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of currently connected Oracle processes and sessions">
+<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="List of all objects residing in Recycle Bin">
 <thead><tr>
   <th>Owner</th>
   <th>Recycle bin Name (BIN)<br>Original Name (ORG)</th>
@@ -51,6 +52,7 @@ if(!intval($rbininfo['ANZ']))
   <th>Can<br>Undrop?</th>
   <th>Can<br>Purge?</th>
   <th>Size</th>
+  <th colspan="2">&nbsp;</th>
 </tr></thead>
 <?php
 // Display the contents of the DBA_RECYCLEBIN view:
@@ -96,15 +98,31 @@ while($d = $db->FetchResult())
     }
   echo("<tr class=\"".$cl."\">\n");
   echo("  <td title=\"Owner of object\">".$d['OWNER']."</td>\n");
-  echo("  <td title=\"BIN: Recycle bin name | ORG: Original object name\"><small>BIN:&nbsp;".$d['OBJECT_NAME']."<br>ORG:&nbsp;".$d['ORIGINAL_NAME']."</small></td>\n");
+  printf("  <td title=\"BIN: Recycle bin name | ORG: Original object name\" class=\"rb_title\"><small>BIN:&nbsp;%s</small><br><small>ORG:&nbsp;%s</small></td>\n",$d['OBJECT_NAME'],$d['ORIGINAL_NAME']);
   echo("  <td title=\"Object type\">".$d['TYPE']."</td>\n");
-  echo("  <td title=\"Operation\">".$d['OPERATION']."</td>\n");
+  echo("  <td title=\"Type of operation\">".$d['OPERATION']."</td>\n");
   echo("  <td title=\"Tablespace name\">".$d['TS_NAME']."</td>\n");
   echo("  <td title=\"Date and time of operation\" align=\"left\">".str_replace(" ","<br>",$d['DT'])."</td>\n");
   echo("  <td title=\"System change number (SCN) of the transaction which moved the object to the recycle bin\" align=\"right\">".$d['DROPSCN']."</td>\n");
   echo("  <td title=\"If object can be undropped\" align=\"center\">".$yesno[$d['CU']]."</td>\n");
   echo("  <td title=\"If object can be purged\" align=\"center\">".$yesno[$d['CP']]."</td>\n");
   echo("  <td title=\"Object size\" align=\"right\">".$SGLFUNC->FormatSize($d['ROWSIZE'])."</td>\n");
+  if($d['CU'] == 1)
+    {
+    printf("  <td><img src=\"%sarrow_undo.png\" alt=\"BIN\" title=\"Undrop this object\" class=\"rb_undrop\" id=\"U_%s.%s\"></td>\n",$OIS_IMG,$d['OWNER'],$d['OBJECT_NAME']);
+    }
+  else
+    {
+    printf("  <td><img src=\"%strans.gif\" alt=\"-\"></td>\n",$OIS_IMG);
+    }
+  if($d['CP'] == 1)
+    {
+    printf("  <td><img src=\"%sbin_empty.png\" alt=\"BIN\" title=\"Purge this object\" class=\"rb_purge\" id=\"P_%s.%s\"></td>\n",$OIS_IMG,$d['OWNER'],$d['OBJECT_NAME']);
+    }
+  else
+    {
+    printf("  <td><img src=\"%strans.gif\" alt=\"-\"></td>\n",$OIS_IMG);
+    }
   echo("</tr>\n");
   $lv++;
   }

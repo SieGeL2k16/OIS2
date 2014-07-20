@@ -2,8 +2,7 @@ APPLICATION=DB Jobs Extension
 
 V2.02:
 
-30-May-2013 - DBMS_SCHEDULER jobs can now be enabled/disabled by clicking
-              on the status icon
+18-Jul-2014 - Added Loading indicator for tab switching
 
 V2.01:
 

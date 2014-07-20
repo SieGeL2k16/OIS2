@@ -4,7 +4,7 @@
  * Lists all database users.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (05-Nov-2010)
+ * @version 2.01 (18-Jul-2014)
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * $Id$
@@ -33,7 +33,7 @@ padding-right : 4px;
 </style>
 EOM;
 $js_ready=<<<EOM
-$("#tabs").tabs();
+\$("#tabs").tabs({beforeLoad: function( event, ui ) { \$(ui.panel).html('Loading...'); }});
 $(".uname_catcher").live('click',function() {
   var uid = $(this).attr('id').replace(/(UN_)(.*)/,"$2");
   openPopUp(uid);

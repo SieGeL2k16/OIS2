@@ -5,7 +5,7 @@
  * @package OIS2
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (12-Sep-2009)
+ * @version 2.01 (18-Jul-2014)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -35,7 +35,7 @@ else
   $addon2 = "        CPU_TIME,\n        ELAPSED_TIME,\n";
   }
 $q=<<<EOM
-SELECT  SQL_TEXT,
+SELECT  SQL_FULLTEXT,
         USERNAME,
         DISK_READS_PER_EXEC,
         BUFFER_GETS,
@@ -55,7 +55,7 @@ $addon1
         MODULE,
         ACTION
   FROM  (
-        SELECT  SQL_TEXT,
+        SELECT  SQL_FULLTEXT,
                 B.USERNAME,
                 ROUND((A.DISK_READS/DECODE(A.EXECUTIONS,0,1,A.EXECUTIONS)),2) AS DISK_READS_PER_EXEC,
                 A.DISK_READS,
@@ -85,7 +85,7 @@ $s = $db->QueryHash($q,OCI_ASSOC,0,$sp);
 <table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Displays details for a given SQL query">
 <tr class="td_even" valign="top">
   <td align="right"><b>SQL Query:</b></td>
-  <td align="left"><?php echo(wordwrap($s['SQL_TEXT'],80,'<br>'));?></td>
+  <td align="left"><code><?php echo(str_replace("\n","<br>",htmlspecialchars($s['SQL_FULLTEXT'])));?></code></td>
 </tr>
 <tr class="td_odd" valign="top">
   <td align="right"><b>Schema User:</b></td>
@@ -154,7 +154,7 @@ if($addon1 != '')
 </tr>
 <tr class="td_even" valign="top">
   <td align="right"><b>Action:</b></td>
-  <td align="left"><?php echo($s['RUNTIME_MEM']);?></td>
+  <td align="left"><?php echo($s['ACTION']);?></td>
 </tr>
 </table>
 <br>

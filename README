@@ -1,4 +1,4 @@
-    Oracle Information Site 2.01 - Readme (Last updated on 02-Oct-2011)
+    Oracle Information Site 2.02 - Readme (Last updated on 02-Oct-2011)
 -----------------------------------------------------------------------------
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ OIS 2.xx requires the following software components to work:
 - PHP components: OCI8, SESSION, JSON
 
 - Optional the JPGraph classes (see http://www.aditus.nu/jpgraph/index.php)
+  NOTE: Currently only the 3.x series is correctly supported!
 
 - To connect as SYSDBA/SYSOPER you have to set the PHP init variable
   "oci8.privileged_connect" to "on" (only for PHP 5.2+)
@@ -65,13 +66,6 @@ extracts to an own directory called OIS2.
 Next you have to setup the file "inc/config.inc.php" and modify the contents
 to fit your system setup. Here's a brief description of the available config
 options:
-
-$OIS_DATABASES (ARRAY) - MANDATORY
-
-Enter here all TNS names of the Oracle instances you want to use together
-with OIS2. At least ONE entry is required here, but you can add of course
-as much TNS names as you have Oracle instances. These names are shown on
-the login mask.
 
 
 OIS_INSTALL_PATH (STRING) - MANDATORY
@@ -97,11 +91,17 @@ it's own subdirectory. You have to enter here the name of the root CSS file
 the theme offers, so for the supplied default theme, the contents would look
 like this:
 
-smoothness/jquery-ui-1.8.11.custom.css
+smoothness
 
-This would use the "smoothness" theme and uses the latest 1.8.11 css file the
+This would use the "smoothness" theme and loads all necessary CSS files the
 theme provides.
 
+$OIS_DATABASES (ARRAY) - OPTIONAL
+
+Enter here all TNS names of the Oracle instances you want to use together
+with OIS2. You can keep this array empty, in this case OIS reads the
+tnsnames.ora file from $ORACLE_HOME/network/admin or from the directory
+given by environment variable $TNS_ADMIN.
 
 JPGRAPH_PATH (STRING) - OPTIONAL
 
@@ -183,6 +183,8 @@ the highest times "waiting" on something like latches etc.
 Since V2.01 a new tab is added called "Long Ops". This tab will show long
 running operations from V$SESSION_LONGOPS with TIME_REMAINING > 0. This
 view is refreshed on a 3 second interval.
+User sessions can be killed (if you have the necessary permissions) by
+clicking on the red cross right to the process entry.
 
 --------------------------------------------------------------------------
 * Redo Logs
@@ -246,12 +248,11 @@ If you have any suggestions, bug-reports or improvements for OIS2, feel free
 to contact me on one of the methods listed below:
 
 E-MAIL: php@saschapfalz.de
-   WWW: http://www.saschapfalz.de
-   ICQ: 9691810
+   WWW: http://www.saschapfalz.de/contact.php
 
 Normally I answer to emails in less than 8 hours, if this is not the case I'm
 either very busy or your mail was killed by a spam filter, in this case resend
-your email please.
+your email please or use the contact form on my homepage.
 
 -----------------------------------------------------------------------------
 $Id$

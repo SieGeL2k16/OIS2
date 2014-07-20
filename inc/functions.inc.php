@@ -12,7 +12,7 @@
  * @package OIS2
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.01 (31-Aug-2011)
+ * @version 2.02 (17-Jul-2014)
  * $Id$
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -143,7 +143,9 @@ function Error($errorstring,$target='',$include_header = FALSE)
     echo("<html lang=\"en\">\n");
     echo("<head>\n<title>ERROR OCCURED!</title>\n");
     echo('<link type="text/css" href="css/styles.css" rel="stylesheet" />'."\n");
-    echo('<link type="text/css" href="css/'.UI_THEME.'" rel="stylesheet" />'."\n");
+    echo('<link type="text/css" href="'.OIS_INSTALL_URL.'/css/'.UI_THEME.'/jquery-ui.min.css" rel="stylesheet" />'."\n");
+    echo('<link type="text/css" href="'.OIS_INSTALL_URL.'/css/'.UI_THEME.'/jquery-ui.structure.min.css" rel="stylesheet" />'."\n");
+    echo('<link type="text/css" href="'.OIS_INSTALL_URL.'/css/'.UI_THEME.'/jquery-ui.theme.min.css" rel="stylesheet" />'."\n");
     echo("</head>\n<body>\n");
     }
   echo("<div id=\"informUser\">\n");
@@ -198,7 +200,7 @@ function ReadExtInfo($extdir,$fname)
  * @param array $b And the other to compare the field "MENUNAME".
  * @return integer Return value of strnatcasecmp().
  * @see sessionheader.inc.php
- * @see strnatcasecmp
+ * @see strnatcasecmp()
  */
 function sort_plugins($a,$b)
   {

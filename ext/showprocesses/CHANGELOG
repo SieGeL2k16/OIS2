@@ -1,10 +1,12 @@
 APPLICATION=Processes Extension
 
+V2.03:
+
+18-Jul-2014 - Added loading indicator for tab switching
+
 V2.02:
 
 22-May-2013 - Added possibility to kill a specific session
-
-V2.01:
 
 12-Sep-2011 - Process details now display every column in the V$SESSION
               column, including new fields added in 9i, 10g and 11g.

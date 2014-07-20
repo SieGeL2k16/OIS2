@@ -27,7 +27,10 @@ function openPopUp(sid,serial)
 </script>
 EOM;
 // Now we call the class method "PrintExtHeader()", which dumps out the complete HTML header, so you put your stuff in the <div> </div> part only:
-$OIS2EXT->Add_JS_Ready_Call('$("#tabs").tabs();');
+$loadtabs=<<<EOM
+\$("#tabs").tabs({beforeLoad: function( event, ui ) { \$(ui.panel).html('Loading...'); }});
+EOM;
+$OIS2EXT->Add_JS_Ready_Call($loadtabs);
 $OIS2EXT->PrintExtHeader($extdata['EXTENSION'],$addHeader);
 ?>
 <div id="page_content">

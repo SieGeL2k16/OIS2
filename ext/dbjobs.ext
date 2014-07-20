@@ -1,5 +1,5 @@
 EXTENSION=Database Jobs
 MENUNAME=DB Jobs
-VERSION=2.02
+VERSION=2.01
 AUTHOR=Sascha Pfalz
 SCRIPTNAME=dbjobs.php

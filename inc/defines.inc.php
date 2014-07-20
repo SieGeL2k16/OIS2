@@ -13,7 +13,7 @@
 /**
  * Version of this site.
  */
-define('SITE_VERSION'       , '2.01');
+define('SITE_VERSION'       , '2.02');
 
 /**
  * This define is used to set the maximum possible INTEGER value when binding number values to/from Oracle -> PHP.

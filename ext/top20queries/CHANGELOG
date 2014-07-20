@@ -1,5 +1,13 @@
 APPLICATION=Top 20 Queries Extension
 
+V2.01:
+
+18-Jul-2014 - Added css file "top20queries.css"
+
+            - Changed table layout, SQL is now printed as <code>
+
+            - SQL query is now completly shown, not only the first 1000 chars.
+
 V2.00:
 
 30-May-2009 - Initial version of plugin completed.

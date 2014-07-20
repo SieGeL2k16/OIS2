@@ -4,9 +4,8 @@
  * @package OIS2
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (30-May-2009)
+ * @version 2.02 (17-Jul-2014)
  * $Id$
- * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 /** Make sure that we get noticed about EVERYTHING problematic */
@@ -39,18 +38,54 @@ if(isset($_SERVER['REQUEST_TIME']) && intval($_SERVER['REQUEST_TIME']) > 0)
   }
 else
   {
-  $start_time = $SGLFUNC->getmicrotime();              // Not available, determine now
+  $start_time = $SGLFUNC->getmicrotime();    // Not available, determine now
   }
 $db = new db_oci8;
 /** Load in the configuration and make sure that at least one database is configured: */
 require_once('config.inc.php');
+require_once('tnsparser.class.php');
 if(defined('UI_THEME') == FALSE)
   {
-  die("ERROR: config.inc.php is not correctly configured! Please check your config!");
+  die("ERROR: config.inc.php is not correctly configured! Please check your config! [Missing \"UI_THEME\" define!]");
   }
-if(!count($OIS_DATABASES))
+/*
+ * V2.02: If no TNS names are configured, try to load in tnsnames.ora from either $ORACLE_HOME (Server/client install)
+ *        or from $TNS_ADMIN (Instantclient etc.), complain if none of these environment variables are set.
+ */
+if(empty($OIS_DATABASES) === TRUE)
   {
-  Error('ERROR: No databases configured! Please add at least one TNS Name to the configuration!','',TRUE);
-  exit;
+  $OHOME = getenv('ORACLE_HOME');
+  if($OHOME != '')
+    {
+    $TNSFILE = $SGLFUNC->MergePath($OHOME,'network/admin/tnsnames.ora');
+    }
+  else
+    {
+    $TNSHOME = getenv('TNS_ADMIN');
+    if($TNSHOME == '')
+      {
+      Error('NO Databases defined and also neither $ORACLE_HOME nor $TNS_ADMIN is not set?!','',TRUE);
+      exit;
+      }
+    $TNSFILE = $SGLFUNC->MergePath($TNSHOME,'tnsnames.ora');
+    }
+  try
+    {
+    $TNS    = new TNSParser();
+    $dummy  = $TNS->ParseTNS($TNSFILE);
+    foreach($dummy AS $TNAME => $TDATA)
+      {
+      $OIS_DATABASES[]=$TNAME;
+      }
+    }
+  catch(Exception $e)
+    {
+    Error('TNS could not be read: '.$e->getmessage(),'',TRUE);
+    exit;
+    }
+  }
+else
+  {
+  sort($OIS_DATABASES);
   }
 ?>

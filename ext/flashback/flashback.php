@@ -17,10 +17,10 @@ require_once('../../inc/sessionheader.inc.php');
 // Retrieve the meta data for our extension:
 $extdata = $OIS2EXT->GetExtInfo($OIS_EXTENSIONS);
 $addHeader = "<link type=\"text/css\" href=\"flashback.css\" rel=\"stylesheet\" />";
-
-// Before calling PrintExtHeader() we first include a jQuery ready() call to our header to get the tabs activated.
-
-$OIS2EXT->Add_JS_Ready_Call('$("#tabs").tabs();');
+$loadtabs=<<<EOM
+\$("#tabs").tabs({beforeLoad: function( event, ui ) { \$(ui.panel).html('Loading...'); }});
+EOM;
+$OIS2EXT->Add_JS_Ready_Call($loadtabs);
 $OIS2EXT->PrintExtHeader($extdata['EXTENSION'],$addHeader);
 ?>
 <div id="page_content">

@@ -6,10 +6,12 @@
  * Requires dbdefs.inc.php for global access data (user,pw,host,appname)
  * @package db_oci8
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 1.02 (08-Dec-2011)
+ * @version 1.05 (07-Jan-2013)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * @filesource
+ *
+ * 07-JAN-2013 - Added Hostname detection via posix_uname() or env var HOSTNAME - used for cli based scripts
  */
 
 /**
@@ -23,7 +25,7 @@ class db_oci8
    * @private
    * @var string
    */
-  private $classversion = '1.04';
+  private $classversion = '1.05';
 
   /**
    * Internal connection handle.
@@ -718,11 +720,11 @@ class db_oci8
     $this->querycounter++;
     if(StriStr(substr($querystring,0,6),"SELECT"))
       {
-      $resarr = oci_fetch_array($stmt,$resflag+OCI_RETURN_NULLS+OCI_RETURN_LOBS);
+      $resarr = @oci_fetch_array($stmt,$resflag+OCI_RETURN_NULLS+OCI_RETURN_LOBS);
       }
     else
       {
-      $resarr = 0;
+      $res = 0;
       }
     $this->AffectedRows = @oci_num_rows($stmt);
     @oci_free_statement($stmt);
@@ -1516,7 +1518,15 @@ class db_oci8
     $raddr    = (isset($_SERVER['REMOTE_ADDR']) == TRUE) ? $_SERVER['REMOTE_ADDR'] : '';
     if($sname == '')
       {
-      $server = 'n/a';
+      if(function_exists('posix_uname') === TRUE)
+        {
+        $pos = posix_uname();
+        $server = $pos['nodename'];
+        }
+      else
+        {
+        $server = (isset($_ENV['HOSTNAME']) === TRUE) ? $_ENV['HOSTNAME'] : 'n/a';
+        }
       }
     else
       {

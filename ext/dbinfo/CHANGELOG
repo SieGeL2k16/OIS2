@@ -1,5 +1,10 @@
 APPLICATION=DB-Info Extension
 
+V2.02:
+
+18-Jul-2014 - Added loading indicator for tab switching
+
+
 V2.01:
 
 31-Aug-2011 - Added new tab called "Registry" displaying the views DBA_REGISTRY

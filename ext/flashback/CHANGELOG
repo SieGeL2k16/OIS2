@@ -2,7 +2,10 @@ APPLICATION=Flashback Extension
 
 V2.01:
 
-19-Jul-2011 - Moved CSS from global to local css file "flashback.css".
+20-Jul-2014 - Added possibility to either "UNDROP" or "PURGE" specific objects
+              from the recycle bin.
+
+19-Jul-2014 - Moved CSS from global to local css file "flashback.css".
 
 V2.00:
 

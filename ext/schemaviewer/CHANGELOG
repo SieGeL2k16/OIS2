@@ -1,9 +1,4 @@
-APPLICATION=Schema Viewer Extension
-
-V2.01:
-
-15-Feb-2013 - Schema Overview button is now functional and displays the total
-              size of the selected schema.
+APPLICATION=Rollback Segments Extension
 
 V2.00:
 

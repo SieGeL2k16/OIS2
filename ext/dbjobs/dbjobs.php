@@ -24,6 +24,7 @@ $OIS2EXT->PrintExtHeader($extdata['EXTENSION']);
 $(document).ready(function() {
   $( "#tabs" ).tabs({
     beforeLoad: function( event, ui ) {
+      $(ui.panel).html('Loading...');
       ui.jqXHR.error(function() {
         ui.panel.html("Couldn't load this tab?");
       });

@@ -3,9 +3,8 @@
  * Login page for OIS2.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (21-Mar-2009)
+ * @version 2.02 (17-Jul-2014)
  * $Id$
- * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 require_once('inc/nocache.inc.php');
@@ -64,6 +63,7 @@ $(document).ready(function() {
       return(false);
       }
   });
+  $("#username").focus();
 });
 </script>
 </head>
@@ -78,7 +78,7 @@ if(function_exists('json_encode')==FALSE)
 ?>
 <div id="login_mask">
 <h1>Welcome to <?php echo(SITE_TITLE);?></h1>
-<small>Written 2009-2011 by <a href="http://www.saschapfalz.de/" target="_blank" title="Click to visit my homepage to get new updates">Sascha 'SieGeL' Pfalz</a></small><br>
+<small>Written 2009-2014 by <a href="http://www.saschapfalz.de/" target="_blank" title="Click to visit my homepage to get new updates">Sascha 'SieGeL' Pfalz</a></small><br>
 <br>
 <form method="post" action="login_check.php" id="login_form">
 <table summary="Login mask" class="tborder">
@@ -95,7 +95,6 @@ if(function_exists('json_encode')==FALSE)
   <td><label for="database">Database:</label></td>
   <td><select name="DATABASE" id="database" size="1">
 <?php
-sort($OIS_DATABASES);
 for($i = 0; $i < count($OIS_DATABASES); $i++)
   {
   if($OIS_DATABASES[$i] == $tname)
@@ -137,8 +136,5 @@ if($lerr)
 <?php
 require_once('inc/footer.inc.php');
 ?>
-<script language="Javascript" type="text/javascript">
-document.getElementById('username').focus();
-</script>
 </body>
 </html>

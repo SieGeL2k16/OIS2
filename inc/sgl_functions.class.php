@@ -3,10 +3,10 @@
  * This class provides a bunch of useful methods for every-day coding.
  * NOTE: This class works ONLY (!) with PHP 5+ !!
  * @package sgl_functions
- * @version 0.20 (03-Jan-2013)
+ * @version 0.21 (17-Oct-2013)
  * $Id$
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @filesource
+ * V0.21 (17-Oct-2013) - Added method "rrmdir()" to recursively remove a directory with contents
  */
 
 /**
@@ -20,7 +20,7 @@ class sgl_functions
    * @private
    * @var string
    */
-  private $classversion = '0.19';
+  private $classversion = '0.21';
 
   /**
    * Windows timestamp correction value.
@@ -192,13 +192,14 @@ class sgl_functions
   /**
    * Recursive reading of a directory.
    * @param string $path The directory to read.
+   * @param string $pattern Optional preg compatible regular expression to check filenames against (without delimiter!)
    * @return array A sorted array of all found files.
    */
-  public function walk_dir($path)
+  public function walk_dir($path, $pattern = '')
     {
+    $retval = array();
     if ($dir = @opendir($path))
       {
-      $retval = array();
       while (false !== ($file = @readdir($dir)))
         {
         if ($file[0]==".")
@@ -207,18 +208,62 @@ class sgl_functions
           }
         if (is_dir($path."/".$file))
           {
-          $retval = array_merge($retval,$this->walk_dir($path."/".$file));
+          $retval = array_merge($retval,$this->walk_dir($path."/".$file,$pattern));
           }
-        else if (is_file($path."/".$file))
+        else if (is_file($path."/".$file)===TRUE)
           {
-          $retval[]=$path."/".$file;
+          if($pattern == '')
+            {
+            $retval[]=$path."/".$file;
+            }
+          else
+            {
+            if(preg_match('/'.$pattern.'/',$file))
+              {
+              $retval[]=$path."/".$file;
+              }
+            }
           }
         }
       @closedir($dir);
       }
-    sort($retval);
+    if(empty($retval) !== FALSE)
+      {
+      sort($retval);
+      }
     return $retval;
     }
+
+  /**
+   * Recursively remove a directory.
+   * @param string $path The directory to remove.
+   */
+  public function rrmdir($path)
+    {
+    $retval = array();
+    if($dir = opendir($path))
+      {
+      while(false !== ($file = @readdir($dir)))
+        {
+        if($file == '.' || $file == '..')
+          {
+          continue;
+          }
+        $chk = $path.DIRECTORY_SEPARATOR.$file;
+        if(is_dir($chk)===TRUE)
+          {
+          $this->rrmdir($chk);
+          }
+        else if(is_file($chk) === TRUE)
+          {
+          unlink($chk);
+          }
+        }
+      closedir($dir);
+      }
+    rmdir($path);
+    }
+
 
   /**
    * Function retrieves current limit in bytes for uploading files.
@@ -707,7 +752,7 @@ class sgl_functions
     {
     if(sgl_functions::$logfile == '')
       {
-      error_log($lstr,0);
+      error_log("SGLFUNC: ".$lstr,0);
       }
     else
       {

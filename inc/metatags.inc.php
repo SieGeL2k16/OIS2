@@ -4,9 +4,8 @@
  * @package OIS2
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (07-Nov-2010)
+ * @version 2.02 (17-Jul-2014)
  * $Id$
- * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 ?>
@@ -26,9 +25,10 @@
 <meta name="Publisher-Email" content="php@saschapfalz.de" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo(OIS_INSTALL_URL);?>/css/styles.css" />
 <link rel="stylesheet" type="text/css" media="print" href="<?php echo(OIS_INSTALL_URL);?>/css/styles_print.css" />
-<link rel="stylesheet" type="text/css" href="css/<?php echo(UI_THEME);?>" />
 <link rel="shortcut icon" href="<?php echo(OIS_INSTALL_URL);?>/favicon.ico" />
-<link type="text/css" href="<?php echo(OIS_INSTALL_URL);?>/css/<?php echo(UI_THEME);?>" rel="stylesheet" />
+<link type="text/css" href="<?php echo(OIS_INSTALL_URL);?>/css/<?php echo(UI_THEME);?>/jquery-ui.min.css" rel="stylesheet" />
+<link type="text/css" href="<?php echo(OIS_INSTALL_URL);?>/css/<?php echo(UI_THEME);?>/jquery-ui.structure.min.css" rel="stylesheet" />
+<link type="text/css" href="<?php echo(OIS_INSTALL_URL);?>/css/<?php echo(UI_THEME);?>/jquery-ui.theme.min.css" rel="stylesheet" />
 <link rel="author" title="Contact" href="mailto:php@saschapfalz.de?subject=OIS2" />
 <script language="Javascript" type="text/javascript">
 window.defaultStatus=document.title;
@@ -36,3 +36,4 @@ window.defaultStatus=document.title;
 <script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo(OIS_INSTALL_URL);?>/js/navigation.js"></script>
