@@ -37,7 +37,6 @@ switch($MODE)
 
   case  'P':
         $SQL = sprintf("PURGE %s %s.\"%s\"",$SGLFUNC->GetRequestParam('TTYPE'),$SGLFUNC->GetRequestParam('OWNER'),$SGLFUNC->GetRequestParam('OBJ'));
-        error_log($SQL,0);
         $rc  = $db->Query($SQL,OCI_ASSOC,1);
         if(is_array($rc) === false)
           {
