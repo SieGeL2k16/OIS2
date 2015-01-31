@@ -1,19 +1,16 @@
 <?php
 /**
  * All defines are stored here.
- * @package OIS2
- * @subpackage Includes
+ * @package OIS2\Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (30-May-2009)
- * $Id$
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 /**
  * Version of this site.
  */
-define('SITE_VERSION'       , '2.02');
+define('SITE_VERSION'       , '2.03');
 
 /**
  * This define is used to set the maximum possible INTEGER value when binding number values to/from Oracle -> PHP.

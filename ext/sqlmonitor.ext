@@ -1,0 +1,5 @@
+EXTENSION=SQL Monitor provides real-time monitoring of SQL statements
+MENUNAME=SQL Monitor
+VERSION=0.1
+AUTHOR=Sascha Pfalz
+SCRIPTNAME=sqlmonitor.php

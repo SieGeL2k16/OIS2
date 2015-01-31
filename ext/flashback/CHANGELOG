@@ -2,6 +2,9 @@ APPLICATION=Flashback Extension
 
 V2.01:
 
+21-Jul-2014 - Added possibility to purge DBA_RECYCLEBIN on Recyclebin page.
+              NOTE: This requires SYSDBA privileges!
+
 20-Jul-2014 - Added possibility to either "UNDROP" or "PURGE" specific objects
               from the recycle bin.
 

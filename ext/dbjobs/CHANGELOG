@@ -2,6 +2,11 @@ APPLICATION=DB Jobs Extension
 
 V2.02:
 
+21-Jul-2014 - Fixed error handling, now every Oracle error will be displayed
+              to the caller instead of silently ignoring it.
+
+            - Added logging whenever one either enable or disable jobs.
+
 18-Jul-2014 - Added Loading indicator for tab switching
 
 V2.01:

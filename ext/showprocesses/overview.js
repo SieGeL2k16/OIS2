@@ -20,7 +20,15 @@ $(".killsess").click(function() {
       data: {"SID":mysid,"SERIAL":myser},
       success: function(json)
         {
-        reloadTab(0);
+        if(json.ERROR)
+          {
+          alert(json.ERROR);
+          }
+        else
+          {
+          var current_index = $("#tabs").tabs("option","active");
+          $("#tabs").tabs('load',current_index);
+          }
         },
       error: function(XMLHttpRequest, textStatus, errorThrow)
         {

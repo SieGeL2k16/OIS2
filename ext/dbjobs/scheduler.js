@@ -16,7 +16,14 @@ $(document).ready(function() {
       data: {"MODE":"TOGGLE","JOB":jobref,"NEWSTATE":newstate},
       success: function(json)
         {
-        reloadTab(1);
+        if(json.ERROR)
+          {
+          alert(json.ERROR);
+          }
+        else
+          {
+          reloadTab(1);
+          }
         },
       error: function(XMLHttpRequest, textStatus, errorThrow)
         {

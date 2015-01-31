@@ -13,7 +13,7 @@
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.02 (17-Jul-2014)
- * $Id$
+ * $Id: functions.inc.php 10 2014-07-20 09:43:24Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -205,5 +205,16 @@ function ReadExtInfo($extdir,$fname)
 function sort_plugins($a,$b)
   {
   return(strnatcasecmp($a['MENUNAME'],$b['MENUNAME']));
+  }
+
+/**
+ * Logs to defined logfile, else skips immediatly.
+ * @param $lstr The logging text.
+ * @since 2.02
+ */
+function WriteLog($lstr)
+  {
+  if(!defined('OIS_LOGFILE') || OIS_LOGFILE == '') return;
+  return(@error_log(sprintf("[%02d-%3s-%04d %s][%15s] %s\n",date('d'),date('M'),date('Y'),date('H:i:s'),sgl_functions::getClientIp(),$lstr),3,OIS_LOGFILE));
   }
 ?>

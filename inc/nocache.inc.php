@@ -1,11 +1,9 @@
 <?php
 /**
  * General header, includes all other php files.
- * @package OIS2
- * @subpackage Includes
+ * @package OIS2\Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.02 (17-Jul-2014)
- * $Id$
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 /** Make sure that we get noticed about EVERYTHING problematic */
@@ -48,6 +46,26 @@ if(defined('UI_THEME') == FALSE)
   {
   die("ERROR: config.inc.php is not correctly configured! Please check your config! [Missing \"UI_THEME\" define!]");
   }
+
+// V2.02: Make sure that logfile is writeable (if configured)
+if(defined('OIS_LOGFILE') == TRUE && OIS_LOGFILE != '')
+  {
+  if(@file_exists(OIS_LOGFILE) === FALSE)
+    {
+    if(@touch(OIS_LOGFILE) === FALSE)
+      {
+      die("ERROR: \"OIS_LOGFILE\" specifies a logfile which OIS2 cannot write to - please check permissions!");
+      }
+    }
+  else
+    {
+    if(@is_writable(OIS_LOGFILE) === FALSE)
+      {
+      die("ERROR: Unable to write to existing logfile as defined by \"OIS_LOGFILE\" - Please check permissions!");
+      }
+    }
+  }
+
 /*
  * V2.02: If no TNS names are configured, try to load in tnsnames.ora from either $ORACLE_HOME (Server/client install)
  *        or from $TNS_ADMIN (Instantclient etc.), complain if none of these environment variables are set.
@@ -88,4 +106,15 @@ else
   {
   sort($OIS_DATABASES);
   }
+
+/* V2.03: Check if OIS_INSTALL_PATH is set. If not, we try to build that on our own */
+if(defined('OIS_INSTALL_PATH') === FALSE || OIS_INSTALL_PATH == '')
+  {
+  define('OIS_INSTALL_PATH', preg_replace("/(.*)(\/inc)$/","$1",dirname(__FILE__)));
+  }
+
+/* V2.03: Check if OIS_INSTALL_URL is set. If not, we try to build that on our own */
+
+
+
 ?>

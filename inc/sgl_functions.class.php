@@ -4,7 +4,7 @@
  * NOTE: This class works ONLY (!) with PHP 5+ !!
  * @package sgl_functions
  * @version 0.21 (17-Oct-2013)
- * $Id$
+ * $Id: sgl_functions.class.php 10 2014-07-20 09:43:24Z siegel $
  * @license http://opensource.org/licenses/bsd-license.php BSD License
  * V0.21 (17-Oct-2013) - Added method "rrmdir()" to recursively remove a directory with contents
  */

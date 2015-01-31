@@ -6,7 +6,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (26-Dec-2010)
- * $Id$
+ * $Id: viewer_details.php 9 2013-07-20 06:34:13Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

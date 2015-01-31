@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.01 (19-Jul-2011)
- * $Id$
+ * $Id: flashback_overview.php 3 2011-07-19 21:28:39Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

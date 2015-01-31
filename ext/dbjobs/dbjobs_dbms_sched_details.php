@@ -5,7 +5,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.01 (02-Oct-2011)
- * $Id$
+ * $Id: dbjobs_dbms_sched_details.php 9 2013-07-20 06:34:13Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

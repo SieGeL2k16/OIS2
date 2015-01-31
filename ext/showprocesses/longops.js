@@ -1,6 +1,6 @@
 ﻿/*
  * Ajax for Long Operations display in extension "show Processes"
- * $Id$
+ * $Id: longops.js 9 2013-07-20 06:34:13Z siegel $
  */
 function updateLO()
   {

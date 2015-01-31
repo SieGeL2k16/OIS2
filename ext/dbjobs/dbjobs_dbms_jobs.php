@@ -6,7 +6,7 @@
  * @subpackage Plugin
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (07-Sep-2009)
- * $Id$
+ * $Id: dbjobs_dbms_jobs.php 6 2011-10-02 08:42:21Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

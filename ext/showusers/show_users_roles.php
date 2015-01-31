@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (15-Aug-2010)
- * $Id$
+ * $Id: show_users_roles.php 2 2011-06-30 18:10:40Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */

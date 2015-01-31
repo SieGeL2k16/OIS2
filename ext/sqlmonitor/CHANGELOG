@@ -1,0 +1,7 @@
+APPLICATION=SQL Monitor
+
+V0.1:
+
+21-Jul-2014 - First version lists all currently executed SQL statements with
+              a two second interval. More to come.
+-----------------------------------------------------------------------------

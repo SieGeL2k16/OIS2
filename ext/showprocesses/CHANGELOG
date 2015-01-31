@@ -2,6 +2,8 @@ APPLICATION=Processes Extension
 
 V2.03:
 
+21-Jul-2014 - Added logging whenever one kills a session
+
 18-Jul-2014 - Added loading indicator for tab switching
 
 V2.02:

@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.01 (12-Sep-2011)
- * $Id$
+ * $Id: command_list.inc.php 5 2011-09-12 20:17:05Z siegel $
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 $cmdarray = array();

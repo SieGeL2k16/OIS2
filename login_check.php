@@ -6,7 +6,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (28-Mar-2009)
- * $Id$
+ * $Id: login_check.php 2 2011-06-30 18:10:40Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -19,6 +19,7 @@ $conntype = (isset($_POST['CONNTYPE'])) ? intval($_POST['CONNTYPE']) : 0;
 
 if($uname == '')
   {
+  WriteLog("LOGIN_CHECK: Empty username provided?");
   header('Location:index.php?LERR=1');
   exit;
   }
@@ -34,6 +35,7 @@ if(!$rc)
   $reason['uname'] =  $uname;
   $reason['ctype']  = $conntype;
   $data = Base64_Encode(Serialize($reason));
+  WriteLog(sprintf("LOGIN_CHECK: \"%s@%s\": %s",$uname,$tnsname,$reason['msg']));
   header('Location:index.php?LERR=2&D='.$data);
   exit;
   }
@@ -85,6 +87,6 @@ $_SESSION['CONNTYPE']   = $conntype;
 // We set here a cookie with selection of Username + TNSName, so index.php can use this to prefill the form.
 
 @setCookie('OIS2_LOGIN',sprintf("%s|%s",$uname,$tnsname));
-
+WriteLog(sprintf("LOGIN_CHECK: User \"%s\" successfully logged in to DB \"%s\"",$uname,$tnsname));
 header('Location:mainindex.php');
 ?>

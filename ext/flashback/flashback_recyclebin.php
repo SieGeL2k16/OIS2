@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.01 (19-Jul-2011)
- * $Id$
+ * $Id: flashback_recyclebin.php 10 2014-07-20 09:43:24Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
@@ -21,7 +21,7 @@ $rbinstate  = $db->Query("SELECT VALUE FROM V\$PARAMETER WHERE NAME = 'recyclebi
 $rbininfo   = $db->Query("SELECT COUNT(*) AS ANZ, TO_CHAR(MIN(TO_DATE(CREATETIME,'YYYY-MM-DD:HH24:MI:SS')),'DD-Mon-YYYY HH24:MI:SS') AS MINCD,TO_CHAR(MAX(TO_DATE(CREATETIME,'YYYY-MM-DD:HH24:MI:SS')),'DD-Mon-YYYY HH24:MI:SS') AS MAXCD FROM DBA_RECYCLEBIN");
 if(intval($rbininfo['ANZ']))
   {
-  $info = sprintf("Recycle bin contains <b>%s</b> entries covering from <b>%s</b> until <b>%s</b><br>",$SGLFUNC->FormatNumber($rbininfo['ANZ']),$rbininfo['MINCD'],$rbininfo['MAXCD']);
+  $info = sprintf("Recycle bin contains <b>%s</b> entries covering from <b>%s</b> until <b>%s</b>&nbsp;&nbsp;<input type=\"button\" id=\"rb_purge_all\" value=\"Empty Recyclebin\"><br>",$SGLFUNC->FormatNumber($rbininfo['ANZ']),$rbininfo['MINCD'],$rbininfo['MAXCD']);
   }
 else
   {

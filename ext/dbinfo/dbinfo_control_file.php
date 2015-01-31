@@ -5,7 +5,7 @@
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.00 (03-Aug-2010)
- * $Id$
+ * $Id: dbinfo_control_file.php 3 2011-07-19 21:28:39Z siegel $
  * @filesource
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @see dbinfo.php
