@@ -24,6 +24,10 @@ div.clear {clear: both;height: 0px;border: 0px;font-size: 0px;line-height: 0px;}
 /* Style for the footer  */
 
 #page_footer { width: 100%;border-top: 1px solid #000000;margin-top: 20px;margin-bottom: 10px;font-size: 10px;z-index: 1;}
+#tbl_footer { width:100%;}
+.tbl_footer_l { width:40%; text-align:left;}
+.tbl_footer_m { width:20%; text-align:center;}
+.tbl_footer_r { width:40%; text-align:right;}
 
 /* Style for the navigation div */
 

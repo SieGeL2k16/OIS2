@@ -3,9 +3,7 @@
  * Navigation of OIS2.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (30-May-2009)
- * $Id: navigation.inc.php 10 2014-07-20 09:43:24Z siegel $
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 if(!defined('NAV_OVERRIDE_FILE') || NAV_OVERRIDE_FILE == '')
@@ -49,7 +47,7 @@ foreach($GLOBALS['OIS_EXTENSIONS'] AS $extname => $metadata)
 <br>
 <div style="margin-left: 20px">
 Refresh:<br>
-<form method="GET" id="form_refresh" action="">
+<form method="GET" id="form_refresh" action="<?php echo($_SERVER['SCRIPT_NAME']);?>">
 <select name="REFRESH" id="refresh" size="1">
   <option value="0"  >No refresh</option>
   <option value="10" >10 Seconds</option>

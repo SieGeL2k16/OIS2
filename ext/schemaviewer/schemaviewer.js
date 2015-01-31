@@ -56,7 +56,7 @@ $(document).ready(function() {
         {
         if(json.length > 0)
           {
-          var buffer = '<table summary="List of objects" class="datatable" >';
+          var buffer = '<table class="datatable" >';
           buffer+='<thead><tr>';
           buffer+='<th>Object name</th>';
           buffer+='<th>Object type</th>';
@@ -96,10 +96,10 @@ $(document).ready(function() {
         }
       });
   });
-  $(".obj_name").live('mouseover',function(e){
+  $(document).on('mouseover',".obj_name",function(e){
     $(this).css('cursor','pointer');
   });
-  $(".obj_name").live('click',function(e){
+  $(document).on('click',".obj_name",function(e){
     var ismeta  = parseInt($("#has_metadata").val());
     if(!ismeta)
       {

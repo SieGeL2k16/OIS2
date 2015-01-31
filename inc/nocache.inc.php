@@ -1,6 +1,7 @@
 <?php
 /**
  * General header, includes all other php files.
+ * We do here the setup for OIS, goal is to remove dependency of config.inc.php file.
  * @package OIS2\Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
  * @version 2.03 (31-Jan-2015)
@@ -24,12 +25,16 @@ if(!defined('NO_CONTENT_TYPE') || NO_CONTENT_TYPE != 1)
     header("Cache-Control: private");
     }
   }
+
 require_once('defines.inc.php');
 require_once('sgl_functions.class.php');
-$oldloc = setLocale(LC_ALL,'en_US');
-$SGLFUNC = new sgl_functions();
 require_once('functions.inc.php');
 require_once('db_oci8.class.php');
+require_once('tnsparser.class.php');
+
+$oldloc = setLocale(LC_ALL,'en_US');
+$SGLFUNC = new sgl_functions();
+
 if(isset($_SERVER['REQUEST_TIME']) && intval($_SERVER['REQUEST_TIME']) > 0)
   {
   $start_time = $_SERVER['REQUEST_TIME'];    // PHP5 sets this
@@ -39,12 +44,16 @@ else
   $start_time = $SGLFUNC->getmicrotime();    // Not available, determine now
   }
 $db = new db_oci8;
-/** Load in the configuration and make sure that at least one database is configured: */
-require_once('config.inc.php');
-require_once('tnsparser.class.php');
+
+$OIS_DATABASES = array();
+
+/** Load in optional configuration file */
+@include_once('config.inc.php');
+
 if(defined('UI_THEME') == FALSE)
   {
-  die("ERROR: config.inc.php is not correctly configured! Please check your config! [Missing \"UI_THEME\" define!]");
+  // V2.03: Setup the UI_THEME define to "smoothness" per default.
+  define('UI_THEME' , 'smoothness');
   }
 
 // V2.02: Make sure that logfile is writeable (if configured)
@@ -108,13 +117,14 @@ else
   }
 
 /* V2.03: Check if OIS_INSTALL_PATH is set. If not, we try to build that on our own */
-if(defined('OIS_INSTALL_PATH') === FALSE || OIS_INSTALL_PATH == '')
+if(defined('OIS_INSTALL_PATH') === FALSE)
   {
   define('OIS_INSTALL_PATH', preg_replace("/(.*)(\/inc)$/","$1",dirname(__FILE__)));
   }
 
 /* V2.03: Check if OIS_INSTALL_URL is set. If not, we try to build that on our own */
-
-
-
+if(defined('OIS_INSTALL_URL') === FALSE)
+  {
+  define('OIS_INSTALL_URL', preg_replace("/(.*)(\/ext\/.*)$/","$1",dirname($_SERVER['SCRIPT_NAME'])));
+  }
 ?>

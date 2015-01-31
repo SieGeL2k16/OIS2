@@ -1,16 +1,13 @@
 <?php
 /**
  * Session include file.
- * Initializes session and loads in the global nocache.inc.php file afterwards.
- * @package OIS2
+ * Initializes session and prepares environment.
+ * @package OIS2\Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (29-Mar-2009)
- * $Id: sessionheader.inc.php 2 2011-06-30 18:10:40Z siegel $
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
-require_once('defines.inc.php');
-require_once('config.inc.php');
+require_once('nocache.inc.php');
 @session_name(SESSIONNAME);
 @session_start();
 if(isset($_SESSION['DBUSER']) == false || $_SESSION['DBUSER'] == '')
@@ -18,9 +15,6 @@ if(isset($_SESSION['DBUSER']) == false || $_SESSION['DBUSER'] == '')
   header('Location:'.OIS_INSTALL_URL.'/index.php');
   exit;
   }
-
-// Session is initialized, now load in the nocache.inc.php script to have everything in place:
-require_once('nocache.inc.php');
 
 // And perform the connection to the database:
 $db->Connect($_SESSION['DBUSER'],$_SESSION['DBPASS'],$_SESSION['TNSNAME'],1,'',$_SESSION['CONNTYPE']);

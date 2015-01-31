@@ -2,13 +2,10 @@
 /**
  * Extension: Database Informations.
  * Displays SGA usage informations of the active instance.
- * @package OIS2
+ * @package OIS2\Extension\DBInfo
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (05-Sep-2009)
- * $Id: dbinfo_sga.php 2 2011-06-30 18:10:40Z siegel $
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @see dbinfo.php
  */
 /**
  */
@@ -32,9 +29,9 @@ else
   $pic_x = 10;
   $pic_y = 150;
   }
-echo("<img src=\"".$img."\" width=\"".$pic_x."\" height=\"".$pic_y."\" border=\"0\" class=\"graph_sga\" alt=\"SGA Overview\">\n");
+echo("<img src=\"".$img."\" width=\"".$pic_x."\" height=\"".$pic_y."\" class=\"graph_sga\" alt=\"SGA Overview\">\n");
 ?>
-<table cellspacing="1" cellpadding="4" border="0" id="sga_mem" class="datatable" summary="SGA Memory allocation">
+<table id="sga_mem" class="datatable">
 <caption>SGA Memory</caption>
 <thead><tr>
   <th>SGA-Segment</th>
@@ -53,8 +50,8 @@ while($d = $db->FetchResult())
   if($lv % 2) $myback = 'td_even';
   else $myback = 'td_odd';
   echo("<tbody><tr class=\"".$myback."\">\n");
-  echo("  <td align=\"left\">".$d['NAME']."</td>\n");
-  echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['VALUE'])."</td>\n");
+  echo("  <td class=\"td_txt_l\">".$d['NAME']."</td>\n");
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['VALUE'])."</td>\n");
   echo("</tr></tbody>\n");
   $lv++;
   $totalmem+=$d['VALUE'];
@@ -62,8 +59,8 @@ while($d = $db->FetchResult())
 if($lv % 2) $myback = 'td_even';
 else $myback = 'td_odd';
 echo("<tbody><tr class=\"".$myback."\">\n");
-echo("  <td align=\"left\">SGA total:</td>\n");
-echo("  <td align=\"right\">".$SGLFUNC->FormatSize($totalmem)."</td>\n");
+echo("  <td class=\"td_txt_l\">SGA total:</td>\n");
+echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($totalmem)."</td>\n");
 echo("</tr></tbody>\n");
 $db->FreeResult();
 ?>
@@ -82,9 +79,9 @@ else
   $pic_x = 10;
   $pic_y = 150;
   }
-echo("<img src=\"".$img."\" width=\"".$pic_x."\" height=\"".$pic_y."\" border=\"0\" class=\"graph_sga\" alt=\"Free SGA Memory\">\n");
+echo("<img src=\"".$img."\" width=\"".$pic_x."\" height=\"".$pic_y."\" class=\"graph_sga\" alt=\"Free SGA Memory\">\n");
 ?>
-<table cellspacing="1" cellpadding="4" border="0" id="sga_free_mem" class="datatable" summary="Free SGA Memory">
+<table id="sga_free_mem" class="datatable">
 <caption>Free SGA Memory</caption>
 <thead><tr>
   <th>SGA-Segment</th>
@@ -103,8 +100,8 @@ while($d = $db->FetchResult())
   if($lv % 2) $myback = 'td_even';
   else $myback = 'td_odd';
   echo("<tbody><tr class=\"".$myback."\">\n");
-  echo("  <td align=\"left\">".$d['POOL']."</td>\n");
-  echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['BYTES'])."</td>\n");
+  echo("  <td class=\"td_txt_l\">".$d['POOL']."</td>\n");
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['BYTES'])."</td>\n");
   echo("</tr></tbody>\n");
   $lv++;
   $totalmem+=$d['BYTES'];
@@ -134,7 +131,7 @@ if(intval($data['VERSION']) >= 9)
   {
   $db->QueryResult("SELECT COMPONENT,CURRENT_SIZE,MIN_SIZE,MAX_SIZE,OPER_COUNT,LAST_OPER_TYPE,LAST_OPER_MODE,LAST_OPER_TIME,GRANULE_SIZE FROM V\$SGA_DYNAMIC_COMPONENTS");
   echo<<<EOM
-<table cellspacing="1" cellpadding="4" border="0" id="sga_dynamic" class="datatable" summary="Dynamic SGA Components">
+<table id="sga_dynamic" class="datatable">
 <caption>Dynamic SGA components:</caption>
 <thead><tr>
   <th>Component</th>
@@ -159,12 +156,12 @@ EOM;
       }
     echo("<tbody><tr class=\"".$myback."\">\n");
     echo("  <td>".$d['COMPONENT']."</td>\n");
-    echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['CURRENT_SIZE'])."</td>\n");
-    echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['MIN_SIZE'])."</td>\n");
-    echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['MAX_SIZE'])."</td>\n");
-    echo("  <td align=\"center\">".$d['OPER_COUNT']."</td>\n");
-    echo("  <td align=\"center\">".(isset($d['OPER_TYPE']) ? $d['OPER_TYPE'] : '---')." / ".(isset($d['OPER_MODE']) ? $d['OPER_MODE'] : '---')."</td>\n");
-    echo("  <td align=\"right\">".$SGLFUNC->FormatSize($d['GRANULE_SIZE'])."</td>\n");
+    echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['CURRENT_SIZE'])."</td>\n");
+    echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['MIN_SIZE'])."</td>\n");
+    echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['MAX_SIZE'])."</td>\n");
+    echo("  <td class=\"td_txt_c\">".$d['OPER_COUNT']."</td>\n");
+    echo("  <td class=\"td_txt_c\">".(isset($d['OPER_TYPE']) ? $d['OPER_TYPE'] : '---')." / ".(isset($d['OPER_MODE']) ? $d['OPER_MODE'] : '---')."</td>\n");
+    echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatSize($d['GRANULE_SIZE'])."</td>\n");
     echo("</tr></tbody>\n");
     $lv++;
     }
@@ -173,7 +170,7 @@ EOM;
   }
 ?>
 
-<table cellspacing="1" cellpadding="4" border="0" id="sga_lib_sum" class="datatable" summary="SGA Library summary">
+<table id="sga_lib_sum" class="datatable">
 <caption>Current SGA Library Summary (Pin HitRatio should be 1)</caption>
 <thead><tr>
   <th>Library name</th>
@@ -208,13 +205,13 @@ while($d = $db->FetchResult())
     $myback = 'td_odd';
     }
   echo("<tr class=\"".$myback."\">\n");
-  echo("  <td align=\"left\">".$d['LIBRARY']."</td>\n");
-  echo("  <td align=\"right\">".$SGLFUNC->FormatNumber($d['GETS'])."</td>\n");
-  printf("  <td align=\"right\">%s</td>\n",$SGLFUNC->FormatNumber(preg_replace("/,/",".",$d['GETHITRATIO']),2));
-  echo("  <td align=\"right\">".$SGLFUNC->FormatNumber($d['PINS'])."</td>\n");
-  printf("  <td align=\"right\">%s</td>\n",$SGLFUNC->FormatNumber(preg_replace("/,/",".",$d['PINHITRATIO']),2));
-  echo("  <td align=\"right\">".$SGLFUNC->FormatNumber($d['RELOADS'])."</td>\n");
-  echo("  <td align=\"right\">".$SGLFUNC->FormatNumber($d['INVALIDATIONS'])."</td>\n");
+  echo("  <td class=\"td_txt_l\">".$d['LIBRARY']."</td>\n");
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatNumber($d['GETS'])."</td>\n");
+  printf("  <td class=\"td_txt_r\">%s</td>\n",$SGLFUNC->FormatNumber(preg_replace("/,/",".",$d['GETHITRATIO']),2));
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatNumber($d['PINS'])."</td>\n");
+  printf("  <td class=\"td_txt_r\">%s</td>\n",$SGLFUNC->FormatNumber(preg_replace("/,/",".",$d['PINHITRATIO']),2));
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatNumber($d['RELOADS'])."</td>\n");
+  echo("  <td class=\"td_txt_r\">".$SGLFUNC->FormatNumber($d['INVALIDATIONS'])."</td>\n");
   echo("</tr>\n");
   $lv++;
   }
@@ -224,7 +221,7 @@ $db->FreeResult();
 </table>
 <div class="clear"></div>
 
-<table cellspacing="1" cellpadding="4" border="0" id="sga_shared_pool" class="datatable" summary="Shared pool&#39;s library cache information">
+<table id="sga_shared_pool" class="datatable">
 <caption>Shared Pool&#39;s Library Cache Information</caption>
 <thead><tr>
   <th>Memory Area</th>
@@ -253,52 +250,52 @@ if($shpool['SHAREDPOOLSIZE'] == 0) $shpoolsize = 'AUTO';
 else $shpoolsize = $SGLFUNC->FormatSize($shpool['SHAREDPOOLSIZE']);
 ?>
 <tr class="td_even">
-  <td align="left">Shared Pool Size:</td>
-  <td align="right"><?php echo($shpoolsize);?></td>
+  <td class="td_txt_l">Shared Pool Size:</td>
+  <td class="td_txt_r"><?php echo($shpoolsize);?></td>
 </tr>
 <tr class="td_odd">
-  <td align="left">Shared Pool used (total):</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shpool['USED']));?></td>
+  <td class="td_txt_l">Shared Pool used (total):</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['USED']));?></td>
 </tr>
 <tr class="td_even">
-  <td align="left">Shared Pool used (sharable):</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shpool['SHAREABLE']));?></td>
+  <td class="td_txt_l">Shared Pool used (sharable):</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['SHAREABLE']));?></td>
 </tr>
 <tr class="td_odd">
-  <td align="left">Shared Pool used (persistent):</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shpool['PERSISTENT']));?></td>
+  <td class="td_txt_l">Shared Pool used (persistent):</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['PERSISTENT']));?></td>
 </tr>
 <tr class="td_even">
-  <TD ALIGN="LEFT">Shared Pool used (runtime):</td>
-  <TD ALIGN="RIGHT"><?php echo($SGLFUNC->FormatSize($shpool['RUNTIME']));?></td>
+  <TD class="td_txt_l">Shared Pool used (runtime):</td>
+  <TD class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['RUNTIME']));?></td>
 </TR>
 <tr class="td_odd">
-  <td align="left">Shared Pool available:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shared_pool_size_available));?></td>
+  <td class="td_txt_l">Shared Pool available:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shared_pool_size_available));?></td>
 </TR>
 <tr class="td_even">
-  <td align="left">Number of SQL Statements:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatNumber($shpool['SQLSTATEMENTS']));?></td>
+  <td class="td_txt_l">Number of SQL Statements:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatNumber($shpool['SQLSTATEMENTS']));?></td>
 </tr>
 <tr class="td_odd">
-  <td align="left">Number of programmatic constructs:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatNumber($shpool['NUMBEROBJECTS']));?></td>
+  <td class="td_txt_l">Number of programmatic constructs:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatNumber($shpool['NUMBEROBJECTS']));?></td>
 </tr>
 <tr class="td_even">
-  <td align="left">Kept programmatic construct chunks:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatNumber($shpool['NOCHUNKS']));?></td>
+  <td class="td_txt_l">Kept programmatic construct chunks:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatNumber($shpool['NOCHUNKS']));?></td>
 </tr>
 <tr class="td_odd">
-  <td align="left">Kept programmatic construct chunks size:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shpool['CHUNKSSIZE']));?></td>
+  <td class="td_txt_l">Kept programmatic construct chunks size:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['CHUNKSSIZE']));?></td>
 </tr>
 <tr class="td_even">
-  <td align="left">Pinned Statements:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatNumber($shpool['PINNED']));?></td>
+  <td class="td_txt_l">Pinned Statements:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatNumber($shpool['PINNED']));?></td>
 </tr>
 <tr class="td_odd">
-  <td align="left">Pinned Statements Size:</td>
-  <td align="right"><?php echo($SGLFUNC->FormatSize($shpool['PINNEDSIZE']));?></td>
+  <td class="td_txt_l">Pinned Statements Size:</td>
+  <td class="td_txt_r"><?php echo($SGLFUNC->FormatSize($shpool['PINNEDSIZE']));?></td>
 </tr>
 </table>
 
@@ -314,7 +311,7 @@ $d = $db->Query($myquery);
 $ratio = sprintf("%2.2f",(floatval($d['CACHEMISSES']) / floatval($d['EXECUTIONS'])*100));
 $ratio2 = sprintf("%2.2f",100*(floatval($d['GM']) / floatval($d['DDG'])));
 ?>
-<table cellspacing="1" cellpadding="4" border="0" class="datatable" summary="Shared pool size - Gets/misses">
+<table class="datatable">
 <caption>Shared Pool Size - Gets and Misses</caption>
 <thead><tr>
   <th>Executions</th>
@@ -325,12 +322,12 @@ $ratio2 = sprintf("%2.2f",100*(floatval($d['GM']) / floatval($d['DDG'])));
   <th>% Ratio<BR>(STAY UNDER 12%)</th>
 </tr></thead>
 <tbody><tr class="td_even">
-  <td align="center"><?php echo($SGLFUNC->FormatNumber($d['EXECUTIONS']));?></td>
-  <td align="center"><?php echo($SGLFUNC->FormatNumber($d['CACHEMISSES']));?></td>
-  <td align="center"><?php echo($ratio);?>%</td>
-  <td align="center"><?php echo($SGLFUNC->FormatNumber($d['DDG']));?></td>
-  <td align="center"><?php echo($SGLFUNC->FormatNumber($d['GM']));?></td>
-  <td align="center"><?php echo($ratio2);?>%</td>
+  <td class="td_txt_c"><?php echo($SGLFUNC->FormatNumber($d['EXECUTIONS']));?></td>
+  <td class="td_txt_c"><?php echo($SGLFUNC->FormatNumber($d['CACHEMISSES']));?></td>
+  <td class="td_txt_c"><?php echo($ratio);?>%</td>
+  <td class="td_txt_c"><?php echo($SGLFUNC->FormatNumber($d['DDG']));?></td>
+  <td class="td_txt_c"><?php echo($SGLFUNC->FormatNumber($d['GM']));?></td>
+  <td class="td_txt_c"><?php echo($ratio2);?>%</td>
 </tr></tbody>
 </table>
 <div class="clear"></div>

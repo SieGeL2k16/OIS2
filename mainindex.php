@@ -3,16 +3,14 @@
  * Main index page of OIS2 after successful login.
  * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (30-May-2009)
- * $Id: mainindex.php 2 2011-06-30 18:10:40Z siegel $
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 /**
  */
 require_once('inc/sessionheader.inc.php');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <title><?php echo(SITE_TITLE);?>: Connected as <?php printf("%s@%s",$_SESSION['DBUSER'],$_SESSION['TNSNAME']);?></title>
@@ -20,19 +18,10 @@ require_once('inc/sessionheader.inc.php');
 require_once('inc/metatags.inc.php');
 ?>
 <style type="text/css">
-#db_info {
-  float         : left;
-  padding-right : 20px;
-}
-#db_health {
-  float         : left;
-}
-#list_extensions {
-  margin-top    : 0px;
-}
-#list_extensions hr {
-  margin-bottom : 20px;
-}
+#db_info { float: left;padding-right: 20px;}
+#db_health {float: left;}
+#list_extensions {margin-top: 0px;}
+#list_extensions hr {margin-bottom : 20px;}
 </style>
 </head>
 <body>
@@ -57,7 +46,7 @@ else
 $dbversion = $db->Version();
 $dbtime = $db->Query("SELECT TO_CHAR(SYSDATE,'DD-Mon-YYYY HH24:MI:SS') AS DBTIME FROM DUAL");
 ?>
-<table cellspacing="1" cellpadding="2" border="0" class="datatable_border" summary="Oracle Version and components">
+<table class="datatable_border">
 <tr>
   <td class="td_label">Oracle Version:</td>
   <td class="td_data"><?php echo($dbversion);?></td>
@@ -129,7 +118,7 @@ else
   $sessions = 'N/A (insufficent privileges)';
   }
 ?>
-<table cellspacing="1" cellpadding="2" border="0" summary="Oracle Database status infos" class="datatable_border">
+<table class="datatable_border">
 <tr>
   <td class="td_label">Database time:</td>
   <td class="td_data"><?php echo($dbtime['DBTIME']);?></td>

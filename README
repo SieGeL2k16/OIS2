@@ -1,4 +1,4 @@
-    Oracle Information Site 2.02 - Readme (Last updated on 02-Oct-2011)
+    Oracle Information Site 2.03 - Readme (Last updated on 31-Jan-2015)
 -----------------------------------------------------------------------------
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ OIS 2.xx requires the following software components to work:
 - A decent browser capable of Javascript and CSS 2.1. I've tested with
   Firefox 7.x, IE9, Opera 11, Safari 5.x, Chrome and iCab.
 
-- PHP 5.x (earlier versions might work, this is not tested)
+- PHP 5.x
 
 - PHP components: OCI8, SESSION, JSON
 
@@ -64,14 +64,19 @@ Installation of OIS2 is rather simple. Extract the archive you've downloaded
 to a location where your Webserver document root is located. The archive
 extracts to an own directory called OIS2.
 Next you have to setup the file "inc/config.inc.php" and modify the contents
-to fit your system setup. Here's a brief description of the available config
-options:
+to fit your system setup.
+The installation archive brings the file "inc/config.inc.php.sample", just use
+this file as base to create your own configuration.
 
+Here's a brief description of the available config options:
 
-OIS_INSTALL_PATH (STRING) - MANDATORY
+OIS_INSTALL_PATH (STRING) - OPTIONAL
 
 This define specifies the real filesystem path where OIS2 is installed. Do
 not mix this up with the URL to reach OIS2 via your Web-Browser!
+Since V2.03 you do not have to set this define anymore, as OIS2 now sets this
+define automatically. Only set it if autodetection does not work (and let me
+know WHY it doesn't work for you!).
 
 
 OIS_INSTALL_URL (STRING) - MANDATORY
@@ -134,7 +139,7 @@ together with the list of installed plugins.
 5. PLUGINS
 ~~~~~~~~~~
 OIS2 implements all functionality via plugins and some plugins are already
-included in the release archive. The following plugins are provided:
+included in the release archive. The following plugins are provided in 2.03:
 
 --------------------------------------------------------------------------
 * Home
@@ -210,6 +215,13 @@ will transform the DDL call and add various options, even if they are
 all at their default values.
 
 --------------------------------------------------------------------------
+* SQL Monitor
+--------------------------------------------------------------------------
+Displays all currently executing queries on your database instance in a
+two second refresh delay. Useful to track workload of your database.
+
+
+--------------------------------------------------------------------------
 * Tablespaces
 --------------------------------------------------------------------------
 Displays an overview of all tablespaces defined in the current instance.
@@ -254,5 +266,5 @@ Normally I answer to emails in less than 8 hours, if this is not the case I'm
 either very busy or your mail was killed by a spam filter, in this case resend
 your email please or use the contact form on my homepage.
 
------------------------------------------------------------------------------
-$Id: README 10 2014-07-20 09:43:24Z siegel $
+-------------------------------------------------------------------------------
+

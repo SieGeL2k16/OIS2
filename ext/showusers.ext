@@ -1,6 +1,6 @@
 EXTENSION=Show Users
 MENUNAME=Users
-VERSION=2.01
+VERSION=2.02
 AUTHOR=Sascha Pfalz
 SCRIPTNAME=show_users.php
 

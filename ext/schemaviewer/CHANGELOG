@@ -1,5 +1,9 @@
 APPLICATION=Rollback Segments Extension
 
+V2.01:
+
+31-Jan-2015 - Changed deprecated method calls "live()" to "on()".
+
 V2.00:
 
 26-Dec-2010 - Schema viewer is now functional. Works completly via AJAX

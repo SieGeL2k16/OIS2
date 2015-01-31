@@ -3,11 +3,8 @@
  * OIS2 extension support class.
  * All extensions must use this class to build up the core HTML page elements.
  * This allows to easily update the look & feel of OIS2 without having the need to update all extensions, too.
- * @package OIS2
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.00 (31-Aug-2009)
- * $Id: ois2_extension_class.php 2 2011-06-30 18:10:40Z siegel $
- * @filesource
+ * @version 2.03 (31-Jan-2015)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
@@ -71,7 +68,7 @@ class OIS2_extension
   public function PrintExtHeader($pagetitle,$addheader = '',$no_navigation = FALSE)
     {
     $ptitle = 'OIS '.SITE_VERSION.': '.$pagetitle;
-    echo("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n");
+    echo("<!DOCTYPE html>\n");
     echo("<html lang=\"en\">\n");
     echo("<head>\n");
     echo("<title>".$ptitle." (".sprintf("%s@%s",$_SESSION['DBUSER'],$_SESSION['TNSNAME']).")</title>\n");
@@ -82,7 +79,7 @@ class OIS2_extension
       }
     if(count($this->JQUERY_READY))
       {
-      echo("<script type=\"text/javascript\">\n");
+      echo("<script>\n");
       echo("\$(document).ready(function(){\n");
       for($i = 0; $i < count($this->JQUERY_READY); $i++)
         {
@@ -254,7 +251,7 @@ class OIS2_extension
       {
       $th_options['TD_EVEN'] = 'td_even';
       }
-    printf("<table class=\"%s\" summary=\"%s\">\n",$th_options['TABLE_CLASS'],$th_options['TABLE_SUMMARY']);
+    printf("<table class=\"%s\">\n",$th_options['TABLE_CLASS']);
     if(isset($th_options['CAPTION']) == TRUE && $th_options['CAPTION'] != '')
       {
       printf("<caption>%s</caption>\n",$th_options['CAPTION']);

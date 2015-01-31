@@ -1,5 +1,9 @@
 APPLICATION=Show Users Extension
 
+V2.02:
+
+31-Jan-2015 - Changed deprecated method calls "live()" to "on()".
+
 V2.01:
 
 18-Jul-2014 - Added loading indicator for tab switching

@@ -2,7 +2,16 @@ APPLICATION=Oracle Information Site 2
 
 V2.03:
 
-31-Jan-2015 - Added automatic detection for OIS_INSTALL_PATH define.
+31-Jan-2015 - Changed HTML to use HTML 5 syntax.
+
+            - Updated jQueryUI to 1.11.2
+
+            - Updated jQuery to 1.11.2
+
+            - Made config.inc.php file obsolete, now all important defines are
+              automatically set in nocache.inc.php. Only if logging should be
+              used and/or jpgraph should be utilized the config.inc.php file
+              must be provided.
 
 V2.02:
 

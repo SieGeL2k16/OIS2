@@ -34,11 +34,11 @@ padding-right : 4px;
 EOM;
 $js_ready=<<<EOM
 \$("#tabs").tabs({beforeLoad: function( event, ui ) { \$(ui.panel).html('Loading...'); }});
-$(".uname_catcher").live('click',function() {
+$(document).on('click',".uname_catcher",function() {
   var uid = $(this).attr('id').replace(/(UN_)(.*)/,"$2");
   openPopUp(uid);
 });
-$(".uname_catcher").live('mouseover',function() {
+$(document).on('mouseover',".uname_catcher",function() {
   $(this).css('cursor','pointer');
 });
 EOM;
