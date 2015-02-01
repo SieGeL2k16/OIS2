@@ -2,25 +2,19 @@
 /**
  * This class provides a bunch of useful methods for every-day coding.
  * NOTE: This class works ONLY (!) with PHP 5+ !!
- * @package sgl_functions
- * @version 0.21 (17-Oct-2013)
- * $Id: sgl_functions.class.php 10 2014-07-20 09:43:24Z siegel $
+ * @version 0.23 (21-Jan-2015)
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * V0.21 (17-Oct-2013) - Added method "rrmdir()" to recursively remove a directory with contents
  */
 
 /**
- * Main class definition.
  * @package sgl_functions
  */
 class sgl_functions
   {
   /**
    * Class version.
-   * @private
-   * @var string
    */
-  private $classversion = '0.21';
+  private $classversion = '0.23';
 
   /**
    * Windows timestamp correction value.
@@ -29,17 +23,13 @@ class sgl_functions
   const win_ts_factor = 116444736000000000;
 
   /**
-   * Locale settings for formatting numbers etc.
-   * @public
-   * @var array
+   * Locale settings for formatting numbers etc
    */
   public $arr_localeconv  = array();
 
   /**
    * English error texts for GetUploadError().
    * You can override this array after the constructor is called.
-   * @public
-   * @var array
    */
   public $arr_ul_errors = array();
 
@@ -47,18 +37,21 @@ class sgl_functions
    * Path to log file.
    * Required for WriteToLog() method.
    * If you call the method "WriteToLog()" and this variable is not set, the log message will be written to PHP's error log.
-   * @var string
-   * @public
    * @since 0.17
    */
   public static $logfile = '';
 
-  /** The SAPI type of php (used to detect CLI sapi)
-   * @private
-   * @var string
+  /**
+   * The SAPI type of php (used to detect CLI sapi)
    * @since 0.19
    */
   public static $SAPI_type;
+
+  /**
+   * Indicates if money_format() exists on current system.
+   * @since 0.23
+   */
+  private $has_money_format = FALSE;
 
   /**
    * Class constructor.
@@ -80,6 +73,29 @@ class sgl_functions
       7 => 'Failed to write file to disk.',
       8 => 'A PHP extension stopped the file upload.'
       );
+    if(empty($this->arr_localconv) === TRUE)
+      {
+      // Array init taken from http://php.net/manual/en/function.money-format.php#114074
+      $this->arr_localconv = array(
+        'decimal_point'     => '.',
+        'thousands_sep'     => '',
+        'int_curr_symbol'   => 'EUR',
+        'currency_symbol'   => '€',
+        'mon_decimal_point' => ',',
+        'mon_thousands_sep' => '.',
+        'positive_sign'     => '',
+        'negative_sign'     => '-',
+        'int_frac_digits'   => 2,
+        'frac_digits'       => 2,
+        'p_cs_precedes'     => 0,
+        'p_sep_by_space'    => 1,
+        'p_sign_posn'       => 1,
+        'n_sign_posn'       => 1,
+        'grouping'          => array(),
+        'mon_grouping'      => array(0 => 3, 1 => 3)
+        );
+      }
+    $this->has_money_format = function_exists('money_format');
     }
 
   /**
@@ -93,14 +109,18 @@ class sgl_functions
 
   /**
    * Determines Client IP address.
-   * @return string IP address (unknown IPs are returned as 127.0.0.1)
+   * @return string IP address (unknown IPs are returned as "127.0.0.1", console apps returns "localhost")
    */
   public static function getClientIp()
     {
-    $return = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : ( ( !empty($_ENV['REMOTE_ADDR']) ) ? $_ENV['REMOTE_ADDR'] : $REMOTE_ADDR );
-    list($return) = explode(",", $return);
-    if($return=="")   $return = "127.0.0.1";
-    return $return;
+    $return = 'localhost';
+    if(isset($_SERVER['REMOTE_ADDR']) === TRUE)
+      {
+      $return = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : ( ( !empty($_ENV['REMOTE_ADDR']) ) ? $_ENV['REMOTE_ADDR'] : $REMOTE_ADDR );
+      list($return) = explode(",", $return);
+      if($return=="")   $return = "127.0.0.1";
+      }
+    return($return);
     }
 
   /**
@@ -759,6 +779,126 @@ class sgl_functions
       $ldate = sprintf("[%02d-%3s-%04d %s] %s\n",date('d'),date('M'),date('Y'),date('H:i:s'),$lstr);
       error_log($ldate,3,sgl_functions::$logfile);
       }
+    }
+
+  /**
+   * Converts a given value with the help of money format and returns it according to used locale.
+   * IF
+   * @param string $format Formatting code to use.
+   * @param float $monval The value you want to convert.
+   * @return string $the formatted value.
+   * @see http://www.php.net/manual/en/function.money-format.php
+   */
+  public function FormatMoney($monval,$format)
+    {
+    if($this->has_money_format === TRUE)
+      {
+      return(money_format($format,$monval));
+      }
+    else
+      {
+      return($this->money_format($format,$monval));
+      }
+    }
+
+  /**
+   * This function is directly taken from http://php.net/manual/en/function.money-format.php#89060 and will be called if PHP's money_format() is not available.
+   * @param string $format Formatting code to use.
+   * @param float $monval The value you want to convert.
+   * @return formatted value.
+   */
+  private function money_format($format, $number)
+    {
+    $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?'.'(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
+    if (setlocale(LC_MONETARY, 0) == 'C')
+      {
+      setlocale(LC_MONETARY, '');
+      }
+    $locale = $this->arr_localeconv;
+    preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
+    foreach ($matches as $fmatch)
+      {
+      $value = floatval($number);
+      $flags = array(
+            'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ?
+                           $match[1] : ' ',
+            'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0,
+            'usesignal' => preg_match('/\+|\(/', $fmatch[1], $match) ?
+                           $match[0] : '+',
+            'nosimbol'  => preg_match('/\!/', $fmatch[1]) > 0,
+            'isleft'    => preg_match('/\-/', $fmatch[1]) > 0
+        );
+      $width      = trim($fmatch[2]) ? (int)$fmatch[2] : 0;
+      $left       = trim($fmatch[3]) ? (int)$fmatch[3] : 0;
+      $right      = trim($fmatch[4]) ? (int)$fmatch[4] : $locale['int_frac_digits'];
+      $conversion = $fmatch[5];
+
+      $positive = true;
+      if ($value < 0)
+        {
+        $positive = false;
+        $value  *= -1;
+        }
+      $letter = $positive ? 'p' : 'n';
+
+      $prefix = $suffix = $cprefix = $csuffix = $signal = '';
+
+      $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
+      switch (true)
+        {
+        case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+':
+             $prefix = $signal;
+             break;
+        case $locale["{$letter}_sign_posn"] == 2 && $flags['usesignal'] == '+':
+             $suffix = $signal;
+             break;
+        case $locale["{$letter}_sign_posn"] == 3 && $flags['usesignal'] == '+':
+             $cprefix = $signal;
+             break;
+        case $locale["{$letter}_sign_posn"] == 4 && $flags['usesignal'] == '+':
+             $csuffix = $signal;
+             break;
+        case $flags['usesignal'] == '(':
+        case $locale["{$letter}_sign_posn"] == 0:
+             $prefix = '(';
+             $suffix = ')';
+             break;
+        }
+      if (!$flags['nosimbol'])
+        {
+        $currency = $cprefix.($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']).$csuffix;
+        }
+      else
+        {
+        $currency = '';
+        }
+      $space  = $locale["{$letter}_sep_by_space"] ? ' ' : '';
+
+      $value = number_format($value, $right, $locale['mon_decimal_point'],
+                 $flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
+      $value = @explode($locale['mon_decimal_point'], $value);
+
+      $n = strlen($prefix) + strlen($currency) + strlen($value[0]);
+      if ($left > 0 && $left > $n)
+        {
+        $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];
+        }
+      $value = implode($locale['mon_decimal_point'], $value);
+      if ($locale["{$letter}_cs_precedes"])
+        {
+        $value = $prefix . $currency . $space . $value . $suffix;
+        }
+      else
+        {
+        $value = $prefix . $value . $space . $currency . $suffix;
+        }
+      if ($width > 0)
+        {
+        $value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ? STR_PAD_RIGHT : STR_PAD_LEFT);
+        }
+      $format = str_replace($fmatch[0], $value, $format);
+      }
+    return $format;
     }
 
   } // End-of-Class

@@ -1,4 +1,4 @@
-    Oracle Information Site 2.03 - Readme (Last updated on 31-Jan-2015)
+    Oracle Information Site 2.03 - Readme (Last updated on 01-Feb-2015)
 -----------------------------------------------------------------------------
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ OIS 2.xx requires the following software components to work:
 - At least one Oracle instance, supported releases are 8i up to 11gR2
 
 - A decent browser capable of Javascript and CSS 2.1. I've tested with
-  Firefox 7.x, IE9, Opera 11, Safari 5.x, Chrome and iCab.
+  Firefox 35.x, IE10, Opera 12, Safari 5.x, Chrome and iCab.
 
 - PHP 5.x
 
@@ -63,61 +63,65 @@ OIS 2.xx requires the following software components to work:
 Installation of OIS2 is rather simple. Extract the archive you've downloaded
 to a location where your Webserver document root is located. The archive
 extracts to an own directory called OIS2.
-Next you have to setup the file "inc/config.inc.php" and modify the contents
-to fit your system setup.
-The installation archive brings the file "inc/config.inc.php.sample", just use
-this file as base to create your own configuration.
+
+If you just want to have a first look point your browser to the OIS2 directory
+of your webserver, no further configuration is required to use OIS. Just login
+to your selected database with the user you want. The TNS names are
+automatically read and shown in the login window.
+
+OIS allows to fine-tune the installation by providing a configuration file.
+The installation archive supplies the file "inc/config.inc.php.sample", just
+rename it to "inc/config.inc.php" and adapt the settings to match your
+environment.
 
 Here's a brief description of the available config options:
 
-OIS_INSTALL_PATH (STRING) - OPTIONAL
-
-This define specifies the real filesystem path where OIS2 is installed. Do
-not mix this up with the URL to reach OIS2 via your Web-Browser!
-Since V2.03 you do not have to set this define anymore, as OIS2 now sets this
-define automatically. Only set it if autodetection does not work (and let me
-know WHY it doesn't work for you!).
-
-
-OIS_INSTALL_URL (STRING) - MANDATORY
-
-This define specifies the URL to reach OIS2 via your Web-Browser. If possible
-specify a full URL, not a relative one, as OIS2 uses this value to construct
-pathes to fetch the CSS files and other stuff.
+-------------------------------------------------------------------------------
+OIS_INSTALL_PATH (STRING)
+-------------------------------------------------------------------------------
+This define specifies the real filesystem path where OIS2 is installed.
+Only set this if autodetection does not work (and let me know WHY it
+doesn't work for you!).
 
 
-UI_THEME (STRING) - MANDATORY
+-------------------------------------------------------------------------------
+OIS_INSTALL_URL (STRING)
+-------------------------------------------------------------------------------
+This define specifies the URL to reach OIS2 via your Web-Browser. As OIS2
+auto-detects where it is running you should define this only if OIS2 was not
+able to auto-detect the correct value. Again please give me a short mail in
+case the auto-detection does not work.
 
-Enter here the path to a jQueryUI theme file. All Themes have to be located
-under the "css" directory. To make it easier for users to upgrade or exchange
-a given theme, simply download a new one from the jQueryUI page and extract
-the contents under the css directory. Normally every theme will extract to
-it's own subdirectory. You have to enter here the name of the root CSS file
-the theme offers, so for the supplied default theme, the contents would look
-like this:
 
-smoothness
+-------------------------------------------------------------------------------
+UI_THEME (STRING)
+-------------------------------------------------------------------------------
+Enter here the name of a jQueryUI theme, default is "smoothness".
+All Themes have to be located as separate directories under the "css"
+directory of OIS.
+To make it easier for users to upgrade or exchange a given theme, simply
+download a new one from the jQueryUI page and extract the contents in an own
+directory below the "css" directory, then change this option here with the
+name of your new theme.
 
-This would use the "smoothness" theme and loads all necessary CSS files the
-theme provides.
 
-$OIS_DATABASES (ARRAY) - OPTIONAL
-
+-------------------------------------------------------------------------------
+$OIS_DATABASES (ARRAY)
+-------------------------------------------------------------------------------
 Enter here all TNS names of the Oracle instances you want to use together
 with OIS2. You can keep this array empty, in this case OIS reads the
 tnsnames.ora file from $ORACLE_HOME/network/admin or from the directory
 given by environment variable $TNS_ADMIN.
 
-JPGRAPH_PATH (STRING) - OPTIONAL
 
+-------------------------------------------------------------------------------
+JPGRAPH_PATH (STRING)
+-------------------------------------------------------------------------------
 OIS2 supports dynamic creation of graphs with the help of the superb JPGraph
 package, which you can download under http://jpgraph.net/.
 If you want to use these classes, specify here the full path to your
 extracted JPGraph package. The path must point to the directory where the
 base class "jpgraph.php" is located.
-
-That's it! Nothing else needs to be configured. So after you have made the
-changes to the config.inc.php file, you are now ready to use OIS2.
 
 
 4. USAGE
@@ -146,6 +150,7 @@ included in the release archive. The following plugins are provided in 2.03:
 --------------------------------------------------------------------------
 Home displays some database informations and a list of installed plugins.
 
+
 --------------------------------------------------------------------------
 * DB Info
 --------------------------------------------------------------------------
@@ -159,6 +164,7 @@ DB Info displays global database informations:
  - Used features
  - Registry
 
+
 --------------------------------------------------------------------------
 * DB Jobs
 --------------------------------------------------------------------------
@@ -170,12 +176,14 @@ data which is valid for the given Oracle version.
 Since 2.01 also the views DBMS_SCHEDULER_JOB_RUN_DETAILS and
 DBMS_SCHEDULER_PROGRAMS are displayed.
 
+
 --------------------------------------------------------------------------
 * Flashback
 --------------------------------------------------------------------------
 Overview of Flashback and Recycle Bin functionality. Flashback and the
 recycle bin are new features introduced by Oracle 10g and newer, so for
 older releases (8i/9i) you will get an error message if you start this plugin.
+
 
 --------------------------------------------------------------------------
 * Processes
@@ -191,17 +199,20 @@ view is refreshed on a 3 second interval.
 User sessions can be killed (if you have the necessary permissions) by
 clicking on the red cross right to the process entry.
 
+
 --------------------------------------------------------------------------
 * Redo Logs
 --------------------------------------------------------------------------
 Displays a list of redo logs used by the current Oracle instance together
 with some statistics about the usage of the redo logs.
 
+
 --------------------------------------------------------------------------
 * Rollback Seg.
 --------------------------------------------------------------------------
 Lists rollback segments from the current Oraclce instance. In Oracle 9i
 and newer releases the UNDO tablespace informations are shown, too.
+
 
 --------------------------------------------------------------------------
 * Schema Viewer
@@ -213,6 +224,7 @@ introduced with Oracle 9i. Note that the DBMS_METADATA output is not
 necessarly the same call you've made to actually create the object, Oracle
 will transform the DDL call and add various options, even if they are
 all at their default values.
+
 
 --------------------------------------------------------------------------
 * SQL Monitor
@@ -232,12 +244,14 @@ the given tablespace defines.
 Clicking on the Mag displays a list of all objects currently stored in
 the tablespace.
 
+
 --------------------------------------------------------------------------
 * Top 20 Queries
 --------------------------------------------------------------------------
 Displays the Top 20 queries sorted by disc reads per execution. Also the
 SQL statements with the most invalidations are shown here. You can click
 on these SQL statements to view the details about the query performance.
+
 
 --------------------------------------------------------------------------
 * Users
@@ -246,6 +260,7 @@ Lists all registered users for the current instance. Click on an username
 to view more details like assigned Roles etc.
 In addition to the userlist you can view here also all defined roles and
 profiles for the current instance.
+
 
 --------------------------------------------------------------------------
 * Logout
@@ -265,6 +280,4 @@ E-MAIL: php@saschapfalz.de
 Normally I answer to emails in less than 8 hours, if this is not the case I'm
 either very busy or your mail was killed by a spam filter, in this case resend
 your email please or use the contact form on my homepage.
-
 -------------------------------------------------------------------------------
-

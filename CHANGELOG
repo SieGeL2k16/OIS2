@@ -2,7 +2,13 @@ APPLICATION=Oracle Information Site 2
 
 V2.03:
 
-31-Jan-2015 - Changed HTML to use HTML 5 syntax.
+01-Feb-2015 - Public Release as 2.03
+
+            - Updated README to reflect latest changes.
+
+            - Updated sgl_functions.class to 0.23
+
+31-Jan-2015 - Changed HTML output to use some HTML 5 features.
 
             - Updated jQueryUI to 1.11.2
 

@@ -1,4 +1,4 @@
-          Details for OIS2 plugins - Last updated on 25-Dec-2010.
+          Details for OIS2 plugins - Last updated on 01-Feb-2015.
 -------------------------------------------------------------------------------
 OIS2 is designed to provide all functionality via plugins. This way it is
 easy to create new functionality and also allows other authors to write their
@@ -13,7 +13,7 @@ plugins must include and use.
 
 To add an plugin to OIS2 you have to create first a subdirectory in the
 "ext/" directory of the OIS2 root directory. Inside this subdirectory you can
-place all your required files to implement your plguin.
+place all your required files to implement your plugin.
 
 In addition you have to create a special textfile in the "ext/" directory
 itself. This file must be named EXACTLY (!) the same as your subdirectory name
@@ -51,4 +51,3 @@ plugins.
 If you have still questions about the implementation of OIS2 plugins, feel
 free to contact me. You'll find my contact data on bottom of the README file.
 -------------------------------------------------------------------------------
-$Id: README.plugins 2 2011-06-30 18:10:40Z siegel $
