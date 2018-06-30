@@ -10,7 +10,7 @@
 /**
  * Version of this site.
  */
-define('SITE_VERSION'       , '2.03');
+define('SITE_VERSION'       , '2.0.4');
 
 /**
  * This define is used to set the maximum possible INTEGER value when binding number values to/from Oracle -> PHP.

@@ -1,5 +1,9 @@
 APPLICATION=Oracle Information Site 2
 
+V2.0.4:
+
+30-Jun-2018 - Fixed problems when fresh-install of OIS2 is used without configuration file
+
 V2.03:
 
 01-Feb-2015 - Public Release as 2.03
