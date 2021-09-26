@@ -10,7 +10,7 @@
 /**
  * Version of this site.
  */
-define('SITE_VERSION'       , '2.03');
+define('SITE_VERSION'       , '2.04');
 
 /**
  * This define is used to set the maximum possible INTEGER value when binding number values to/from Oracle -> PHP.
@@ -26,4 +26,3 @@ define('SITE_TITLE' ,'Oracle Information Site '.SITE_VERSION);
  * The session name.
  */
 define('SESSIONNAME' ,  'OIS2');
-?>

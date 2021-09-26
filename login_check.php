@@ -26,7 +26,7 @@ if($uname == '')
 
 // Disable auto-errorhandling and set connection retries = 0 so we can react on login errors:
 
-$db->setErrorHandling(db_oci8::DBOF_RETURN_ALL_ERRORS);
+$db->setErrorHandling(spfalz\db_oci8::DBOF_RETURN_ALL_ERRORS);
 $db->setConnectRetries(0);
 $rc = $db->Connect($uname,$upass,$tnsname,0,'',$conntype);
 if(!$rc)

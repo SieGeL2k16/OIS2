@@ -66,7 +66,7 @@ define('DB_NUM_GROUPING'  ,',');
  * Default is DBOF_SHOW_NO_ERRORS if you omit this parameter.
  * @since V0.57
  */
-define('DB_ERRORMODE', db_oci8::DBOF_SHOW_ALL_ERRORS);
+define('DB_ERRORMODE', spfalz\db_oci8::DBOF_SHOW_ALL_ERRORS);
 
 /**
  * You may set a default prefetch value with this define.
@@ -107,4 +107,4 @@ define('OCIDB_USE_PCONNECT', 0);
  * @since V0.75
  */
 define('OCIDB_CONNECT_RETRIES', 1);
-?>
+

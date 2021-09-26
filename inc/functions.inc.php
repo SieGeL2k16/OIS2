@@ -12,9 +12,7 @@
  * @package OIS2
  * @subpackage Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.02 (17-Jul-2014)
- * $Id: functions.inc.php 10 2014-07-20 09:43:24Z siegel $
- * @filesource
+ * @version 2.04 (26-Sep-2021)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
@@ -130,7 +128,7 @@ function InformUser($infostring,$target='')
 
 /**
  * Function is used to inform the user about errors.
- * @param string $infostring The text to display to the user
+ * @param string $errorstring The text to display to the user
  * @param string $target Optional url to use as target. If ommited no link is actually displayed.
  * @param boolean $include_header TRUE if a complete HTML skeleton should be printed, else FALSE (default).
  */
@@ -209,12 +207,15 @@ function sort_plugins($a,$b)
 
 /**
  * Logs to defined logfile, else skips immediatly.
- * @param $lstr The logging text.
+ * @param string $lstr The logging text.
  * @since 2.02
  */
 function WriteLog($lstr)
   {
-  if(!defined('OIS_LOGFILE') || OIS_LOGFILE == '') return;
+  if(!defined('OIS_LOGFILE') || OIS_LOGFILE == '')
+    {
+    return "";
+    }
   return(@error_log(sprintf("[%02d-%3s-%04d %s][%15s] %s\n",date('d'),date('M'),date('Y'),date('H:i:s'),sgl_functions::getClientIp(),$lstr),3,OIS_LOGFILE));
   }
-?>
+

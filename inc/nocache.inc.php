@@ -4,7 +4,7 @@
  * We do here the setup for OIS, goal is to remove dependency of config.inc.php file.
  * @package OIS2\Includes
  * @author Sascha 'SieGeL' Pfalz <php@saschapfalz.de>
- * @version 2.03 (31-Jan-2015)
+ * @version 2.04 (26-Sep-2021)
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 /** Make sure that we get noticed about EVERYTHING problematic */
@@ -43,7 +43,7 @@ else
   {
   $start_time = $SGLFUNC->getmicrotime();    // Not available, determine now
   }
-$db = new db_oci8;
+$db = new spfalz\db_oci8;
 
 $OIS_DATABASES = array();
 
@@ -127,4 +127,3 @@ if(defined('OIS_INSTALL_URL') === FALSE)
   {
   define('OIS_INSTALL_URL', preg_replace("/(.*)(\/ext\/.*)$/","$1",dirname($_SERVER['SCRIPT_NAME'])));
   }
-?>

@@ -1,5 +1,14 @@
 APPLICATION=Oracle Information Site 2
 
+V2.04:
+
+26-Sep-2021 - Public Release 2.04
+
+            - Made code compatible with PHP 8
+
+            - Updated db_oci8.class to 1.1.0
+
+
 V2.03:
 
 01-Feb-2015 - Public Release as 2.03

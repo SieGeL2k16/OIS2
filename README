@@ -1,4 +1,4 @@
-    Oracle Information Site 2.03 - Readme (Last updated on 01-Feb-2015)
+    Oracle Information Site 2.04 - Readme (Last updated on 01-Feb-2015)
 -----------------------------------------------------------------------------
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ OIS 2.xx requires the following software components to work:
 - A decent browser capable of Javascript and CSS 2.1. I've tested with
   Firefox 35.x, IE10, Opera 12, Safari 5.x, Chrome and iCab.
 
-- PHP 5.x
+- PHP 5.x / PHP 7.x / PHP 8.0.x
 
 - PHP components: OCI8, SESSION, JSON
 

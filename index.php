@@ -68,7 +68,7 @@ if(function_exists('json_encode')==FALSE)
 ?>
 <div id="login_mask">
 <h1>Welcome to <?php echo(SITE_TITLE);?></h1>
-<small>Written 2009-2015 by <a href="http://www.saschapfalz.de/" target="_blank" title="Click to visit my homepage to get new updates">Sascha 'SieGeL' Pfalz</a></small><br>
+<small>Written 2009-2021 by <a href="https://www.saschapfalz.de/downloads_readme.php?FID=59&CAT=0" target="_blank" title="Click to visit my homepage to get new updates">Sascha 'SieGeL' Pfalz</a></small><br>
 <br>
 <form method="post" action="login_check.php" id="login_form">
 <table class="tborder">
