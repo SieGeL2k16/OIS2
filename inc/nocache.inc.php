@@ -28,7 +28,6 @@ if(!defined('NO_CONTENT_TYPE') || NO_CONTENT_TYPE != 1)
 
 require_once('defines.inc.php');
 require_once('sgl_functions.class.php');
-require_once('functions.inc.php');
 require_once('db_oci8.class.php');
 require_once('tnsparser.class.php');
 
@@ -76,7 +75,7 @@ if(defined('OIS_LOGFILE') == TRUE && OIS_LOGFILE != '')
   }
 
 /*
- * V2.02: If no TNS names are configured, try to load in tnsnames.ora from either $ORACLE_HOME (Server/client install)
+ * V2.04: If no TNS names are configured, try to load in tnsnames.ora from either $ORACLE_HOME (Server/client install)
  *        or from $TNS_ADMIN (Instantclient etc.), complain if none of these environment variables are set.
  */
 if(empty($OIS_DATABASES) === TRUE)
@@ -85,13 +84,17 @@ if(empty($OIS_DATABASES) === TRUE)
   if($OHOME != '')
     {
     $TNSFILE = $SGLFUNC->MergePath($OHOME,'network/admin/tnsnames.ora');
+    if(file_exists($TNSFILE) === FALSE)
+      {
+      $TNSFILE = "";
+      }
     }
-  else
+  if($TNSFILE == "")
     {
     $TNSHOME = getenv('TNS_ADMIN');
     if($TNSHOME == '')
       {
-      Error('NO Databases defined and also neither $ORACLE_HOME nor $TNS_ADMIN is not set?!','',TRUE);
+      die('NO Databases defined and also neither $ORACLE_HOME nor $TNS_ADMIN is not set?!');
       exit;
       }
     $TNSFILE = $SGLFUNC->MergePath($TNSHOME,'tnsnames.ora');
@@ -107,8 +110,7 @@ if(empty($OIS_DATABASES) === TRUE)
     }
   catch(Exception $e)
     {
-    Error('TNS could not be read: '.$e->getmessage(),'',TRUE);
-    exit;
+    die('TNS could not be read: '.$e->getmessage());
     }
   }
 else
@@ -127,3 +129,5 @@ if(defined('OIS_INSTALL_URL') === FALSE)
   {
   define('OIS_INSTALL_URL', preg_replace("/(.*)(\/ext\/.*)$/","$1",dirname($_SERVER['SCRIPT_NAME'])));
   }
+// V2.0.4: Load here functions, as they refer to the OIS_* defines above...
+require_once('functions.inc.php');
